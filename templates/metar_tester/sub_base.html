@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/savethedate/sub_base.css' %}">
+    {% block sub_head %}{% endblock %}
+{% endblock head %}
+
+{% block body %}
+    <p>HEADER</p>
+    {% block sub_body %}{% endblock %}
+{% endblock body %}
