@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{title}}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/normalise.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+        {% block head %}{% endblock %}
+    </head>
+
+    <body>
+        <section id='content'>
+            {% block body %}{% endblock %}
+        </section>
+    </body>
+</html>
