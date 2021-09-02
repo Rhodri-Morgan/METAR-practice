@@ -1,0 +1,66 @@
+h1, h2, h3, p, th, button, a {
+    font-family: Arial;
+    color: white;
+}
+
+
+body {
+    background-image: url('/static/images/metar_tester/airport.jpg');
+}
+
+#content {
+    width: 1500px;
+    height: 100vh;
+    background-color: #202124;
+}
+
+#banner {
+    background-color: #202124;
+    background-image: url('/static/images/metar_tester/rain.gif');
+    display: inline-block;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+#title {
+    padding-bottom: 10px;
+    margin: 0 0;
+    font-size: 50px;
+}
+
+#new_test {
+    font-size: 20px;
+    color: black;
+}
+
+#navigation {
+    background-color: #333;
+    overflow: hidden;
+    text-align: center;
+    width: 485px;
+    margin: 0 auto;
+}
+
+#navigation a {
+    float: left;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    border-top:solid white 1px;
+    border-bottom:solid white 1px;
+    border-left:solid white 1px;
+}
+
+#end_navigation {
+    border-right:solid white 1px;
+}
+
+#navigation a:hover {
+    background-color: #4e5158;
+    cursor: pointer;
+    color: white;
+}
