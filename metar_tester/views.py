@@ -1,20 +1,28 @@
 from django.shortcuts import render, redirect
+from django.forms.models import model_to_dict
+
+from metar_tester.models import Airport
 
 from metar_tester.metar_collector import METAR_colllector
+
+
+# using for testing
+import os
+import json
 
 
 def begin_test(request):
     '''
     status = None
-    icao = None
-    data = None
+    airport = None
+    raw_metar = None
     questions = None
     already_asked = None
 
     try:
         status = request.session['status']
-        icao = request.session['icao']
-        data = request.session['data']
+        airport = request.session['airport']
+        raw_metar = request.session['raw_metar']
         questions = request.session['questions']
         already_asked = request.session['already_asked']
 
@@ -22,9 +30,10 @@ def begin_test(request):
             raise Exception('Ran out of questions, need to regenerate')
     except Exception:
         metar_collector = METAR_colllector()
-        status, icao, data, questions = metar_collector.get_package()
+        status, airport, raw_metar, questions = metar_collector.get_package()
         already_asked = []
 
+    print(airport)
 
     if status == 200:
         print('TODO implement normal page')
@@ -32,9 +41,19 @@ def begin_test(request):
         print('TODO implement page saying API is down')
     else:
         print('TODO implement page saying API error has occured')
-
     '''
+
+    # For purpose of testing above block commented out and using these known value
+    metar_collector = METAR_colllector()
+    sample_airport = model_to_dict(Airport.objects.get(icao="KJFK"))
+    sample_raw_metar = None
+    with open(os.path.join(os.getcwd(), 'metar_tester', 'sample_METAR.json')) as f:
+        sample_raw_metar = json.loads(f.read())
+    sample_questions = metar_collector.generate_questions(sample_raw_metar)
+
     data = {
-        'title': 'METAR Tester - Begin'
+        'title' : 'METAR Tester - Begin',
+        'airport' : sample_airport,
+        'raw_metar': sample_raw_metar
     }
     return render(request, 'metar_tester/begin.html', data)
