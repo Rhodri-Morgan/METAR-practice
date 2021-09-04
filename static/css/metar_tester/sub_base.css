@@ -1,4 +1,4 @@
-h1, h2, h3, p, th, button, a {
+h1, h2, h3, p, th, button, a, footer {
     font-family: Arial;
     color: white;
 }
@@ -9,14 +9,15 @@ body {
 }
 
 #content {
-    width: 1500px;
+    width: 1200px;
     height: 100vh;
     background-color: #202124;
+    box-shadow: 0px 0px 100px black;
 }
 
 #banner {
     background-color: #202124;
-    background-image: url('/static/images/metar_tester/rain.gif');
+    background-image: linear-gradient(to bottom, #20212400, #202124), url('/static/images/metar_tester/rain.gif');
     display: inline-block;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -39,8 +40,10 @@ body {
     background-color: #333;
     overflow: hidden;
     text-align: center;
-    width: 485px;
     margin: 0 auto;
+    border-radius: 10px;
+    border-top:solid white 1px;
+    border-bottom:solid white 1px;
 }
 
 #navigation a {
@@ -50,8 +53,6 @@ body {
     padding: 14px 20px;
     text-decoration: none;
     font-size: 16px;
-    border-top:solid white 1px;
-    border-bottom:solid white 1px;
     border-left:solid white 1px;
 }
 
@@ -60,7 +61,19 @@ body {
 }
 
 #navigation a:hover {
-    background-color: #4e5158;
+    background-color: #5a5a5a;
     cursor: pointer;
     color: white;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 1200px;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+#avwx_image {
+    height: 0.9em;
 }

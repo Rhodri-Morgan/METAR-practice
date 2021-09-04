@@ -12,10 +12,12 @@
     <div id="banner">
         <h1 id="title">Weather METAR Test</h1>
         <div id="navigation">
-            <a onclick="start_new()">Start a new test</a>
-            <a href="https://en.wikipedia.org/wiki/METAR">What is METAR?</a>
-            <a href="https://github.com/Rhodri-Morgan/METAR-Tester" id="end_navigation">Github Repository</a>
+            <a href="https://en.wikipedia.org/wiki/METAR" class='navigation_element'>What is METAR?</a>
+            <a href="https://github.com/Rhodri-Morgan/METAR-Tester" id="end_navigation" class='navigation_element'>Github Repository</a>
         </div>
     </div>
     {% block sub_body %}{% endblock %}
+    <div id='footer'>
+        <p>METAR data sourced from <img src="{% static 'images/metar_tester/avwx.png' %}" id='avwx_image'> <a href="https://avwx.rest/#">AVWX by Michael duPont</a></p>
+    </div>
 {% endblock body %}

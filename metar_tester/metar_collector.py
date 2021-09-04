@@ -17,15 +17,15 @@ class METAR_colllector:
     # Gets METAR data for given ICAO in a dict format
     def get_data(self, icao):
         url = 'https://avwx.rest/api/metar/{0}?options=&airport=true&reporting=true&format=json&onfail=cache'.format(icao)
-        data = requests.get(url, headers={'Authorization':os.environ.get('METAR_KEY')})
-        if data.status_code == 200:
-            return json.loads(data.text)
-        elif data.status_code == 503:
-            return '503'
-        else:
+        res = requests.get(url, headers={'Authorization':os.environ.get('METAR_KEY')})
+        if res.status_code == 200:
+            return res.status_code, json.loads(res.text)
+        elif res.status_code == 400:
             Airport.objects.filter(icao=icao).delete()
             print('Removed airport {0}'.format(icao))
-            return None
+            return res.status_code, None
+        else:
+            return res.status_code, None
 
 
     # Gets a random airport from the database
@@ -106,9 +106,9 @@ class METAR_colllector:
                     cloud_heights['overcast'].append(str(item['altitude'])+'00')
 
             questions['cloud_few'] = {'question' : 'What is the height of the few clouds?',
-                                        'answer' : [cloud_heights['few']],
-                                        'answer_units' : data['units']['altitude'],
-                                        'choices': []}
+                                      'answer' : [cloud_heights['few']],
+                                      'answer_units' : data['units']['altitude'],
+                                      'choices': []}
 
             questions['cloud_scattered'] = {'question' : 'What is the height of the scattered clouds?',
                                             'answer' : [cloud_heights['scattered']],
@@ -116,14 +116,14 @@ class METAR_colllector:
                                             'choices': []}
 
             questions['cloud_broken'] = {'question' : 'What is the height of the broken clouds?',
-                                            'answer' : [cloud_heights['broken']],
-                                            'answer_units' : data['units']['altitude'],
-                                            'choices': []}
+                                         'answer' : [cloud_heights['broken']],
+                                         'answer_units' : data['units']['altitude'],
+                                         'choices': []}
 
             questions['cloud_overcast'] = {'question' : 'What is the height of the overcast clouds?',
-                                            'answer' : [cloud_heights['overcast']],
-                                            'answer_units' : data['units']['altitude'],
-                                            'choices': []}
+                                           'answer' : [cloud_heights['overcast']],
+                                           'answer_units' : data['units']['altitude'],
+                                           'choices': []}
 
             count = 0
             for key, value in cloud_heights.items():
@@ -140,32 +140,20 @@ class METAR_colllector:
             return None
 
 
-metar_colllector = METAR_colllector()
-icao = None
-data = None
-questions = None
+    def get_package(self):
+        while True:
+            icao = self.get_random_airport().icao
+            status = None
+            data = None
+            questions = None
 
-while True:
-    icao = metar_colllector.get_random_airport().icao
+            if icao is not None:
+                status, data = self.get_data(icao)
+                if status == 503:
+                    return status, icao, data, questions
 
-    if icao is not None:
-        data = metar_colllector.get_data(icao)
+            if data is not None:
+                questions = self.generate_questions(icao, data)
 
-    if data == '503':
-        print('Flag website the API METAR service is down.')
-    elif data is not None:
-        questions = metar_colllector.generate_questions(icao, data)
-
-    if questions is not None:
-        print('{0}\n{1}'.format(json.dumps(data, indent=4), json.dumps(questions, indent=4)))
-        exit()
-
-
-'''
-NOTES TO SELF
-
-- TRICK QUESTIONS ARE INCLUDED LIKE FOR CLOUDS IF THERE ARE NO FEW CLOUDS THEN 'ANSWER' FIELD WILL BE EMPTY. THESE WILL NEED TO BE
-ORDERED BEFORE ANY QUESTIONS RELATING TO HEIGHT OF CLOUDS OR WHAT KIND OF CLOUDS HAVE CEILING OF X FT. THIS CAN BE ACHIEVED/CHECKED
-IN VIEWS
-- NEED TO INCLUDE WX LIKE RAIN
-'''
+            if questions is not None:
+                return status, icao, data, questions
