@@ -3,7 +3,6 @@ import json
 import requests
 import os
 import sys
-import random
 
 sys.path.append('..')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'rhodrithomasmorgan.settings'
@@ -106,33 +105,33 @@ class METAR_colllector:
                 elif item['type'] == 'OVC':
                     cloud_heights['overcast'].append(str(item['altitude'])+'00')
 
-            questions['cloud_few'] = {'question' : 'What is the height of the few clouds?',
-                                      'answer' : [cloud_heights['few']],
-                                      'answer_units' : raw_metar['units']['altitude'],
-                                      'choices': []}
+            questions['cloud_few_heights'] = {'question' : 'What is the height of the few clouds?',
+                                              'answer' : [cloud_heights['few']],
+                                              'answer_units' : raw_metar['units']['altitude'],
+                                              'choices': []}
 
-            questions['cloud_scattered'] = {'question' : 'What is the height of the scattered clouds?',
-                                            'answer' : [cloud_heights['scattered']],
-                                            'answer_units' : raw_metar['units']['altitude'],
-                                            'choices': []}
+            questions['cloud_scattered_heights'] = {'question' : 'What is the height of the scattered clouds?',
+                                                    'answer' : [cloud_heights['scattered']],
+                                                    'answer_units' : raw_metar['units']['altitude'],
+                                                    'choices': []}
 
-            questions['cloud_broken'] = {'question' : 'What is the height of the broken clouds?',
-                                         'answer' : [cloud_heights['broken']],
-                                         'answer_units' : raw_metar['units']['altitude'],
-                                         'choices': []}
+            questions['cloud_broken_heights'] = {'question' : 'What is the height of the broken clouds?',
+                                                 'answer' : [cloud_heights['broken']],
+                                                 'answer_units' : raw_metar['units']['altitude'],
+                                                 'choices': []}
 
-            questions['cloud_overcast'] = {'question' : 'What is the height of the overcast clouds?',
-                                           'answer' : [cloud_heights['overcast']],
-                                           'answer_units' : raw_metar['units']['altitude'],
-                                           'choices': []}
+            questions['cloud_overcast_heights'] = {'question' : 'What is the height of the overcast clouds?',
+                                                   'answer' : [cloud_heights['overcast']],
+                                                   'answer_units' : raw_metar['units']['altitude'],
+                                                   'choices': []}
 
             count = 0
             for key, value in cloud_heights.items():
                 for height in value:
-                    questions['cloud_{0}'.format(count)] = {'question' : 'What kind of clouds have a ceiling of {0} ft?'.format(height),
-                                                            'answer' : [key.upper()],
-                                                            'answer_units' : raw_metar['units']['altitude'],
-                                                            'choices': [key.capitalize() for key in cloud_heights.keys()]}
+                    questions['cloud_{0}_{1}'.format(key, count)] = {'question' : 'What kind of clouds have a ceiling of {0} ft?'.format(height),
+                                                                     'answer' : [key.upper()],
+                                                                     'answer_units' : raw_metar['units']['altitude'],
+                                                                     'choices': [key.capitalize() for key in cloud_heights.keys()]}
                     count += 1
 
         if len(questions) >= 1:

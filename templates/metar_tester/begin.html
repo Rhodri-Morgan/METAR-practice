@@ -1,11 +1,38 @@
 {% extends 'metar_tester/sub_base.html' %}
 {% load static %}
+{% load dict_access %}
 
 
 {% block sub_head %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/metar_tester/begin.css' %}">
+    <script id="airport_location" type="application/json">{"latitude": {{ airport|lookup:'latitude' }}, "longitude": {{ airport|lookup:'longitude' }}}</script>
+    <!-- MUST RESTRICT API USAGE -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5RVyFfpgAOueO-LEsqF8uv6RhHLz8rcs&callback=initMap&libraries=&v=weekly&channel=2" async></script>
+    <script type="text/javascript" src="{% static 'js/metar_tester/begin.js' %}"></script>
 {% endblock sub_head %}
 
 {% block sub_body %}
-    <p>Hello</p>
+    <div id='question_containter'>
+        <h3>Sample question</h3>
+    </div>
+    <div id='metar_container'>
+        <h2 id='metar'>{{ raw_metar|lookup:'raw' }}</h2>
+    </div>
+    <div id='airport'>
+        <div id='map'>
+            <!--In goes google map-->
+        </div>
+        <div id='details'>
+            <h3 id='details_header'>Airport Details</h3>
+            <p class='details_item'><b>Name: </b>{{ airport|lookup:'name' }}</p>
+            <p class='details_item'><b>ICAO: </b>{{ airport|lookup:'icao' }}</p>
+            <p class='details_item'><b>Country: </b>{{ airport|lookup:'country' }}</p>
+            <p class='details_item'><b>City: </b>{{ airport|lookup:'city' }}</p>
+            <br>
+            <p class='details_item'><b>Latitude: </b>{{ airport|lookup:'latitude' }}</p>
+            <p class='details_item'><b>Longitude: </b>{{ airport|lookup:'longitude' }}</p>
+        </div>
+    </div>
+
 {% endblock sub_body %}
+zz
