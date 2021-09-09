@@ -3,6 +3,8 @@ import json
 import requests
 import os
 import sys
+from enum import Enum, auto
+
 
 sys.path.append('..')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'rhodrithomasmorgan.settings'
@@ -12,7 +14,20 @@ from metar_tester.models import Airport
 from django.forms.models import model_to_dict
 
 
-class METAR_colllector:
+# Encapsulation of question containing essential data/details
+class Question:
+
+    def __init__(self, text, answer, answer_units):
+        self.text = text
+        self.answer = answer
+        self.answer_units = answer_units
+
+    def is_trick(self):
+        return len(self.answer) == 0
+
+
+# Class for generating question sets and tasks associated with that task
+class Question_Colllector:
 
     # Gets METAR data for given ICAO in a dict format
     def get_raw_metar(self, icao):
@@ -38,59 +53,67 @@ class METAR_colllector:
         questions = {}
 
         if 'units' not in raw_metar:
-            return None
+            return None                     # We need units to be specified to show quiz takers
 
+        # STATION QUESTION
         if 'station' in raw_metar:
-            questions['airport'] = {'question' : 'What is the airport ICAO?',
-                                    'answer' : [raw_metar['station']],
-                                    'answer_units' : '',
-                                    'choices': []}
+            questions['airport'] = Question('What is the airport ICAO?',
+                                            [raw_metar['station']],
+                                            '')
+        # TIME QUESTION
         if 'time' in raw_metar:
-            questions['time'] = {'question' : 'What is time was this METAR report made?',
-                                 'answer' : [raw_metar['time']['repr'][2:-1]],
-                                 'answer_units' : 'ZULU',
-                                 'choices': []}
-        if 'wind_direction' in raw_metar:
-            questions['wind_direction'] = {'question' : 'What is the wind direction?',
-                                           'answer' : [str(raw_metar['wind_direction']['value'])],
-                                           'answer_units' : 'degrees',
-                                           'choices': []}
-        if 'wind_gust' in raw_metar:
-            gust = None
-            if raw_metar['wind_gust'] is not None:
-                gust = str(raw_metar['wind_gust']['value'])
-            else:
-                gust = 0
+            questions['time'] = Question('What is time was this METAR report made?',
+                                         [raw_metar['time']['repr'][2:-1]],
+                                         'ZULU')
 
-            questions['wind_gust'] = {'question' : 'What is the wind gusting to?',
-                                      'answer' : [gust],
-                                      'answer_units' : raw_metar['units']['wind_speed'],
-                                      'choices': []}
+        # WIND DIRECTION QUESTION
+        questions['wind_direction'] = Question('What is the wind direction?',
+                                               [],
+                                               'degrees')
+        if 'wind_direction' in raw_metar:
+            questions['wind_direction'].answer.append(str(raw_metar['wind_direction']['value']))
+
+        # WIND GUST QUESTION
+        questions['wind_gust'] = Question('What is the wind gusting to?',
+                                          [],
+                                          raw_metar['units']['wind_speed'])
+        if 'wind_gust' in raw_metar:
+            if raw_metar['wind_gust'] is not None:
+                questions['wind_gust'].answer.append(str(raw_metar['wind_gust']['value']))
+
+        # WIND SPEED QUESTION
+        questions['wind_speed'] = Question('What is the wind speed?',
+                                           [],
+                                           raw_metar['units']['wind_speed'])
         if 'wind_speed' in raw_metar:
-            questions['wind_speed'] = {'question' : 'What is the wind speed?',
-                                       'answer' : [str(raw_metar['wind_speed']['value'])],
-                                       'answer_units' : raw_metar['units']['wind_speed'],
-                                       'choices': []}
+            questions['wind_speed'].answer.append(str(raw_metar['wind_speed']['value']))
+
+
+        # ALTIMITER QUESTION
         if 'altimiter' in raw_metar:
-            questions['altimeter'] = {'question' : 'What is the altimiter?',
-                                      'answer' : [str(raw_metar['altimeter']['value'])],
-                                      'answer_units' : raw_metar['units']['altimeter'],
-                                      'choices': []}
+            questions['altimeter'] = Question('What is the altimiter?',
+                                              [str(raw_metar['altimeter']['value'])],
+                                              raw_metar['units']['altimeter'])
+
+        # TEMPERATURE QUESTION
         if 'temperature' in raw_metar:
-            questions['temperature'] = {'question' : 'What is the temperature?',
-                                      'answer' : [str(raw_metar['temperature']['value'])],
-                                      'answer_units' : raw_metar['units']['temperature'],
-                                      'choices': []}
+            questions['temperature'] = Question('What is the temperature?',
+                                                [str(raw_metar['temperature']['value'])],
+                                                raw_metar['units']['temperature'])
+
+        # DEWPOINT QUESTION
         if 'dewpoint' in raw_metar:
-            questions['dewpoint'] = {'question' : 'What is the dewpoint?',
-                                     'answer' : [str(raw_metar['dewpoint']['value'])],
-                                     'answer_units' : raw_metar['units']['temperature'],
-                                     'choices': []}
-        if 'visability' in raw_metar:
-            questions['dewpoint'] = {'question' : 'What is the visiability?',
-                                     'answer' : [str(raw_metar['visibility']['value'])],
-                                     'answer_units' : raw_metar['units']['visibility'],
-                                     'choices': []}
+            questions['dewpoint'] = Question('What is the dewpoint?',
+                                             [str(raw_metar['dewpoint']['value'])],
+                                             raw_metar['units']['temperature'])
+
+        # VISABILITY QUESTION
+        if 'visibility' in raw_metar:
+            questions['visibility'] = Question('What is the visiability?',
+                                               [str(raw_metar['visibility']['value'])],
+                                               raw_metar['units']['visibility'])
+
+        # CLOUDS QUESTIONS
         if 'clouds' in raw_metar:
             cloud_heights = {'few': [], 'scattered': [], 'broken': [], 'overcast': []}
 
@@ -105,33 +128,29 @@ class METAR_colllector:
                 elif item['type'] == 'OVC':
                     cloud_heights['overcast'].append(str(item['altitude'])+'00')
 
-            questions['cloud_few_heights'] = {'question' : 'What is the height of the few clouds?',
-                                              'answer' : [cloud_heights['few']],
-                                              'answer_units' : raw_metar['units']['altitude'],
-                                              'choices': []}
+            questions['cloud_few_heights'] = Question('What is the height of the few clouds?',
+                                                      cloud_heights['few'],
+                                                      raw_metar['units']['altitude'])
 
-            questions['cloud_scattered_heights'] = {'question' : 'What is the height of the scattered clouds?',
-                                                    'answer' : [cloud_heights['scattered']],
-                                                    'answer_units' : raw_metar['units']['altitude'],
-                                                    'choices': []}
+            questions['cloud_scattered_heights'] = Question('What is the height of the scattered clouds?',
+                                                            cloud_heights['scattered'],
+                                                            raw_metar['units']['altitude'])
 
-            questions['cloud_broken_heights'] = {'question' : 'What is the height of the broken clouds?',
-                                                 'answer' : [cloud_heights['broken']],
-                                                 'answer_units' : raw_metar['units']['altitude'],
-                                                 'choices': []}
+            questions['cloud_broken_heights'] = Question('What is the height of the broken clouds?',
+                                                         cloud_heights['broken'],
+                                                         raw_metar['units']['altitude'])
 
-            questions['cloud_overcast_heights'] = {'question' : 'What is the height of the overcast clouds?',
-                                                   'answer' : [cloud_heights['overcast']],
-                                                   'answer_units' : raw_metar['units']['altitude'],
-                                                   'choices': []}
+            questions['cloud_overcast_heights'] = Question('What is the height of the overcast clouds?',
+                                                           cloud_heights['broken'],
+                                                           raw_metar['units']['altitude'])
 
             count = 0
+            choices = [key.capitalize() for key in cloud_heights.keys()]
             for key, value in cloud_heights.items():
                 for height in value:
-                    questions['cloud_{0}_{1}'.format(key, count)] = {'question' : 'What kind of clouds have a ceiling of {0} ft?'.format(height),
-                                                                     'answer' : [key.upper()],
-                                                                     'answer_units' : raw_metar['units']['altitude'],
-                                                                     'choices': [key.capitalize() for key in cloud_heights.keys()]}
+                    questions['cloud_{0}_{1}'.format(key, count)] =  Question('What kind of clouds have a ceiling of {0} ft?'.format(height),
+                                                                              [key.upper()],
+                                                                              raw_metar['units']['altitude'])
                     count += 1
 
         if len(questions) >= 1:
@@ -140,7 +159,7 @@ class METAR_colllector:
             return None
 
 
-    def get_package(self):
+    def get_questions(self):
         while True:
             airport = self.get_random_airport()
             status = None

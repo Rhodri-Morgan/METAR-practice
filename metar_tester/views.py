@@ -3,7 +3,10 @@ from django.forms.models import model_to_dict
 
 from metar_tester.models import Airport
 
-from metar_tester.metar_collector import METAR_colllector
+from metar_tester.metar_collector import Question_Colllector
+from metar_tester.metar_collector import Question
+
+from metar_tester.forms import ReportForm
 
 import random
 
@@ -12,7 +15,7 @@ import os
 import json
 
 
-def begin_test(request):
+def open_practice(request):
 
     def select_question(questions):
         question = random.choice(list(questions.items()))
@@ -27,6 +30,11 @@ def begin_test(request):
                 if key.startswith(remove_cloud_type):
                     to_remove.append(key)
             [questions.pop(key, None) for key in to_remove]
+
+        if question_key == 'wind_speed' and question_value.is_trick():
+            questions.pop('wind_direction', None)
+        elif question_key == 'wind_direction' and question_value.is_trick():
+            questions.pop('wind_speed', None)
 
         return question_value
 
@@ -49,10 +57,9 @@ def begin_test(request):
         status, airport, raw_metar, questions = metar_collector.get_package()
         already_asked = []
 
-    print(airport)
 
     if status == 200:
-        print('TODO implement normal page')
+        print('TODO')
     elif status == 503:
         print('TODO implement page saying API is down')
     else:
@@ -60,18 +67,21 @@ def begin_test(request):
     '''
 
     # For purpose of testing above block commented out and using these known value
-    metar_collector = METAR_colllector()
+    metar_collector = Question_Colllector()
     sample_airport = model_to_dict(Airport.objects.get(icao="KJFK"))
     sample_raw_metar = None
     with open(os.path.join(os.getcwd(), 'metar_tester', 'sample_METAR.json')) as f:
         sample_raw_metar = json.loads(f.read())
     sample_questions = metar_collector.generate_questions(sample_raw_metar)
     sample_question = select_question(sample_questions)
+    # sample_question = sample_questions['wind_direction']
 
     data = {
-        'title' : 'METAR Tester - Begin',
+        'title' : 'METAR Practice',
         'airport' : sample_airport,
         'raw_metar' : sample_raw_metar,
-        'question' : sample_question
+        'question' : sample_question.__dict__,
+        'report_form' : ReportForm()
     }
     return render(request, 'metar_tester/begin.html', data)
+

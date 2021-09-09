@@ -1,6 +1,7 @@
 {% extends 'metar_tester/sub_base.html' %}
 {% load static %}
 {% load dict_access %}
+{% load list_access %}
 
 
 {% block sub_head %}
@@ -12,27 +13,44 @@
 {% endblock sub_head %}
 
 {% block sub_body %}
-    <div id='question_containter'>
-        <h3>Sample question</h3>
-    </div>
-    <div id='metar_container'>
-        <h2 id='metar'>{{ raw_metar|lookup:'raw' }}</h2>
-    </div>
-    <div id='airport'>
-        <div id='map'>
-            <!--In goes google map-->
+    <div id='core'>
+        <div id='metar_container'>
+            <h2 id='metar'>{{ raw_metar|lookup:'raw' }}</h2>
         </div>
-        <div id='details'>
-            <h3 id='details_header'>Airport Details</h3>
-            <p class='details_item'><b>Name: </b>{{ airport|lookup:'name' }}</p>
-            <p class='details_item'><b>ICAO: </b>{{ airport|lookup:'icao' }}</p>
-            <p class='details_item'><b>Country: </b>{{ airport|lookup:'country' }}</p>
-            <p class='details_item'><b>City: </b>{{ airport|lookup:'city' }}</p>
-            <br>
-            <p class='details_item'><b>Latitude: </b>{{ airport|lookup:'latitude' }}</p>
-            <p class='details_item'><b>Longitude: </b>{{ airport|lookup:'longitude' }}</p>
+        <div id='airport'>
+            <div id='map'>
+                <!--In goes google map-->
+            </div>
+            <div id='details'>
+                <h3 id='details_header'>Airport Details</h3>
+                <p class='details_item'><b>Name: </b>{{ airport|lookup:'name' }}</p>
+                <p class='details_item'><b>ICAO: </b>{{ airport|lookup:'icao' }}</p>
+                <p class='details_item'><b>Country: </b>{{ airport|lookup:'country' }}</p>
+                <p class='details_item'><b>City: </b>{{ airport|lookup:'city' }}</p>
+                <br>
+                <p class='details_item'><b>Latitude: </b>{{ airport|lookup:'latitude' }}</p>
+                <p class='details_item'><b>Longitude: </b>{{ airport|lookup:'longitude' }}</p>
+            </div>
+        </div>
+        <hr id='divider'>
+        <div id='question_container'>
+            <h3 id='question'>{{ question|lookup:'text' }}</h3>
+            <!-- Answer revealer goes here -->
+            <button id='answer_revealer' onclick='reveal_answer()'>Reveal Answer</button>
+            <div id='answer_container'>
+                <!-- YOU SHOULD NOT BE LOOKING HERE :) -->
+                {% if question|lookup:'answer'|length == 1 %}
+                    <p id='answer'>{{ question|lookup:'answer'|index:0 }} {{ question|lookup:'answer_units' }}</p>
+                {% endif %}
+                {% csrf_token %}
+                <form id='report_form' method="post">
+                    {% csrf_token %}
+                    <p id='report_form_label'>{{ report_form.description.label }}</p>
+                    <p>{{ report_form.description }}</p>
+                    <p id='report_help_text'>{{ report_form.description.help_text }}</p>
+                    <input id='submit_report_form' type="submit" value="Submit">
+                </form>
+            </div>
         </div>
     </div>
-
 {% endblock sub_body %}
-zz
