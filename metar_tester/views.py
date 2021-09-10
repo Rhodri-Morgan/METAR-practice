@@ -21,6 +21,10 @@ def open_practice(request):
         question = random.choice(list(questions.items()))
         question_key = question[0]
         question_value = question[1]
+
+        question_key = 'cloud_few_heights'
+        question_value = questions['cloud_few_heights']
+
         questions.pop(question_key, None)
 
         if question_key.startswith('cloud'):
@@ -74,14 +78,13 @@ def open_practice(request):
         sample_raw_metar = json.loads(f.read())
     sample_questions = metar_collector.generate_questions(sample_raw_metar)
     sample_question = select_question(sample_questions)
-    # sample_question = sample_questions['wind_direction']
 
     data = {
         'title' : 'METAR Practice',
         'airport' : sample_airport,
         'raw_metar' : sample_raw_metar,
         'question' : sample_question.__dict__,
-        'report_form' : ReportForm()
+        'report_form' : ReportForm
     }
     return render(request, 'metar_tester/begin.html', data)
 

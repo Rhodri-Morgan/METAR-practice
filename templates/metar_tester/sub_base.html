@@ -10,14 +10,17 @@
 
 {% block body %}
     <div id="banner">
-        <h1 id="title">Weather METAR Test</h1>
+        <h1 id="title">Weather METAR Practice</h1>
         <div id="navigation">
             <a href="https://en.wikipedia.org/wiki/METAR" class='navigation_element'>What is METAR?</a>
             <a href="https://github.com/Rhodri-Morgan/METAR-Tester" id="end_navigation" class='navigation_element'>Github Repository</a>
         </div>
     </div>
     {% block sub_body %}{% endblock %}
+
     <div id='footer'>
+        <hr id='proxy_margin_top_footer' />
         <p>METAR data sourced from <img src="{% static 'images/metar_tester/avwx.png' %}" id='avwx_image'> <a href="https://avwx.rest/#">AVWX by Michael duPont</a></p>
+        <hr id='proxy_margin_bottom_footer' />
     </div>
 {% endblock body %}

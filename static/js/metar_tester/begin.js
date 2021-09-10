@@ -22,4 +22,5 @@ function initMap() {
 function reveal_answer() {
   document.getElementById('answer_revealer').style.display = "none";
   document.getElementById('answer_container').style.display = "block";
+  document.getElementById('answer_container').classList.add('fade_in_class')
 }

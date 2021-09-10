@@ -1,22 +1,28 @@
-h1, h2, h3, p, th, button, a, input {
+h1, h2, h3, p, th, button, a, input, li {
     font-family: Arial;
     color: white;
 }
 
 body {
-    background-image: url('/static/images/metar_tester/airport.jpg');
+    background-image: url('/static/images/metar_tester/airport_4.jpg');
+    background-position: center;
 }
 
 #content {
     width: 1200px;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     background-color: #202124;
     box-shadow: 0px 0px 100px black;
+    display : table;
 }
 
 #banner {
     background-color: #202124;
+    /*
+    Commenting out I dont like it. May add back
     background-image: linear-gradient(to bottom, #20212400, #202124), url('/static/images/metar_tester/rain.gif');
+    */
     display: inline-block;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -30,11 +36,6 @@ body {
     padding-bottom: 10px;
     margin: 0 0;
     font-size: 55px;
-}
-
-#new_test {
-    font-size: 20px;
-    color: black;
 }
 
 #navigation {
@@ -51,7 +52,7 @@ body {
     float: left;
     color: white;
     text-align: center;
-    padding: 14px 20px;
+    padding: 10px 10px;
     text-decoration: none;
     font-size: 16px;
     border-left:solid white 1px;
@@ -68,13 +69,22 @@ body {
 }
 
 #footer {
+    display : table-row;
+    vertical-align : bottom;
+    height : 1px;
     font-size: 10px;
-    position: absolute;
-    bottom: 0;
     width: 1200px;
-    margin-top: 10px;
-    margin-bottom: 5px;
     text-align: center;
+}
+
+#proxy_margin_top_footer {
+    height: 15px;
+    visibility: hidden;
+}
+
+#proxy_margin_bottom_footer {
+    height: 5px;
+    visibility: hidden;
 }
 
 #avwx_image {
