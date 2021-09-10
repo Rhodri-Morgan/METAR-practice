@@ -3,8 +3,8 @@ from django.forms.models import model_to_dict
 
 from metar_tester.models import Airport
 
-from metar_tester.metar_collector import Question_Colllector
-from metar_tester.metar_collector import Question
+from metar_tester.metar_collector import MetarCollector
+from metar_tester.question_collector import QuestionColllector
 
 from metar_tester.forms import ReportForm
 
@@ -21,9 +21,6 @@ def open_practice(request):
         question = random.choice(list(questions.items()))
         question_key = question[0]
         question_value = question[1]
-
-        question_key = 'cloud_few_heights'
-        question_value = questions['cloud_few_heights']
 
         questions.pop(question_key, None)
 
@@ -42,7 +39,6 @@ def open_practice(request):
 
         return question_value
 
-    '''
     status = None
     airport = None
     raw_metar = None
@@ -57,34 +53,40 @@ def open_practice(request):
         if len(questions) == 0:                                # Ran out of qustions refresh
             raise Exception('Ran out of questions, need to regenerate')
     except Exception:
-        metar_collector = METAR_colllector()
-        status, airport, raw_metar, questions = metar_collector.get_package()
-        already_asked = []
+        metar_collector = MetarCollector()
+        while True:
+            airport = metar_collector.get_random_airport()
+            status = None
+            raw_metar = None
+            questions = None
 
+            if airport is not None:
+                status, raw_metar = metar_collector.get_raw_metar(airport['icao'])
+                if status == 503:
+                    break
+
+            if raw_metar is not None:
+                question_colllector = QuestionColllector(raw_metar)
+                questions = question_colllector.generate_questions()
+
+            if questions is not None:
+                break
 
     if status == 200:
-        print('TODO')
+        request.session['status'] = status
+        request.session['airport'] = airport
+        request.session['raw_metar'] = raw_metar
+        request.session['questions'] = questions
+
+        data = {
+            'title' : 'METAR Practice',
+            'airport' : airport,
+            'raw_metar' : raw_metar,
+            'question' : questions.pop(0),
+            'report_form' : ReportForm()
+        }
+        return render(request, 'metar_tester/begin.html', data)
     elif status == 503:
         print('TODO implement page saying API is down')
     else:
         print('TODO implement page saying API error has occured')
-    '''
-
-    # For purpose of testing above block commented out and using these known value
-    metar_collector = Question_Colllector()
-    sample_airport = model_to_dict(Airport.objects.get(icao="KJFK"))
-    sample_raw_metar = None
-    with open(os.path.join(os.getcwd(), 'metar_tester', 'sample_METAR.json')) as f:
-        sample_raw_metar = json.loads(f.read())
-    sample_questions = metar_collector.generate_questions(sample_raw_metar)
-    sample_question = select_question(sample_questions)
-
-    data = {
-        'title' : 'METAR Practice',
-        'airport' : sample_airport,
-        'raw_metar' : sample_raw_metar,
-        'question' : sample_question.__dict__,
-        'report_form' : ReportForm
-    }
-    return render(request, 'metar_tester/begin.html', data)
-
