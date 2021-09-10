@@ -13,7 +13,7 @@ body {
     min-height: 100vh;
     height: 100%;
     background-color: #202124;
-    box-shadow: 0px 0px 100px black;
+    box-shadow: 0px 0px 100px #000000;
     display : table;
 }
 
@@ -44,22 +44,22 @@ body {
     text-align: center;
     margin: 0 auto;
     border-radius: 10px;
-    border-top:solid white 1px;
-    border-bottom:solid white 1px;
+    border-top: solid #0f0f0f 1px;
+    border-bottom: solid #0f0f0f 1px;
 }
 
 #navigation a {
     float: left;
-    color: white;
+    color: #ffffff;
     text-align: center;
     padding: 10px 10px;
     text-decoration: none;
     font-size: 16px;
-    border-left:solid white 1px;
+    border-left: solid #0f0f0f 1px;
 }
 
 #end_navigation {
-    border-right:solid white 1px;
+    border-right: solid rgb(15, 15, 15) 1px;
 }
 
 #navigation a:hover {

@@ -16,29 +16,6 @@ import json
 
 
 def open_practice(request):
-
-    def select_question(questions):
-        question = random.choice(list(questions.items()))
-        question_key = question[0]
-        question_value = question[1]
-
-        questions.pop(question_key, None)
-
-        if question_key.startswith('cloud'):
-            remove_cloud_type = '_'.join(question_key.split('_')[0:2:])
-            to_remove = []
-            for key, value in questions.items():
-                if key.startswith(remove_cloud_type):
-                    to_remove.append(key)
-            [questions.pop(key, None) for key in to_remove]
-
-        if question_key == 'wind_speed' and question_value.is_trick():
-            questions.pop('wind_direction', None)
-        elif question_key == 'wind_direction' and question_value.is_trick():
-            questions.pop('wind_speed', None)
-
-        return question_value
-
     status = None
     airport = None
     raw_metar = None
@@ -50,7 +27,7 @@ def open_practice(request):
         raw_metar = request.session['raw_metar']
         questions = request.session['questions']
 
-        if len(questions) == 0:                                # Ran out of qustions refresh
+        if len(questions) == 0:
             raise Exception('Ran out of questions, need to regenerate')
     except Exception:
         metar_collector = MetarCollector()

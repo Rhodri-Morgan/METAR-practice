@@ -13,6 +13,10 @@ class Question:
         return len(self.answer) == 0
 
 
+class UsuableDataError(Exception):
+    pass
+
+
 class QuestionColllector:
 
     def __init__(self, metar):
@@ -22,42 +26,57 @@ class QuestionColllector:
 
     def generate_airport_question(self):
         try:
+            if self.metar['station'] is None:
+                raise UsuableDataError('Data is not unusable')
+
             self.questions['airport'] = Question('What is the airport ICAO?',
                                                 [self.metar['station']],
                                                 '')
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_time_question(self):
         try:
+            if self.metar['time']['repr'] is None:
+                raise UsuableDataError('Data is not unusable')
+
             self.questions['time'] = Question('What is time was this METAR report made?',
                                               ['{0} {1}'.format(self.metar['time']['repr'][2:-1], 'ZULU')],
                                               'ZULU')
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_wind_direction_question(self):
         try:
+            if self.metar['wind_direction']['value'] is None:
+                raise UsuableDataError('Data is not unusable')
+
             self.questions['wind_direction'] = Question('What is the wind direction?',
                                                         ['{0} {1}'.format(self.metar['wind_direction']['value'], 'degrees')],
                                                         'degrees')
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_wind_speed_question(self):
         try:
+            if self.metar['wind_speed']['value'] is None or self.metar['units']['wind_speed'] is None:
+                raise UsuableDataError('Data is not unusable')
+
             self.questions['wind_speed'] = Question('What is the wind speed?',
                                                     ['{0} {1}'.format(self.metar['wind_speed']['value'], self.metar['units']['wind_speed'])],
                                                     self.metar['units']['wind_speed'])
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_wind_gust_question(self):
         try:
+            if self.metar['units']['wind_speed'] is None:
+                raise UsuableDataError('Data is not unusable')
+
             question = Question('What is the wind gusting to?',
                                 [],
                                 self.metar['units']['wind_speed'])
@@ -66,48 +85,63 @@ class QuestionColllector:
             else:
                 question.answer.append('The wind is not currently gusting.')
             self.questions['wind_gust'] = question
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_altimiter_question(self):
         try:
+            if self.metar['altimeter']['value'] is None or self.metar['units']['altimeter'] is None:
+                raise UsuableDataError('Data is not unusable')
+
             self.question = Question('What is the altimiter?',
                                      ['{0} {1}'.format(self.metar['altimeter']['value'], self.metar['units']['altimeter'])],
                                      self.metar['units']['altimeter'])
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_temperature_question(self):
         try:
+            if self.metar['temperature']['value'] is None or self.metar['units']['temperature'] is None:
+                raise UsuableDataError('Data is not unusable')
+
             self.questions['temperature'] = Question('What is the temperature?',
                                                      ['{0} {1}'.format(self.metar['temperature']['value'], self.metar['units']['temperature'])],
                                                      self.metar['units']['temperature'])
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_dewpoint_question(self):
         try:
+            if self.metar['dewpoint']['value'] is None or self.metar['units']['temperature'] is None:
+                raise UsuableDataError('Data is not unusable')
+
             self.questions['dewpoint'] = Question('What is the dewpoint?',
                                                   ['{0} {1}'.format(self.metar['dewpoint']['value'], self.metar['units']['temperature'])],
                                                   self.metar['units']['temperature'])
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_visability_question(self):
         try:
+            if self.metar['visibility']['value'] is None or self.metar['units']['visibility'] is None:
+                raise UsuableDataError('Data is not unusable')
+
             self.questions['visibility'] = Question('What is the visiability?',
                                                     ['{0} {1}'.format(self.metar['visibility']['value'], self.metar['units']['visibility'])],
                                                     self.metar['units']['visibility'])
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_cloud_coverage_question(self):
         try:
+            if self.metar['clouds'] is None or len(self.metar['clouds']) == 0:
+                raise UsuableDataError('Data is not unusable')
+
             coverage = []
             conversion = {'SKC' : 'Sky Clear',
                           'NDC' : 'NIL Cloud Detected',
@@ -123,12 +157,15 @@ class QuestionColllector:
             self.questions['cloud_coverage'] = Question('What is the reported cloud coverage?',
                                                         coverage,
                                                         '')
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_cloud_height_question(self, cloud):
         try:
+            if self.metar['clouds'] is None or len(self.metar['clouds']) == 0 or self.metar['units']['altitude'] is None:
+                raise UsuableDataError('Data is not unusable')
+
             heights = []
             for item in self.metar['clouds']:
                 if item['type'] == cloud:
@@ -146,21 +183,24 @@ class QuestionColllector:
                     question.answer.append('{0}00 {1}'.format(item, self.metar['units']['altitude']))
                 self.questions['cloud_{0}_heights'.format(conversion[cloud])] = question
                 return heights
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_cloud_ceiling_questions(self, cloud):
         try:
+            if self.metar['clouds'] is None or len(self.metar['clouds']) == 0 or self.metar['units']['altitude'] is None:
+                raise UsuableDataError('Data is not unusable')
+
             conversion = {'FEW' : 'few',
                           'SCT' : 'scattered',
                           'BKN' : 'broken',
                           'OVC' : 'overcast'}
             for count, item in enumerate(self.metar['clouds']):
-                self.questions['cloud_{0}_ceiling_{1}'.format(item['type'], count)] = Question('What kind of clouds have a ceiling of {0} {1}?'.format(item['altitude'], self.metar['units']['altitude']),
-                                                                                               [conversion['cloud'].capitalize()],
+                self.questions['cloud_{0}_ceiling_{1}'.format(item['type'], count)] = Question('What kind of clouds have a ceiling of {0}00 {1}?'.format(item['altitude'], self.metar['units']['altitude']),
+                                                                                               [conversion[item['type']].capitalize()],
                                                                                                self.metar['units']['altitude'])
-        except KeyError as e:
+        except (KeyError, UsuableDataError) as e:
             print(e)
 
 

@@ -24,3 +24,8 @@ function reveal_answer() {
   document.getElementById('answer_container').style.display = "block";
   document.getElementById('answer_container').classList.add('fade_in_class')
 }
+
+
+function refresh_page(){
+  window.location.reload();
+}

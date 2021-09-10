@@ -11,5 +11,5 @@ function updateNavigationWidth() {
     for (var i = 0; i < elements.length; i++) {
         total_elements_width += elements[i].offsetWidth;
     }
-    navigation_bar.style.width = total_elements_width.toString(10)+"px";
+    navigation_bar.style.width = total_elements_width.toString()+"px";
 }
