@@ -70,15 +70,4 @@ def open_practice(request):
         'report_form' : ReportForm()
     }
 
-    if status == 200:
-        print('Live data operating normally')
-    elif status == 503:
-        print('TODO implement page saying API is down')
-    else:
-        print('TODO implement page saying API error has occured')
-
     return render(request, 'metar_tester/begin.html', data)
-
-'''
-NEED TO MIGRATE, CHANGED FIELD NAME IN QUESTIONS
-'''
