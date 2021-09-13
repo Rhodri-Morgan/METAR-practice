@@ -15,7 +15,7 @@
 {% block sub_body %}
     <div id='core'>
         <div id='metar_container'>
-            <h2 id='metar'>{{ raw_metar|lookup:'raw' }}</h2>
+            <h2 id='metar'>{{ metar|lookup:'raw' }}</h2>
         </div>
         <div id='airport'>
             <div id='map'>
@@ -39,13 +39,13 @@
             <button id='answer_revealer' onclick='reveal_answer()'>Reveal Answer</button>
             <div id='answer_container'>
                 <!-- YOU SHOULD NOT BE LOOKING HERE :) -->
-                {% if question|lookup:'answer'|length == 1 %}
-                    <p class='answer'>{{ question|lookup:'answer'|index:0 }}</p>
+                {% if question|lookup:'answers'|length == 1 %}
+                    <p class='answer'>{{ question|lookup:'answers'|index:0|lookup:'text' }}</p>
                 {% else %}
                     <div id='multiple_answer_container'>
                         <ul id='answer_list'>
-                            {% for item in question|lookup:'answer' %}
-                                <li class='answer'>{{ item }}</li>
+                            {% for item in question|lookup:'answers' %}
+                                <li class='answer'>{{ item|lookup:'text' }}</li>
                             {% endfor %}
                         </ul>
                     </div>

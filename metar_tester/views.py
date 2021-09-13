@@ -9,22 +9,19 @@ from metar_tester.question_collector import QuestionColllector
 from metar_tester.forms import ReportForm
 
 import random
-
-# using for testing
-import os
 import json
 
 
 def open_practice(request):
     status = None
     airport = None
-    raw_metar = None
+    metar = None
     questions = None
 
     try:
         status = request.session['status']
         airport = request.session['airport']
-        raw_metar = request.session['raw_metar']
+        metar = request.session['metar']
         questions = request.session['questions']
 
         if len(questions) == 0:
@@ -32,38 +29,56 @@ def open_practice(request):
     except Exception:
         metar_collector = MetarCollector()
         while True:
-            airport = metar_collector.get_random_airport()
             status = None
-            raw_metar = None
-            questions = None
+            db_airport = metar_collector.get_random_airport()
+            db_metar = None
+            db_questions = None
 
-            if airport is not None:
-                status, raw_metar = metar_collector.get_raw_metar(airport['icao'])
+            if db_airport is not None:
+                status, db_metar = metar_collector.get_raw_metar(db_airport)
                 if status == 503:
                     break
 
-            if raw_metar is not None:
-                question_colllector = QuestionColllector(raw_metar)
-                questions = question_colllector.generate_questions()
+            if db_metar is not None:
+                question_colllector = QuestionColllector(db_metar)
+                db_questions = question_colllector.generate_questions()
+                metar = question_colllector.metar
 
-            if questions is not None:
+            if db_questions is not None:
+                airport = model_to_dict(db_airport)
+                questions = []
+                for db_question in db_questions:
+                    question = model_to_dict(db_question)
+                    answers = []
+                    for db_answer in question['answers']:
+                        answers.append(model_to_dict(db_answer))
+                    question['answers'] = answers
+                    questions.append(question)
                 break
 
-    if status == 200:
-        request.session['status'] = status
-        request.session['airport'] = airport
-        request.session['raw_metar'] = raw_metar
-        request.session['questions'] = questions
+    request.session['status'] = status
+    request.session['airport'] = airport
+    request.session['metar'] = metar
+    request.session['questions'] = questions
 
-        data = {
-            'title' : 'METAR Practice',
-            'airport' : airport,
-            'raw_metar' : raw_metar,
-            'question' : questions.pop(0),
-            'report_form' : ReportForm()
-        }
-        return render(request, 'metar_tester/begin.html', data)
+    data = {
+        'title' : 'METAR Practice',
+        'status' : status,
+        'airport' : airport,
+        'metar' : metar,
+        'question' : questions.pop(0),
+        'report_form' : ReportForm()
+    }
+
+    if status == 200:
+        print('Live data operating normally')
     elif status == 503:
         print('TODO implement page saying API is down')
     else:
         print('TODO implement page saying API error has occured')
+
+    return render(request, 'metar_tester/begin.html', data)
+
+'''
+NEED TO MIGRATE, CHANGED FIELD NAME IN QUESTIONS
+'''
