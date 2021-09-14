@@ -36,16 +36,38 @@ def open_practice(request):
             questions.append(question)
         return questions
 
+
+    def get_previous_question():
+        try:
+            return request.session['previous_question']
+        except KeyError:
+            return None
+
+
     API_TIMEOUT_THRESHOLD = 10
     QUESTION_SAMPLE_COUNT = 5
 
     time_now = datetime.datetime.utcnow()
 
     status = None
+    logged = None
     airport = None
     metar = None
     questions = None
+    current_question = None
     api = None
+
+    try:
+        if request.method == 'POST':
+            report_form = ReportForm(request.POST)
+            previous_question = get_previous_question()
+            if report_form.is_valid() and previous_question is not None:
+                report = report_form.save(commit=False)
+                report.question = Question.objects.get(id=previous_question['id'])
+                report.save()
+                logged = 'Thank you. Your issue has been logged.'
+    except Question.DoesNotExist as e:
+        print(e)
 
     try:
         status = request.session['status']
@@ -54,12 +76,9 @@ def open_practice(request):
         questions = request.session['questions']
         api = request.session['api']
 
-        print(api)
-
         if len(questions) == 0:
             raise RanOutOfQuestionsError('Ran out of questions, need to regenerate')
     except (RanOutOfQuestionsError, KeyError) as e:
-        print(e)
         try:
             if api is not None and api['timeout'] == True and time_now < datetime.datetime.strptime(api['end_timeout'], '%m/%d/%Y, %H:%M:%S'):
                 raise ApiTimeoutError('API is needing to timeout.')
@@ -76,14 +95,8 @@ def open_practice(request):
                 db_metar = None
                 db_questions = None
 
-                print(db_airport)
-                print(db_airport.icao)
-
                 if db_airport is not None:
                     status, db_metar = metar_collector.get_raw_metar(db_airport)
-
-                print(status)
-                print(db_metar)
 
                 if status is None or status != 200:
                     timeout_counter += 1
@@ -91,9 +104,7 @@ def open_practice(request):
                 if db_metar is not None:
                     question_colllector = QuestionColllector(db_metar, QUESTION_SAMPLE_COUNT)
                     db_questions = question_colllector.generate_questions()
-                    print(len(db_questions))
                     metar = question_colllector.metar
-                    print(metar['station'])
 
                 if db_questions is not None:
                     airport = model_to_dict(db_airport)
@@ -122,18 +133,22 @@ def open_practice(request):
                 if len(questions) >= 1:
                     break
 
+    current_question = questions.pop(0)
+
     request.session['status'] = status
     request.session['airport'] = airport
     request.session['metar'] = metar
     request.session['questions'] = questions
     request.session['api'] = api
+    request.session['previous_question'] = current_question
 
     data = {
         'title' : 'METAR Practice',
+        'logged' : logged,
         'status' : status,
         'airport' : airport,
         'metar' : metar,
-        'question' : questions.pop(0),
+        'question' : current_question,
         'report_form' : ReportForm()
     }
 

@@ -17,6 +17,18 @@ body {
     display : table;
 }
 
+#logged_container {
+    background-color: blue;
+    width: 100%;
+    text-align: center;
+}
+
+#logged {
+    font-size: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 #banner {
     background-color: #202124;
     /*
