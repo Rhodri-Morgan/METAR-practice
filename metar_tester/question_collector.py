@@ -236,7 +236,7 @@ class QuestionColllector:
             self.generate_cloud_ceiling_questions(cloud)
 
         chosen_questions = []
-        if len(self.questions) <= self.sample_count:
+        if self.sample_count is None or len(self.questions) <= self.sample_count:
             chosen_questions = list(self.questions.values())
         else:
             chosen_questions = random.sample(list(self.questions.values()), k=self.sample_count)

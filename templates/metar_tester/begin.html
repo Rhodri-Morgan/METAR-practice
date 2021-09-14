@@ -6,9 +6,11 @@
 
 {% block sub_head %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/metar_tester/begin.css' %}">
+    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script id="airport_location" type="application/json">{"latitude": {{ airport|lookup:'latitude' }}, "longitude": {{ airport|lookup:'longitude' }}}</script>
-    <!-- MUST RESTRICT API USAGE -->
     <script type="text/javascript" src="{% static 'js/metar_tester/begin.js' %}"></script>
+    <!-- MUST RESTRICT API USAGE -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5RVyFfpgAOueO-LEsqF8uv6RhHLz8rcs&callback=initMap&libraries=&v=weekly&channel=2" async></script>
 {% endblock sub_head %}
 
@@ -58,7 +60,7 @@
                     <p id='report_help_text'>{{ report_form.description.help_text }}</p>
                     <input id='submit_report_form' type="submit" value="Submit">
                 </form>
-                <button id='new_question' onclick='refresh_page()'>Generate another question!</button>
+                <button id='new_question' onclick="refresh_page('{{ refresh_needed }}')">Generate another question!</button>
             </div>
         </div>
     </div>

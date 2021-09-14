@@ -44,7 +44,7 @@ def open_practice(request):
             return None
 
 
-    API_TIMEOUT_THRESHOLD = 10
+    API_TIMEOUT_THRESHOLD = 5                   # None will reflect no limit
     QUESTION_SAMPLE_COUNT = 5
 
     time_now = datetime.datetime.utcnow()
@@ -65,8 +65,12 @@ def open_practice(request):
                 report = report_form.save(commit=False)
                 report.question = Question.objects.get(id=previous_question['id'])
                 report.save()
-                logged = 'Thank you. Your issue has been logged.'
-    except Question.DoesNotExist as e:
+                request.session['logged'] = 'Thank you. Your issue has been logged.'
+                return redirect('open_practice')
+        elif request.session['logged'] is not None:
+            logged = request.session['logged']
+            request.session['logged'] = None
+    except (Question.DoesNotExist, KeyError) as e:
         print(e)
 
     try:
@@ -125,7 +129,7 @@ def open_practice(request):
                     status = 400
                 db_questions_all = Question.objects.filter(metar=db_metar)
                 db_questions = None
-                if len(db_questions_all) <= QUESTION_SAMPLE_COUNT:
+                if QUESTION_SAMPLE_COUNT is None or len(db_questions_all) <= QUESTION_SAMPLE_COUNT:
                     db_questions = list(db_questions_all)
                 else:
                     db_questions = random.sample(list(db_questions_all), k=QUESTION_SAMPLE_COUNT)
@@ -134,6 +138,7 @@ def open_practice(request):
                     break
 
     current_question = questions.pop(0)
+    refresh_needed = len(questions) == 0
 
     request.session['status'] = status
     request.session['airport'] = airport
@@ -149,6 +154,7 @@ def open_practice(request):
         'airport' : airport,
         'metar' : metar,
         'question' : current_question,
+        'refresh_needed' : refresh_needed,
         'report_form' : ReportForm()
     }
 
