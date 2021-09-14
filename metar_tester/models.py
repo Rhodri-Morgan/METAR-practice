@@ -11,7 +11,7 @@ class Airport(models.Model):
 
 
 class Metar(models.Model):
-    metar = models.TextField()                                             # Note JSON representation
+    metar_json = models.TextField()                                             # Note JSON representation
     airport = models.ForeignKey(Airport, on_delete=models.PROTECT)
 
 

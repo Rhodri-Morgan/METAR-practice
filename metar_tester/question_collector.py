@@ -11,15 +11,17 @@ django.setup()
 from metar_tester.models import Answer
 from metar_tester.models import Question
 
+
 class UsuableDataError(Exception):
     pass
 
 
 class QuestionColllector:
 
-    def __init__(self, db_metar):
+    def __init__(self, db_metar, sample_count):
         self.db_metar = db_metar
-        self.metar = json.loads(db_metar.metar)
+        self.metar = json.loads(db_metar.metar_json)
+        self.sample_count = sample_count
         self.questions = {}
 
 
@@ -221,23 +223,25 @@ class QuestionColllector:
 
 
     def generate_questions(self):
-        try:
-            self.generate_airport_question()
-            self.generate_time_question()
-            self.generate_wind_direction_question()
-            self.generate_wind_speed_question()
-            self.generate_wind_gust_question()
-            self.generate_altimiter_question()
-            self.generate_temperature_question()
-            self.generate_cloud_coverage_question()
-            for cloud in ['FEW', 'SCT', 'OVC', 'BKN']:
-                self.generate_cloud_height_question(cloud)
-                self.generate_cloud_ceiling_questions(cloud)
-        except TypeError:
-            print(self.metar)
+        self.generate_airport_question()
+        self.generate_time_question()
+        self.generate_wind_direction_question()
+        self.generate_wind_speed_question()
+        self.generate_wind_gust_question()
+        self.generate_altimiter_question()
+        self.generate_temperature_question()
+        self.generate_cloud_coverage_question()
+        for cloud in ['FEW', 'SCT', 'OVC', 'BKN']:
+            self.generate_cloud_height_question(cloud)
+            self.generate_cloud_ceiling_questions(cloud)
 
-        chosen_questions = random.sample(list(self.questions.values()), k=5)
-        if len(chosen_questions) == 0:
-            return None
+        chosen_questions = []
+        if len(self.questions) <= self.sample_count:
+            chosen_questions = list(self.questions.values())
         else:
+            chosen_questions = random.sample(list(self.questions.values()), k=self.sample_count)
+
+        if len(chosen_questions) >= 1:
             return chosen_questions
+        else:
+            return None
