@@ -5,11 +5,11 @@
 
 
 {% block sub_head %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/metar_tester/begin.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/metar_tester/practice.css' %}">
     <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script id="airport_location" type="application/json">{"latitude": {{ airport|lookup:'latitude' }}, "longitude": {{ airport|lookup:'longitude' }}}</script>
-    <script type="text/javascript" src="{% static 'js/metar_tester/begin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/metar_tester/practice.js' %}"></script>
     <!-- MUST RESTRICT API USAGE -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5RVyFfpgAOueO-LEsqF8uv6RhHLz8rcs&callback=initMap&libraries=&v=weekly&channel=2" async></script>
 {% endblock sub_head %}

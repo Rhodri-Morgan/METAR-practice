@@ -4,7 +4,7 @@ h1, h2, h3, p, th, button, a, input, li {
 }
 
 body {
-    background-image: url('/static/images/metar_tester/airport_1.jpg');
+    background-image: url('/static/images/metar_tester/airport.jpg');
     background-position: center;
     font-family: Arial;
     color: white;
