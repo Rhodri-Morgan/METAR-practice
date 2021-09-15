@@ -23,7 +23,7 @@ class RanOutOfQuestionsError(Exception):
     pass
 
 
-def open_practice(request):
+def practice(request):
 
     def questions_to_dict(db_questions):
         questions = []
@@ -66,7 +66,7 @@ def open_practice(request):
                 report.question = Question.objects.get(id=previous_question['id'])
                 report.save()
                 request.session['logged'] = 'Thank you. Your issue has been logged.'
-                return redirect('open_practice')
+                return redirect('practice')
         elif request.session['logged'] is not None:
             logged = request.session['logged']
             request.session['logged'] = None
@@ -158,4 +158,13 @@ def open_practice(request):
         'report_form' : ReportForm()
     }
 
-    return render(request, 'metar_tester/begin.html', data)
+    return render(request, 'metar_tester/practice.html', data)
+
+'''
+TODO
+
+- Clear Reports
+- Rename images
+- Implement data pulling using half of 4000 allowed to store hourly throughout day
+    https://stackoverflow.com/questions/6532744/can-i-have-some-code-constantly-run-inside-django-like-a-daemon
+'''
