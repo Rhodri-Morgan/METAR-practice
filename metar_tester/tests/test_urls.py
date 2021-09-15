@@ -1,12 +1,11 @@
-
-from django.test import TestCase
+import unittest
 
 from django.urls import reverse, resolve
 
 from metar_tester.views import practice
 
 
-class TestUrls(Testcase):
+class TestUrls(unittest.TestCase):
 
     def test_practice(self):
         url = reverse('practice')
