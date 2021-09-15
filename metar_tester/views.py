@@ -159,12 +159,3 @@ def practice(request):
     }
 
     return render(request, 'metar_tester/practice.html', data)
-
-'''
-TODO
-
-- Clear Reports
-- Rename images
-- Implement data pulling using half of 4000 allowed to store hourly throughout day
-    https://stackoverflow.com/questions/6532744/can-i-have-some-code-constantly-run-inside-django-like-a-daemon
-'''
