@@ -31,14 +31,12 @@ class MetarCollector:
                     db_metar.save()
                 return res.status_code, db_metar
             else:
-                if res.status_code == 400 and json.loads(res.text)['error'] == '"\{0}"\ is not a valid ICAO or IATA code'.format(icao):
+                if res.status_code == 400 and json.loads(res.text)['error'] == '{0} is not a valid ICAO or IATA code'.format(icao):
                     Airport.objects.filter(icao=icao).delete()
                 return res.status_code, None
         except Exception as e:
-            print(e)
             return None, None
 
 
-    # Gets a random airport from the database
     def get_random_airport(self):
         return Airport.objects.order_by('?').first()

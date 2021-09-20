@@ -21,7 +21,10 @@ class QuestionColllector:
     def __init__(self, db_metar, sample_count):
         self.db_metar = db_metar
         self.metar = json.loads(db_metar.metar_json)
-        self.sample_count = sample_count
+        if sample_count is not None and sample_count <= 0:
+            self.sample_count = None
+        else:
+            self.sample_count = sample_count
         self.questions = {}
 
 
@@ -56,7 +59,7 @@ class QuestionColllector:
 
     def generate_airport_question(self):
         try:
-            if self.metar['station'] is None:
+            if self.metar['station'] is None or self.metar['station'] == '':
                 raise UsuableDataError(' Airport Question - Data is not unusable')
 
             self.questions['airport'] = self.create_db_question('What is the airport ICAO?',
@@ -67,7 +70,7 @@ class QuestionColllector:
 
     def generate_time_question(self):
         try:
-            if self.metar['time']['repr'] is None:
+            if self.metar['time']['repr'] is None or self.metar['time']['repr'] == '':
                 raise UsuableDataError('Time Question - Data is not unusable')
 
             self.questions['time'] = self.create_db_question('What is time was this METAR report made?',
@@ -89,7 +92,7 @@ class QuestionColllector:
 
     def generate_wind_speed_question(self):
         try:
-            if self.metar['wind_speed']['value'] is None or self.metar['units']['wind_speed'] is None:
+            if self.metar['wind_speed']['value'] is None or self.metar['units']['wind_speed'] is None or self.metar['units']['wind_speed'] == '':
                 raise UsuableDataError('Wind Speed Question - Data is not unusable')
 
             self.questions['wind_speed'] = self.create_db_question('What is the wind speed?',
@@ -100,7 +103,7 @@ class QuestionColllector:
 
     def generate_wind_gust_question(self):
         try:
-            if self.metar['units']['wind_speed'] is None:
+            if self.metar['units']['wind_speed'] is None or self.metar['units']['wind_speed'] == '':
                 raise UsuableDataError('Wind Gust Question - Data is not unusable')
 
             answers = []
@@ -114,20 +117,20 @@ class QuestionColllector:
             print(e)
 
 
-    def generate_altimiter_question(self):
+    def generate_altimeter_question(self):
         try:
-            if self.metar['altimeter']['value'] is None or self.metar['units']['altimeter'] is None:
-                raise UsuableDataError('Altimiter Question - Data is not unusable')
+            if self.metar['altimeter']['value'] is None or self.metar['units']['altimeter'] is None or self.metar['units']['altimeter'] == '':
+                raise UsuableDataError('Altimeter Question - Data is not unusable')
 
-            self.question = self.create_db_question('What is the altimiter?',
-                                                    ['{0} {1}'.format(self.metar['altimeter']['value'], self.metar['units']['altimeter'])])
+            self.questions['altimeter'] = self.create_db_question('What is the altimeter?',
+                                                                  ['{0} {1}'.format(self.metar['altimeter']['value'], self.metar['units']['altimeter'])])
         except (KeyError, UsuableDataError) as e:
             print(e)
 
 
     def generate_temperature_question(self):
         try:
-            if self.metar['temperature']['value'] is None or self.metar['units']['temperature'] is None:
+            if self.metar['temperature']['value'] is None or self.metar['units']['temperature'] is None or self.metar['units']['temperature'] == '':
                 raise UsuableDataError('Temperature Question - Data is not unusable')
 
             self.questions['temperature'] = self.create_db_question('What is the temperature?',
@@ -138,7 +141,7 @@ class QuestionColllector:
 
     def generate_dewpoint_question(self):
         try:
-            if self.metar['dewpoint']['value'] is None or self.metar['units']['temperature'] is None:
+            if self.metar['dewpoint']['value'] is None or self.metar['units']['temperature'] is None or self.metar['units']['temperature'] == '':
                 raise UsuableDataError('Dewpoint Question - Data is not unusable')
 
             self.questions['dewpoint'] = self.create_db_question('What is the dewpoint?',
@@ -147,12 +150,12 @@ class QuestionColllector:
             print(e)
 
 
-    def generate_visability_question(self):
+    def generate_visibility_question(self):
         try:
-            if self.metar['visibility']['value'] is None or self.metar['units']['visibility'] is None:
-                raise UsuableDataError('Visability Question - Data is not unusable')
+            if self.metar['visibility']['value'] is None or self.metar['units']['visibility'] is None or self.metar['units']['visibility'] == '':
+                raise UsuableDataError('Visibility Question - Data is not unusable')
 
-            self.questions['visibility'] = self.create_db_question('What is the visiability?',
+            self.questions['visibility'] = self.create_db_question('What is the visibility?',
                                                                    ['{0} {1}'.format(self.metar['visibility']['value'], self.metar['units']['visibility'])])
         except (KeyError, UsuableDataError) as e:
             print(e)
@@ -167,13 +170,16 @@ class QuestionColllector:
             conversion = {'SKC' : 'Sky Clear',
                           'NDC' : 'NIL Cloud Detected',
                           'CLR' : 'No Clouds Below 12,000 ft',
+                          'NSC' : 'No Significant Cloud',
                           'FEW' : 'Few Clouds',
                           'SCT' : 'Scattered Clouds',
                           'BKN' : 'Broken Clouds',
                           'OVC' : 'Overcast Clouds',
                           'VV' : 'Vertical Visability Warning'}
             for item in self.metar['clouds']:
-                if conversion[item['type']] not in answers:
+                if item['type'] == None or item['type'] == '':
+                    raise UsuableDataError('Cloud Coverage Question - Data is not unusable')
+                elif conversion[item['type']] not in answers:
                     answers.append(conversion[item['type']])
             self.questions['cloud_coverage'] = self.create_db_question('What is the reported cloud coverage?',
                                                                        answers)
@@ -183,19 +189,20 @@ class QuestionColllector:
 
     def generate_cloud_height_question(self, cloud):
         try:
-            if self.metar['clouds'] is None or len(self.metar['clouds']) == 0 or self.metar['units']['altitude'] is None:
+            if self.metar['clouds'] is None or len(self.metar['clouds']) == 0 or self.metar['units']['altitude'] is None or self.metar['units']['altitude'] == '':
                 raise UsuableDataError('Cloud Height Question - Data is not unusable')
 
             heights = []
             for item in self.metar['clouds']:
-                if item['type'] == cloud:
+                if item['type'] == None or item['type'] == '' or item['altitude'] is None:
+                    raise UsuableDataError('Cloud Coverage Question - Data is not unusable')
+                elif item['type'] == cloud:
                     heights.append(item['altitude'])
-
             if len(heights) > 0:
                 conversion = {'FEW' : 'few',
-                            'SCT' : 'scattered',
-                            'BKN' : 'broken',
-                            'OVC' : 'overcast'}
+                              'SCT' : 'scattered',
+                              'BKN' : 'broken',
+                              'OVC' : 'overcast'}
                 answers = []
                 for item in sorted(heights):
                     answers.append('{0}00 {1}'.format(item, self.metar['units']['altitude']))
@@ -206,20 +213,29 @@ class QuestionColllector:
             print(e)
 
 
-    def generate_cloud_ceiling_questions(self, cloud):
+    def generate_cloud_ceiling_questions(self):
         try:
-            if self.metar['clouds'] is None or len(self.metar['clouds']) == 0 or self.metar['units']['altitude'] is None:
+            if self.metar['clouds'] is None or len(self.metar['clouds']) == 0 or self.metar['units']['altitude'] is None or self.metar['units']['altitude'] == '':
                 raise UsuableDataError('Cloud Ceiling Questions - Data is not unusable')
-
-            conversion = {'FEW' : 'few',
-                          'SCT' : 'scattered',
-                          'BKN' : 'broken',
-                          'OVC' : 'overcast'}
-            for count, item in enumerate(self.metar['clouds']):
-                self.questions['cloud_{0}_ceiling_{1}'.format(item['type'], count)] = self.create_db_question('What kind of clouds have a ceiling of {0}00 {1}?'.format(item['altitude'], self.metar['units']['altitude']),
-                                                                                                              [conversion[item['type']].capitalize()])
         except (KeyError, UsuableDataError) as e:
             print(e)
+            return
+
+        conversion = {'FEW' : 'few',
+                      'SCT' : 'scattered',
+                      'BKN' : 'broken',
+                      'OVC' : 'overcast'}
+        count = 0
+        for item in self.metar['clouds']:
+            try:
+                if item['type'] is None or item['type'] == '' or item['altitude'] is None:
+                    raise UsuableDataError('Cloud Ceiling Question - Data is not unusable')
+                elif item['type'] in conversion.keys():
+                    self.questions['cloud_{0}_ceiling_{1}'.format(conversion[item['type']], count)] = self.create_db_question('What kind of clouds have a ceiling of {0}00 {1}?'.format(item['altitude'], self.metar['units']['altitude']),
+                                                                                                                  [conversion[item['type']].capitalize()])
+                    count += 1
+            except (KeyError, UsuableDataError) as f:
+                print(f)
 
 
     def generate_questions(self):
@@ -228,12 +244,14 @@ class QuestionColllector:
         self.generate_wind_direction_question()
         self.generate_wind_speed_question()
         self.generate_wind_gust_question()
-        self.generate_altimiter_question()
+        self.generate_altimeter_question()
         self.generate_temperature_question()
+        self.generate_dewpoint_question()
+        self.generate_visibility_question()
         self.generate_cloud_coverage_question()
         for cloud in ['FEW', 'SCT', 'OVC', 'BKN']:
             self.generate_cloud_height_question(cloud)
-            self.generate_cloud_ceiling_questions(cloud)
+        self.generate_cloud_ceiling_questions()
 
         chosen_questions = []
         if self.sample_count is None or len(self.questions) <= self.sample_count:
