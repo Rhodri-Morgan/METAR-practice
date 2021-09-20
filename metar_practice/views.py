@@ -24,8 +24,10 @@ class RanOutOfQuestionsError(Exception):
 
 
 def practice(request):
+    """  Responsible for displaying user with data and handling reports made by user """
 
     def questions_to_dict(db_questions):
+        """  Converts given question and answer database instances to usable dictionary composed of strings """
         questions = []
         for db_question in db_questions:
             question = model_to_dict(db_question)
@@ -38,6 +40,7 @@ def practice(request):
 
 
     def get_previous_question():
+         """  Tries to retrieve details of the last shown question """
         try:
             return request.session['previous_question']
         except KeyError:

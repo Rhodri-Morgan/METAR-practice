@@ -16,6 +16,7 @@ from django.forms.models import model_to_dict
 class MetarCollector:
 
     def get_raw_metar(self, db_airport):
+        """  Retrieves METAR report and creates corresponding Metar database object """
         try:
             icao = db_airport.icao
             url = 'https://avwx.rest/api/metar/{0}?options=&airport=true&reporting=true&format=json&onfail=cache'.format(icao)
@@ -39,4 +40,5 @@ class MetarCollector:
 
 
     def get_random_airport(self):
+        """  Retrieves random airport object """
         return Airport.objects.order_by('?').first()

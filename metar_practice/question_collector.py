@@ -29,6 +29,7 @@ class QuestionColllector:
 
 
     def create_db_answers(self, answers):
+        """  Creates Answer objects for answer strings """
         db_answers = []
         while len(answers) != 0:
             answer = answers.pop(0)
@@ -43,6 +44,7 @@ class QuestionColllector:
 
 
     def create_db_question(self, text, answers):
+        """  Creates Question object for relevant question and answer strings """
         db_answers = self.create_db_answers(answers)
         db_question = None
         try:
@@ -58,6 +60,7 @@ class QuestionColllector:
 
 
     def generate_airport_question(self):
+        """  Generates question for user pertaining to icao of airport corresponding to METAR report """
         try:
             if self.metar['station'] is None or self.metar['station'] == '':
                 raise UsuableDataError(' Airport Question - Data is not unusable')
@@ -69,6 +72,7 @@ class QuestionColllector:
 
 
     def generate_time_question(self):
+        """  Generates question for user pertaining to time METAR report was made """
         try:
             if self.metar['time']['repr'] is None or self.metar['time']['repr'] == '':
                 raise UsuableDataError('Time Question - Data is not unusable')
@@ -80,6 +84,7 @@ class QuestionColllector:
 
 
     def generate_wind_direction_question(self):
+        """  Generates question for user pertaining to wind direction specified in METAR report """
         try:
             if self.metar['wind_direction']['value'] is None:
                 raise UsuableDataError('Wind Direction Question - Data is not unusable')
@@ -91,6 +96,7 @@ class QuestionColllector:
 
 
     def generate_wind_speed_question(self):
+        """  Generates question for user pertaining to wind speed specified in METAR report """
         try:
             if self.metar['wind_speed']['value'] is None or self.metar['units']['wind_speed'] is None or self.metar['units']['wind_speed'] == '':
                 raise UsuableDataError('Wind Speed Question - Data is not unusable')
@@ -102,6 +108,7 @@ class QuestionColllector:
 
 
     def generate_wind_gust_question(self):
+        """  Generates question for user pertaining to wind gusts specified in METAR report """
         try:
             if self.metar['units']['wind_speed'] is None or self.metar['units']['wind_speed'] == '':
                 raise UsuableDataError('Wind Gust Question - Data is not unusable')
@@ -118,6 +125,7 @@ class QuestionColllector:
 
 
     def generate_altimeter_question(self):
+        """  Generates question for user pertaining to altimiter specified in METAR report """
         try:
             if self.metar['altimeter']['value'] is None or self.metar['units']['altimeter'] is None or self.metar['units']['altimeter'] == '':
                 raise UsuableDataError('Altimeter Question - Data is not unusable')
@@ -129,6 +137,7 @@ class QuestionColllector:
 
 
     def generate_temperature_question(self):
+        """  Generates question for user pertaining to temperature specified in METAR report """
         try:
             if self.metar['temperature']['value'] is None or self.metar['units']['temperature'] is None or self.metar['units']['temperature'] == '':
                 raise UsuableDataError('Temperature Question - Data is not unusable')
@@ -140,6 +149,7 @@ class QuestionColllector:
 
 
     def generate_dewpoint_question(self):
+        """  Generates question for user pertaining to dewpoint specified METAR report """
         try:
             if self.metar['dewpoint']['value'] is None or self.metar['units']['temperature'] is None or self.metar['units']['temperature'] == '':
                 raise UsuableDataError('Dewpoint Question - Data is not unusable')
@@ -151,6 +161,7 @@ class QuestionColllector:
 
 
     def generate_visibility_question(self):
+        """  Generates question for user pertaining to visibility specified in METAR report """
         try:
             if self.metar['visibility']['value'] is None or self.metar['units']['visibility'] is None or self.metar['units']['visibility'] == '':
                 raise UsuableDataError('Visibility Question - Data is not unusable')
@@ -162,6 +173,7 @@ class QuestionColllector:
 
 
     def generate_cloud_coverage_question(self):
+        """  Generates question for user pertaining to cloud coverage status specified in METAR report """
         try:
             if self.metar['clouds'] is None or len(self.metar['clouds']) == 0:
                 raise UsuableDataError('Cloud Coverage Question - Data is not unusable')
@@ -188,6 +200,7 @@ class QuestionColllector:
 
 
     def generate_cloud_height_question(self, cloud):
+        """  Generates question for user pertaining to the collective height of cloud coverage specified in METAR report """
         try:
             if self.metar['clouds'] is None or len(self.metar['clouds']) == 0 or self.metar['units']['altitude'] is None or self.metar['units']['altitude'] == '':
                 raise UsuableDataError('Cloud Height Question - Data is not unusable')
@@ -214,6 +227,7 @@ class QuestionColllector:
 
 
     def generate_cloud_ceiling_questions(self):
+        """  Generates question for user pertaining to the individual height of cloud coverage specified in METAR report """
         try:
             if self.metar['clouds'] is None or len(self.metar['clouds']) == 0 or self.metar['units']['altitude'] is None or self.metar['units']['altitude'] == '':
                 raise UsuableDataError('Cloud Ceiling Questions - Data is not unusable')
@@ -239,6 +253,7 @@ class QuestionColllector:
 
 
     def generate_questions(self):
+        """  Generates questions for given METAR limiting response size depending on allowed sample count """
         self.generate_airport_question()
         self.generate_time_question()
         self.generate_wind_direction_question()
