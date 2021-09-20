@@ -1,6 +1,0 @@
-{
-    "error": "AAAA is not a valid ICAO or IATA code",
-    "param": "station",
-    "help": "ICAO & IATA station code or coord pair. Ex: KJFK, LHR, or \"12.34,-12.34\"",
-    "timestamp": "2021-09-17T15:27:41.804084Z"
-  }
