@@ -40,7 +40,7 @@ def practice(request):
 
 
     def get_previous_question():
-         """  Tries to retrieve details of the last shown question """
+        """  Tries to retrieve details of the last shown question """
         try:
             return request.session['previous_question']
         except KeyError:
@@ -91,7 +91,7 @@ def practice(request):
                 raise ApiTimeoutError('API is needing to timeout.')
             elif api is None:
                 api = {'timeout' : False,
-                       'end_timeout' : None}
+                        'end_timeout' : None}
 
             metar_collector = MetarCollector()
             timeout_counter = 0
@@ -121,7 +121,7 @@ def practice(request):
                 if timeout_counter == API_TIMEOUT_THRESHOLD:
                     end_timeout = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
                     api = {'timeout' : True,
-                           'end_timeout' : end_timeout.strftime('%m/%d/%Y, %H:%M:%S')}
+                            'end_timeout' : end_timeout.strftime('%m/%d/%Y, %H:%M:%S')}
                     raise ApiTimeoutError('API is needing to timeout.')
         except ApiTimeoutError as e:
             while True:
