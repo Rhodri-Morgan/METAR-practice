@@ -14,7 +14,7 @@ class Airport(models.Model):
 class Metar(models.Model):
     """  Metar model used for storing details about metar at connected airports """
     metar_json = models.TextField(null=False)                                             # Note JSON representation
-    airport = models.ForeignKey(Airport, on_delete=models.PROTECT)
+    airport = models.ForeignKey(Airport, on_delete=models.CASCADE)
 
 
 class Answer(models.Model):
@@ -24,7 +24,7 @@ class Answer(models.Model):
 
 class Question(models.Model):
     """  Question model used for storing question strings and connecting them to answers """
-    metar = models.ForeignKey(Metar, on_delete=models.PROTECT)
+    metar = models.ForeignKey(Metar, on_delete=models.CASCADE)
     text = models.CharField(max_length=120, blank=False)
     answers = models.ManyToManyField(Answer)
 
@@ -32,4 +32,4 @@ class Question(models.Model):
 class Report(models.Model):
     """  Report model used for storing question details and a users problem/issue """
     description = models.TextField(null=False)
-    question = models.ForeignKey(Question, on_delete=models.PROTECT)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
