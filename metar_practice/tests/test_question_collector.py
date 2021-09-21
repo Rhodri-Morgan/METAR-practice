@@ -392,6 +392,23 @@ class TestGenerateTypeQustion(TestCase):
 
 
     @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_time_question_time_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['time'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_time_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['time']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
     def test_generate_wind_direction_question(self, mock_question_collector_db_question):
         metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
         db_metar = self.helper_create_metar_object(metar_path, self.db_airport)
@@ -432,6 +449,23 @@ class TestGenerateTypeQustion(TestCase):
         question_collector.generate_wind_direction_question()
         mock_question_collector_db_question.assert_not_called()
         self.assertRaises(KeyError)
+        try:
+            stored_question = question_collector.questions['wind_direction']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_wind_direction_question_wind_direction_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['wind_direction'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_wind_direction_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
         try:
             stored_question = question_collector.questions['wind_direction']
             self.fail()
@@ -539,6 +573,40 @@ class TestGenerateTypeQustion(TestCase):
 
 
     @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_wind_speed_question_wind_speed_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['wind_speed'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_wind_speed_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['wind_speed']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_wind_speed_question_units_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_wind_speed_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['wind_speed']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
     def test_generate_wind_gust_question(self, mock_question_collector_db_question):
         metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
         db_metar = self.helper_create_metar_object(metar_path, self.db_airport)
@@ -627,6 +695,23 @@ class TestGenerateTypeQustion(TestCase):
         question_collector.generate_wind_gust_question()
         mock_question_collector_db_question.assert_not_called()
         self.assertRaises(KeyError)
+        try:
+            stored_question = question_collector.questions['wind_gust']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_wind_gust_question_units_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_wind_gust_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
         try:
             stored_question = question_collector.questions['wind_gust']
             self.fail()
@@ -734,6 +819,40 @@ class TestGenerateTypeQustion(TestCase):
 
 
     @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_altimiter_question_altimeter_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['altimeter'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_altimeter_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['altimeter']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_altimeter_question_units_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_altimeter_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['altimeter']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
     def test_generate_temperature_question(self, mock_question_collector_db_question):
         metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
         db_metar = self.helper_create_metar_object(metar_path, self.db_airport)
@@ -825,6 +944,40 @@ class TestGenerateTypeQustion(TestCase):
         question_collector.generate_temperature_question()
         mock_question_collector_db_question.assert_not_called()
         self.assertRaises(KeyError)
+        try:
+            stored_question = question_collector.questions['temperature']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_temperature_question_temperature_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['temperature'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_temperature_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['temperature']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_temperature_question_units_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_temperature_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
         try:
             stored_question = question_collector.questions['temperature']
             self.fail()
@@ -932,6 +1085,40 @@ class TestGenerateTypeQustion(TestCase):
 
 
     @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_dewpoint_question_dewpoint_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['dewpoint'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_dewpoint_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['dewpoint']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_dewpoint_question_units_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_dewpoint_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['dewpoint']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
     def test_generate_visibility_question(self, mock_question_collector_db_question):
         metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
         db_metar = self.helper_create_metar_object(metar_path, self.db_airport)
@@ -1023,6 +1210,40 @@ class TestGenerateTypeQustion(TestCase):
         question_collector.generate_visibility_question()
         mock_question_collector_db_question.assert_not_called()
         self.assertRaises(KeyError)
+        try:
+            stored_question = question_collector.questions['visibility']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_visibility_question_visibility_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['visibility'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_visibility_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['visibility']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_visibility_question_units_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_visibility_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
         try:
             stored_question = question_collector.questions['visibility']
             self.fail()
@@ -1158,6 +1379,23 @@ class TestGenerateTypeQustion(TestCase):
         question_collector.generate_cloud_coverage_question()
         mock_question_collector_db_question.assert_not_called()
         self.assertRaises(KeyError)
+        try:
+            stored_question = question_collector.questions['cloud_coverage']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_cloud_coverage_question_cloud_type_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['clouds', 0], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_cloud_coverage_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
         try:
             stored_question = question_collector.questions['cloud_coverage']
             self.fail()
@@ -1424,6 +1662,42 @@ class TestGenerateTypeQustion(TestCase):
 
 
     @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_cloud_height_question_cloud_type_altitude_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['clouds', 0], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        cloud = 'FEW'
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_cloud_height_question(cloud)
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['cloud_{0}_heights'.format(self.cloud_conversion[cloud])]
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_cloud_height_question_cloud_units_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        cloud = 'FEW'
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_cloud_height_question(cloud)
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['cloud_{0}_heights'.format(self.cloud_conversion[cloud])]
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
     def test_generate_cloud_ceiling_question(self, mock_question_collector_db_question):
         metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar_cloud_coverage_duplicates.json')
         db_metar = self.helper_create_metar_object(metar_path, self.db_airport)
@@ -1578,6 +1852,36 @@ class TestGenerateTypeQustion(TestCase):
         question_collector.generate_cloud_ceiling_questions()
         mock_question_collector_db_question.assert_not_called()
         self.assertRaises(KeyError)
+        self.assertEquals(len(question_collector.questions), 0)
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_cloud_ceiling_question_cloud_type_altitude_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['clouds', 2], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        questions_answers_text = [('What kind of clouds have a ceiling of 2400 ft?', 'Few'),
+                                  ('What kind of clouds have a ceiling of 3600 ft?', 'Broken')]
+        db_questions = self.helper_create_db_questions(db_metar, questions_answers_text)
+        mock_question_collector_db_question.side_effect = db_questions
+        question_collector.generate_cloud_ceiling_questions()
+        self.assertRaises(TypeError)
+        self.assertEquals(mock_question_collector_db_question.call_count, len(questions_answers_text))
+        mock_question_collector_db_question.assert_has_calls([call(question_text, [answer_text]) for question_text, answer_text in questions_answers_text])
+        for i in range(0, len(questions_answers_text)):
+            self.assertEquals(question_collector.questions['cloud_{0}_ceiling_{1}'.format(questions_answers_text[i][1].lower(), i)], db_questions[i])
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_cloud_ceiling_question_cloud_units_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_cloud_ceiling_questions()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
         self.assertEquals(len(question_collector.questions), 0)
 
 

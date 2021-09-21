@@ -79,9 +79,8 @@ class QuestionColllector:
 
             self.questions['time'] = self.create_db_question('What is time was this METAR report made?',
                                                              ['{0} {1}'.format(self.metar['time']['repr'][2:-1], 'ZULU')])
-        except (KeyError, UsuableDataError) as e:
+        except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
-
 
     def generate_wind_direction_question(self):
         """  Generates question for user pertaining to wind direction specified in METAR report """
@@ -91,7 +90,7 @@ class QuestionColllector:
 
             self.questions['wind_direction'] = self.create_db_question('What is the wind direction?',
                                                                        ['{0} {1}'.format(self.metar['wind_direction']['value'], 'degrees')])
-        except (KeyError, UsuableDataError) as e:
+        except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
 
 
@@ -103,7 +102,7 @@ class QuestionColllector:
 
             self.questions['wind_speed'] = self.create_db_question('What is the wind speed?',
                                                                    ['{0} {1}'.format(self.metar['wind_speed']['value'], self.metar['units']['wind_speed'])])
-        except (KeyError, UsuableDataError) as e:
+        except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
 
 
@@ -120,7 +119,7 @@ class QuestionColllector:
                 answers.append('The wind is not currently gusting.')
             self.questions['wind_gust'] = self.create_db_question('What is the wind gusting to?',
                                                                   answers)
-        except (KeyError, UsuableDataError) as e:
+        except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
 
 
@@ -132,7 +131,7 @@ class QuestionColllector:
 
             self.questions['altimeter'] = self.create_db_question('What is the altimeter?',
                                                                   ['{0} {1}'.format(self.metar['altimeter']['value'], self.metar['units']['altimeter'])])
-        except (KeyError, UsuableDataError) as e:
+        except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
 
 
@@ -144,7 +143,7 @@ class QuestionColllector:
 
             self.questions['temperature'] = self.create_db_question('What is the temperature?',
                                                                     ['{0} {1}'.format(self.metar['temperature']['value'], self.metar['units']['temperature'])])
-        except (KeyError, UsuableDataError) as e:
+        except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
 
 
@@ -156,7 +155,7 @@ class QuestionColllector:
 
             self.questions['dewpoint'] = self.create_db_question('What is the dewpoint?',
                                                                  ['{0} {1}'.format(self.metar['dewpoint']['value'], self.metar['units']['temperature'])])
-        except (KeyError, UsuableDataError) as e:
+        except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
 
 
@@ -168,7 +167,7 @@ class QuestionColllector:
 
             self.questions['visibility'] = self.create_db_question('What is the visibility?',
                                                                    ['{0} {1}'.format(self.metar['visibility']['value'], self.metar['units']['visibility'])])
-        except (KeyError, UsuableDataError) as e:
+        except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
 
 
@@ -195,7 +194,7 @@ class QuestionColllector:
                     answers.append(conversion[item['type']])
             self.questions['cloud_coverage'] = self.create_db_question('What is the reported cloud coverage?',
                                                                        answers)
-        except (KeyError, UsuableDataError) as e:
+        except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
 
 
@@ -222,7 +221,7 @@ class QuestionColllector:
                 self.questions['cloud_{0}_heights'.format(conversion[cloud])] = self.create_db_question('What is the height of the {0} clouds?'.format(conversion[cloud]),
                                                                                                         answers)
                 return heights
-        except (KeyError, UsuableDataError) as e:
+        except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
 
 
@@ -231,7 +230,7 @@ class QuestionColllector:
         try:
             if self.metar['clouds'] is None or len(self.metar['clouds']) == 0 or self.metar['units']['altitude'] is None or self.metar['units']['altitude'] == '':
                 raise UsuableDataError('Cloud Ceiling Questions - Data is not unusable')
-        except (KeyError, UsuableDataError) as e:
+        except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
             return
 
@@ -246,9 +245,9 @@ class QuestionColllector:
                     raise UsuableDataError('Cloud Ceiling Question - Data is not unusable')
                 elif item['type'] in conversion.keys():
                     self.questions['cloud_{0}_ceiling_{1}'.format(conversion[item['type']], count)] = self.create_db_question('What kind of clouds have a ceiling of {0}00 {1}?'.format(item['altitude'], self.metar['units']['altitude']),
-                                                                                                                  [conversion[item['type']].capitalize()])
+                                                                                                                              [conversion[item['type']].capitalize()])
                     count += 1
-            except (KeyError, UsuableDataError) as f:
+            except (TypeError, KeyError, UsuableDataError) as f:
                 print(f)
 
 
