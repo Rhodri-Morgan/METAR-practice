@@ -116,7 +116,7 @@ class TestIsValid(TestCase):
 
 class TestLoadAirports(TestCase):
 
-    def assertContainsAirports(self):
+    def assert_contains_airports(self):
         for icao in self.sample_airport_icaos:
             try:
                 db_airport = Airport.objects.get(icao=icao)
@@ -164,7 +164,7 @@ class TestLoadAirports(TestCase):
         mock_load_airports_is_valid.return_value = True
         self.load_airports.main()
         self.assertEquals(len(Airport.objects.all()), len(self.sample_airport_icaos))
-        self.assertContainsAirports()
+        self.assert_contains_airports()
 
 
     @mock.patch('metar_practice.load_airports.LoadAirports.is_valid', return_value=True)
@@ -174,7 +174,7 @@ class TestLoadAirports(TestCase):
         mock_load_airports_is_valid.return_value = True
         self.load_airports.main()
         self.assertEquals(len(Airport.objects.all()), len(self.sample_airport_icaos))
-        self.assertContainsAirports()
+        self.assert_contains_airports()
 
 
     @mock.patch('metar_practice.load_airports.LoadAirports.is_valid', return_value=True)

@@ -1,6 +1,6 @@
 from django.test import TestCase
 import mock
-from unittest.mock import call  # need to import call.
+from unittest.mock import call
 
 import os
 import json
@@ -40,7 +40,7 @@ class TestCreateDbAnswers(TestCase):
         self.question_collector = QuestionColllector(db_metar, sample_count)
 
 
-    def get_db_answer(self, text):
+    def helper_get_db_answer(self, text):
         db_answer = None
         try:
             db_answer = Answer.objects.get(text=text)
@@ -62,7 +62,7 @@ class TestCreateDbAnswers(TestCase):
         self.assertEquals(len(Answer.objects.all()), 1)
         self.assertEquals(len(returned_db_answers), 1)
         self.assertIsNotNone(returned_db_answers[0])
-        self.assertEquals(returned_db_answers[0], self.get_db_answer(answer))
+        self.assertEquals(returned_db_answers[0], self.helper_get_db_answer(answer))
 
 
     def test_create_db_answers_single_already_exists(self):
@@ -89,7 +89,7 @@ class TestCreateDbAnswers(TestCase):
         for returned_db_answer in returned_db_answers:
             self.assertIsNotNone(returned_db_answer)
         for i in range(0, len(answers)):
-            self.assertEquals(returned_db_answers[i], self.get_db_answer(answers[i]))
+            self.assertEquals(returned_db_answers[i], self.helper_get_db_answer(answers[i]))
 
 
     def test_create_db_answers_multiple_already_exists(self):
@@ -134,7 +134,7 @@ class TestCreateDbQuestion(TestCase):
         self.question_collector = QuestionColllector(self.db_metar, sample_count)
 
 
-    def get_db_question(self, text):
+    def helper_get_db_question(self, text):
         db_question = None
         try:
             db_question = Question.objects.get(metar=self.db_metar,
@@ -160,7 +160,7 @@ class TestCreateDbQuestion(TestCase):
         self.assertRaises(Question.DoesNotExist)
         self.assertEquals(len(Question.objects.all()), 1)
         self.assertIsNotNone(returned_db_question)
-        db_question = self.get_db_question(question)
+        db_question = self.helper_get_db_question(question)
         self.assertEquals(returned_db_question, db_question)
         self.assertEquals(returned_db_question.answers, db_question.answers)
 
@@ -1972,7 +1972,7 @@ class TestGenerateQuestions(TestCase):
         self.questions['cloud_overcast_ceiling_2'] = self.helper_create_db_question(self.db_metar, 'What kind of clouds have a ceiling of 4600 ft?', ['Overcast'])
 
 
-    def add_questions(self, question_collector):
+    def helper_add_questions(self, question_collector):
         question_collector.questions = self.questions
 
 
@@ -2015,7 +2015,7 @@ class TestGenerateQuestions(TestCase):
         mock_question_collector_generate_cloud_ceiling_questions.return_value = None
         sample_count = None
         question_collector = QuestionColllector(self.db_metar, sample_count)
-        self.add_questions(question_collector)
+        self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
         mock_question_collector_generate_airport_question.assert_called_once()
         mock_question_collector_generate_time_question.assert_called_once()
@@ -2071,7 +2071,7 @@ class TestGenerateQuestions(TestCase):
         mock_question_collector_generate_cloud_ceiling_questions.return_value = None
         sample_count = len(self.questions)-4
         question_collector = QuestionColllector(self.db_metar, sample_count)
-        self.add_questions(question_collector)
+        self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
         mock_question_collector_generate_airport_question.assert_called_once()
         mock_question_collector_generate_time_question.assert_called_once()
@@ -2132,7 +2132,7 @@ class TestGenerateQuestions(TestCase):
         mock_question_collector_generate_cloud_ceiling_questions.return_value = None
         sample_count = -sys.maxsize - 1
         question_collector = QuestionColllector(self.db_metar, sample_count)
-        self.add_questions(question_collector)
+        self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
         self.assertEquals(len(chosen_questions), len(self.questions))
         mock_question_collector_generate_airport_question.assert_called_once()
@@ -2188,7 +2188,7 @@ class TestGenerateQuestions(TestCase):
         mock_question_collector_generate_cloud_ceiling_questions.return_value = None
         sample_count = 0
         question_collector = QuestionColllector(self.db_metar, sample_count)
-        self.add_questions(question_collector)
+        self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
         mock_question_collector_generate_airport_question.assert_called_once()
         mock_question_collector_generate_time_question.assert_called_once()
@@ -2244,7 +2244,7 @@ class TestGenerateQuestions(TestCase):
         mock_question_collector_generate_cloud_ceiling_questions.return_value = None
         sample_count = len(self.questions)-1
         question_collector = QuestionColllector(self.db_metar, sample_count)
-        self.add_questions(question_collector)
+        self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
         mock_question_collector_generate_airport_question.assert_called_once()
         mock_question_collector_generate_time_question.assert_called_once()
@@ -2300,7 +2300,7 @@ class TestGenerateQuestions(TestCase):
         mock_question_collector_generate_cloud_ceiling_questions.return_value = None
         sample_count = len(self.questions)
         question_collector = QuestionColllector(self.db_metar, sample_count)
-        self.add_questions(question_collector)
+        self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
         mock_question_collector_generate_airport_question.assert_called_once()
         mock_question_collector_generate_time_question.assert_called_once()
