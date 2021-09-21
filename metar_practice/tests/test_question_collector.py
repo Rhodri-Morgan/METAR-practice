@@ -27,12 +27,14 @@ class TestCreateDbAnswers(TestCase):
                              icao='KJFK',
                              latitude='40.63980103',
                              longitude='-73.77890015')
+        db_airport.full_clean()
         db_airport.save()
         metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
         with open(metar_path) as f:
             metar_json = json.load(f)
         db_metar = Metar(metar_json=json.dumps(metar_json),
                          airport=db_airport)
+        db_metar.full_clean()
         db_metar.save()
         sample_count = 6
         self.question_collector = QuestionColllector(db_metar, sample_count)
@@ -66,6 +68,7 @@ class TestCreateDbAnswers(TestCase):
     def test_create_db_answers_single_already_exists(self):
         answer = 'This is a test answer string'
         db_answer = Answer(text=answer)
+        db_answer.full_clean()
         db_answer.save()
         returned_db_answers = self.question_collector.create_db_answers([answer])
         self.assertEquals(len(Answer.objects.all()), 1)
@@ -95,6 +98,7 @@ class TestCreateDbAnswers(TestCase):
         for i in range(1,5):
             answers.append('This is test answer string {}'.format(i))
             db_answer = Answer(text=answers[i-1])
+            db_answer.full_clean()
             db_answer.save()
             db_answers.append(db_answer)
         returned_db_answers = self.question_collector.create_db_answers(answers.copy())
@@ -117,12 +121,14 @@ class TestCreateDbQuestion(TestCase):
                              icao='KJFK',
                              latitude='40.63980103',
                              longitude='-73.77890015')
+        db_airport.full_clean()
         db_airport.save()
         metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
         with open(metar_path) as f:
             metar_json = json.load(f)
         self.db_metar = Metar(metar_json=json.dumps(metar_json),
                               airport=db_airport)
+        self.db_metar.full_clean()
         self.db_metar.save()
         sample_count = 6
         self.question_collector = QuestionColllector(self.db_metar, sample_count)
@@ -145,6 +151,7 @@ class TestCreateDbQuestion(TestCase):
         for i in range(1,5):
             answers.append('This is test answer string {}'.format(i))
             db_answer = Answer(text=answers[i-1])
+            db_answer.full_clean()
             db_answer.save()
             db_answers.append(db_answer)
         question = 'This is a test question string'
@@ -165,11 +172,13 @@ class TestCreateDbQuestion(TestCase):
         for i in range(1,5):
             answers.append('This is test answer string {}'.format(i))
             db_answer = Answer(text=answers[i-1])
+            db_answer.full_clean()
             db_answer.save()
             db_answers.append(db_answer)
         question = 'This is a test question string'
         db_question = Question(metar=self.db_metar,
                                text=question)
+        db_question.full_clean()
         db_question.save()
         [db_question.answers.add(db_answer) for db_answer in db_answers]
         mock_question_collector_db_answers.return_value = db_answers
@@ -194,6 +203,7 @@ class TestGenerateTypeQustion(TestCase):
                                   icao='KJFK',
                                   latitude='40.63980103',
                                   longitude='-73.77890015')
+        self.db_airport.full_clean()
         self.db_airport.save()
         self.sample_count = None
         self.cloud_conversion = {'FEW' : 'few',
@@ -208,6 +218,7 @@ class TestGenerateTypeQustion(TestCase):
             metar_json = json.load(f)
         db_metar = Metar(metar_json=json.dumps(metar_json),
                          airport=db_airport)
+        db_metar.full_clean()
         db_metar.save()
         return db_metar
 
@@ -231,6 +242,7 @@ class TestGenerateTypeQustion(TestCase):
 
         db_metar = Metar(metar_json=json.dumps(metar_json),
                          airport=db_airport)
+        db_metar.full_clean()
         db_metar.save()
         return db_metar
 
@@ -239,10 +251,12 @@ class TestGenerateTypeQustion(TestCase):
         db_answers = []
         for answer_text in answers_text:
             db_answer = Answer(text=answer_text)
+            db_answer.full_clean()
             db_answer.save()
             db_answers.append(db_answer)
         db_question = Question(metar=db_metar,
                                text=question_text)
+        db_question.full_clean()
         db_question.save()
         [db_question.answers.add(db_answer) for db_answer in db_answers]
         return db_question
@@ -252,9 +266,11 @@ class TestGenerateTypeQustion(TestCase):
         db_questions = []
         for question_text, answer_text in questions_answers_text:
             db_answer = Answer(text=answer_text)
+            db_answer.full_clean()
             db_answer.save()
             db_question = Question(metar=db_metar,
                                    text=question_text)
+            db_question.full_clean()
             db_question.save()
             db_question.answers.add(db_answer)
             db_questions.append(db_question)
@@ -1891,10 +1907,12 @@ class TestGenerateQuestions(TestCase):
         db_answers = []
         for answer_text in answers_text:
             db_answer = Answer(text=answer_text)
+            db_answer.full_clean()
             db_answer.save()
             db_answers.append(db_answer)
         db_question = Question(metar=db_metar,
                                text=question_text)
+        db_question.full_clean()
         db_question.save()
         [db_question.answers.add(db_answer) for db_answer in db_answers]
         return db_question
@@ -1904,9 +1922,11 @@ class TestGenerateQuestions(TestCase):
         db_questions = []
         for question_text, answer_text in questions_answers_text:
             db_answer = Answer(text=answer_text)
+            db_answer.full_clean()
             db_answer.save()
             db_question = Question(metar=db_metar,
                                    text=question_text)
+            db_question.full_clean()
             db_question.save()
             db_question.answers.add(db_answer)
             db_questions.append(db_question)
@@ -1920,12 +1940,14 @@ class TestGenerateQuestions(TestCase):
                              icao='KJFK',
                              latitude='40.63980103',
                              longitude='-73.77890015')
+        db_airport.full_clean()
         db_airport.save()
         metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
         with open(metar_path) as f:
             metar_json = json.load(f)
         self.db_metar = Metar(metar_json=json.dumps(metar_json),
                               airport=db_airport)
+        self.db_metar.full_clean()
         self.db_metar.save()
         cloud_conversion = {'FEW' : 'few',
                             'SCT' : 'scattered',

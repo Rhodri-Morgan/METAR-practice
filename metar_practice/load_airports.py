@@ -40,6 +40,7 @@ class LoadAirports:
                                             icao=row['ICAO'],
                                             latitude=row['Latitude'],
                                             longitude=row['Longitude'])
+                    db_airport.full_clean()
                     db_airport.save()
                     print('Added icao={}, pk={}'.format(db_airport.icao, db_airport.pk))
                     airport_count += 1

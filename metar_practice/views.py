@@ -67,6 +67,7 @@ def practice(request):
             if report_form.is_valid() and previous_question is not None:
                 report = report_form.save(commit=False)
                 report.question = Question.objects.get(id=previous_question['id'])
+                report.full_clean()
                 report.save()
                 request.session['logged'] = 'Thank you. Your issue has been logged.'
                 return redirect('practice')

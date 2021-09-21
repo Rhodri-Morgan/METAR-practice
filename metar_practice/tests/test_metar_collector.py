@@ -38,6 +38,7 @@ class TestGetRawMetar(TestCase):
                              icao=icao,
                              latitude='40.63980103',
                              longitude='-73.77890015')
+        db_airport.full_clean()
         db_airport.save()
         metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'metar_collector', 'sample_metar.json')
         metar_json = self.extract_json(metar_path)
@@ -66,11 +67,13 @@ class TestGetRawMetar(TestCase):
                              icao=icao,
                              latitude='40.63980103',
                              longitude='-73.77890015')
+        db_airport.full_clean()
         db_airport.save()
         metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'metar_collector', 'sample_metar.json')
         metar_json = self.extract_json(metar_path)
         db_metar = Metar(metar_json=metar_json,
                          airport=db_airport)
+        db_airport.full_clean()
         db_metar.save()
         responses.add(method='GET',
                       url='https://avwx.rest/api/metar/{0}?options=&airport=true&reporting=true&format=json&onfail=cache'.format(icao),
@@ -92,6 +95,7 @@ class TestGetRawMetar(TestCase):
                              icao=icao,
                              latitude='-18.42533',
                              longitude='58.38974')
+        db_airport.full_clean()
         db_airport.save()
         error_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'metar_collector', 'sample_metar_error.json')
         error_json = self.extract_json(error_path)
@@ -115,6 +119,7 @@ class TestGetRawMetar(TestCase):
                              icao=icao,
                              latitude='-18.42533',
                              longitude='58.38974')
+        db_airport.full_clean()
         db_airport.save()
         error_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'metar_collector', 'sample_metar_error.json')
         error_json = self.extract_json(error_path)
@@ -138,6 +143,7 @@ class TestGetRawMetar(TestCase):
                              icao=icao,
                              latitude='-18.42533',
                              longitude='58.38974')
+        db_airport.full_clean()
         db_airport.save()
         status_code, returned_db_metar = metar_collector_class.get_raw_metar(db_airport)
         self.assertRaises(Exception)
@@ -156,6 +162,7 @@ class TestGetRandomAirport(TestCase):
                              icao='KJFK',
                              latitude='40.63980103',
                              longitude='-73.77890015')
+        db_airport.full_clean()
         db_airport.save()
         returned_db_airport = metar_collector_class.get_random_airport()
         self.assertEqual(returned_db_airport, db_airport)

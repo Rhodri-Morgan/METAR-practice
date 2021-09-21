@@ -29,6 +29,7 @@ class MetarCollector:
                 except Metar.DoesNotExist:
                     db_metar = Metar(metar_json=res.text,
                                      airport=db_airport)
+                    db_metar.full_clean()
                     db_metar.save()
                 return res.status_code, db_metar
             else:

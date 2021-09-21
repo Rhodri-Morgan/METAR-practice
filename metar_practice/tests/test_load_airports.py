@@ -152,6 +152,7 @@ class TestLoadAirports(TestCase):
                                  icao=airport['ICAO'],
                                  latitude=airport['Latitude'],
                                  longitude=airport['Longitude'])
+            db_airport.full_clean()
             db_airport.save()
         self.sample_airport_icaos = ['YSSY', 'EGLL', 'KJFK', 'NZWN', 'RJAA']
 

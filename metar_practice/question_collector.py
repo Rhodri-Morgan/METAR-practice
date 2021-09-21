@@ -38,6 +38,7 @@ class QuestionColllector:
                 db_answer = Answer.objects.get(text=answer)
             except Answer.DoesNotExist:
                 db_answer = Answer(text=answer)
+                db_answer.full_clean()
                 db_answer.save()
             db_answers.append(db_answer)
         return db_answers
@@ -54,6 +55,7 @@ class QuestionColllector:
         except Question.DoesNotExist:
             db_question = Question(metar=self.db_metar,
                                    text=text)
+            db_question.full_clean()
             db_question.save()
             [db_question.answers.add(db_answer) for db_answer in db_answers]
         return db_question
