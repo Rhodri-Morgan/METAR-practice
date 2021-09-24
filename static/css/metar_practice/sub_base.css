@@ -4,7 +4,7 @@ h1, h2, h3, p, th, button, a, input, li {
 }
 
 body {
-    background-image: url('/static/images/metar_tester/airport.jpg');
+    background-image: url('/static/images/metar_practice/airport.jpg');
     background-position: center;
     font-family: Arial;
     color: white;
@@ -35,7 +35,7 @@ body {
     background-color: #1a1c1d;
     /*
     Commenting out I dont like it. May add back
-    background-image: linear-gradient(to bottom, #20212400, #202124), url('/static/images/metar_tester/rain.gif');
+    background-image: linear-gradient(to bottom, #20212400, #202124), url('/static/images/metar_practice/rain.gif');
     */
     display: inline-block;
     padding-top: 20px;

@@ -25,7 +25,7 @@ class LoadAirports:
     def main(self):
         """ Inserts valid airports extracted from airports.csv into database """
         Airport.objects.all().delete()
-        data_path = os.path.join(os.path.split(os.getcwd())[0], 'static', 'csv', 'metar_tester', 'airports.csv')
+        data_path = os.path.join(os.path.split(os.getcwd())[0], 'static', 'csv', 'metar_practice', 'airports.csv')
         airport_count = 0
         with open(data_path, mode='r', encoding='utf8') as f:
             r = csv.DictReader(f)

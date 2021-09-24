@@ -160,4 +160,4 @@ def practice(request):
         'report_form' : ReportForm()
     }
 
-    return render(request, 'metar_tester/practice.html', data)
+    return render(request, 'metar_practice/practice.html', data)

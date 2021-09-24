@@ -4,9 +4,9 @@
 
 
 {% block head %}
-    <link rel="shortcut icon" href="{%  static 'images/metar_tester/favicon.ico' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/metar_tester/sub_base.css' %}">
-    <script type="text/javascript" src="{% static 'js/metar_tester/sub_base.js' %}"></script>
+    <link rel="shortcut icon" href="{%  static 'images/metar_practice/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/metar_practice/sub_base.css' %}">
+    <script type="text/javascript" src="{% static 'js/metar_practice/sub_base.js' %}"></script>
     {% block sub_head %}{% endblock %}
 {% endblock head %}
 
@@ -32,7 +32,7 @@
             <p><span class='status_dot' id="inactive_status_dot"></span> Currently using historial METAR data. METAR API service code {{ status }}.</p>
         {% endif %}
         <hr id='proxy_margin_footer' />
-        <p>Using METAR data sourced from <img src="{% static 'images/metar_tester/avwx.png' %}" id='avwx_image'> <a href="https://avwx.rest/#">AVWX by Michael duPont</a></p>
+        <p>Using METAR data sourced from <img src="{% static 'images/metar_practice/avwx.png' %}" id='avwx_image'> <a href="https://avwx.rest/#">AVWX by Michael duPont</a></p>
         <hr id='proxy_margin_footer' />
     </div>
 {% endblock body %}
