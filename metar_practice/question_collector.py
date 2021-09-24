@@ -272,6 +272,24 @@ class QuestionColllector:
             print(e)
 
 
+    def generate_remarks_codes_question(self):
+        """ Genereates question for user pertaining to the remarks codes specified in the METAR report """
+        try:
+            if self.metar['remarks_info']['codes'] is None or len(self.metar['remarks_info']['codes']) == 0:
+                raise UsuableDataError('Remarks Codes Question - Data is not unusable')
+
+            answers = []
+            for item in self.metar['remarks_info']['codes']:
+                if item['value'] is None or item['value'] == '':
+                    raise UsuableDataError('Remarks Codes Question - Data is not unusable')
+                else:
+                    answers.append(item['value'])
+            self.questions['remarks_codes'] = self.create_db_question('What are the reported remarks codes?',
+                                                                      answers)
+        except (TypeError, KeyError, UsuableDataError) as e:
+            print(e)
+
+
     def generate_remarks_temperature_decimal_question(self):
         """ Genereates question for user pertaining to the remarks decimal temperature specified in the METAR report """
         try:
@@ -324,6 +342,7 @@ class QuestionColllector:
             self.generate_cloud_height_question(cloud)
         self.generate_cloud_ceiling_questions()
         self.generate_weather_codes_question()
+        self.generate_remarks_codes_question()
         self.generate_remarks_temperature_decimal_question()
         self.generate_remarks_dewpoint_decimal_question()
         self.generate_remarks_sea_level_pressure_question()
