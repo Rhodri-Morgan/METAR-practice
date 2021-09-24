@@ -47,10 +47,8 @@ def practice(request):
             return None
 
 
-    API_TIMEOUT_THRESHOLD = 5                   # None will reflect no limit
+    API_TIMEOUT_THRESHOLD = 5                   # None will reflect no limit, should not be less than or equal to zero
     QUESTION_SAMPLE_COUNT = 5
-
-    time_now = datetime.datetime.utcnow()
 
     status = None
     logged = None
@@ -88,11 +86,11 @@ def practice(request):
             raise RanOutOfQuestionsError('Ran out of questions, need to regenerate')
     except (RanOutOfQuestionsError, KeyError) as e:
         try:
-            if api is not None and api['timeout'] == True and time_now < datetime.datetime.strptime(api['end_timeout'], '%m/%d/%Y, %H:%M:%S'):
+            if api is not None and api['timeout'] == True and datetime.datetime.utcnow() < datetime.datetime.strptime(api['end_timeout'], '%m/%d/%Y, %H:%M:%S'):
                 raise ApiTimeoutError('API is needing to timeout.')
             elif api is None:
                 api = {'timeout' : False,
-                        'end_timeout' : None}
+                       'end_timeout' : None}
 
             metar_collector = MetarCollector()
             timeout_counter = 0
@@ -110,9 +108,9 @@ def practice(request):
                     timeout_counter += 1
 
                 if db_metar is not None:
+                    metar = json.loads(db_metar.metar_json)
                     question_colllector = QuestionColllector(db_metar, QUESTION_SAMPLE_COUNT)
                     db_questions = question_colllector.generate_questions()
-                    metar = question_colllector.metar
 
                 if db_questions is not None:
                     airport = model_to_dict(db_airport)
@@ -133,7 +131,7 @@ def practice(request):
                     status = 400
                 db_questions_all = Question.objects.filter(metar=db_metar)
                 db_questions = None
-                if QUESTION_SAMPLE_COUNT is None or len(db_questions_all) <= QUESTION_SAMPLE_COUNT:
+                if QUESTION_SAMPLE_COUNT is None or QUESTION_SAMPLE_COUNT <= 0 or len(db_questions_all) <= QUESTION_SAMPLE_COUNT:
                     db_questions = list(db_questions_all)
                 else:
                     db_questions = random.sample(list(db_questions_all), k=QUESTION_SAMPLE_COUNT)

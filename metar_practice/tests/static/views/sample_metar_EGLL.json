@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "timestamp": "2021-09-23T13:10:23.792618Z",
+    "stations_updated": "2021-09-11",
+    "cache-timestamp": "2021-09-23T13:10:15.475000Z"
+  },
+  "altimeter": {
+    "repr": "Q1019",
+    "value": 1019,
+    "spoken": "one zero one nine"
+  },
+  "clouds": [
+    {
+      "repr": "SCT023",
+      "type": "SCT",
+      "altitude": 23,
+      "modifier": null,
+      "direction": null
+    },
+    {
+      "repr": "BKN027",
+      "type": "BKN",
+      "altitude": 27,
+      "modifier": null,
+      "direction": null
+    },
+    {
+      "repr": "OVC031",
+      "type": "OVC",
+      "altitude": 31,
+      "modifier": null,
+      "direction": null
+    }
+  ],
+  "flight_rules": "MVFR",
+  "other": [],
+  "visibility": {
+    "repr": "9999",
+    "value": 9999,
+    "spoken": "nine nine nine nine"
+  },
+  "wind_direction": { "repr": "250", "value": 250, "spoken": "two five zero" },
+  "wind_gust": null,
+  "wind_speed": { "repr": "13", "value": 13, "spoken": "one three" },
+  "wx_codes": [],
+  "raw": "EGLL 231250Z AUTO 25013KT 9999 SCT023 BKN027 OVC031 20/15 Q1019",
+  "sanitized": "EGLL 231250Z 25013KT 9999 SCT023 BKN027 OVC031 20/15 Q1019",
+  "station": "EGLL",
+  "time": { "repr": "231250Z", "dt": "2021-09-23T12:50:00Z" },
+  "remarks": "",
+  "dewpoint": { "repr": "15", "value": 15, "spoken": "one five" },
+  "relative_humidity": 0.7291775824653782,
+  "remarks_info": null,
+  "runway_visibility": [],
+  "temperature": { "repr": "20", "value": 20, "spoken": "two zero" },
+  "wind_variable_direction": [],
+  "density_altitude": 532,
+  "pressure_altitude": -88,
+  "units": {
+    "accumulation": "in",
+    "altimeter": "hPa",
+    "altitude": "ft",
+    "temperature": "C",
+    "visibility": "m",
+    "wind_speed": "kt"
+  }
+}
