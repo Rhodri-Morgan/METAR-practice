@@ -276,11 +276,24 @@ class QuestionColllector:
         """ Genereates question for user pertaining to the remarks decimal temperature specified in the METAR report """
         try:
             if self.metar['remarks_info']['temperature_decimal']['value'] is None or self.metar['units']['temperature'] is None or self.metar['units']['temperature'] == '':
-                raise UsuableDataError('Weather Codes Question - Data is not unusable')
+                raise UsuableDataError('Remarks Temperature Decimal Question - Data is not unusable')
 
 
             self.questions['remarks_temperature_decimal'] = self.create_db_question('What is the remarks decimal temperature?',
                                                                                     ['{0} {1}'.format(self.metar['remarks_info']['temperature_decimal']['value'], self.metar['units']['temperature'])])
+        except (TypeError, KeyError, UsuableDataError) as e:
+            print(e)
+
+
+    def generate_remarks_dewpoint_decimal_question(self):
+        """ Genereates question for user pertaining to the remarks decimal dewpoint specified in the METAR report """
+        try:
+            if self.metar['remarks_info']['dewpoint_decimal']['value'] is None or self.metar['units']['temperature'] is None or self.metar['units']['temperature'] == '':
+                raise UsuableDataError('Remarks Dewpoint Decimal Question - Data is not unusable')
+
+
+            self.questions['remarks_dewpoint_decimal'] = self.create_db_question('What is the remarks decimal dewpoint?',
+                                                                                 ['{0} {1}'.format(self.metar['remarks_info']['dewpoint_decimal']['value'], self.metar['units']['temperature'])])
         except (TypeError, KeyError, UsuableDataError) as e:
             print(e)
 
@@ -302,6 +315,7 @@ class QuestionColllector:
         self.generate_cloud_ceiling_questions()
         self.generate_weather_codes_question()
         self.generate_remarks_temperature_decimal_question()
+        self.generate_remarks_dewpoint_decimal_question()
 
         chosen_questions = []
         if self.sample_count is None or len(self.questions) <= self.sample_count:
