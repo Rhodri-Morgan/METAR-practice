@@ -2036,6 +2036,139 @@ class TestGenerateTypeQustion(TestCase):
 
 
 
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_remarks_temperature_decimal_question(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_metar_object(metar_path, self.db_airport)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        question_text = 'What is the remarks decimal temperature?'
+        answer_text = '10 C'
+        db_question = self.helper_create_db_question(db_metar, question_text, [answer_text])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_remarks_temperature_decimal_question()
+        mock_question_collector_db_question.assert_called_once_with(question_text, [answer_text])
+        self.assertEquals(question_collector.questions['remarks_temperature_decimal'], db_question)
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_remarks_temperature_decimal_question_remarks_temperature_decimal_none(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['remarks_info', 'temperature_decimal', 'value'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_remarks_temperature_decimal_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(UsuableDataError)
+        try:
+            stored_question = question_collector.questions['remarks_temperature_decimal']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_remarks_temperature_decimal_question_units_none(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units', 'temperature'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_remarks_temperature_decimal_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(UsuableDataError)
+        try:
+            stored_question = question_collector.questions['remarks_temperature_decimal']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_remarks_temperature_decimal_question_units_empty(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units', 'temperature'], ModifyJSONChoices.EMPTY)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_remarks_temperature_decimal_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(UsuableDataError)
+        try:
+            stored_question = question_collector.questions['remarks_temperature_decimal']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_remarks_temperature_decimal_question_remarks_temperature_decimal_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['remarks_info', 'temperature_decimal', 'value'], ModifyJSONChoices.DELETE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_remarks_temperature_decimal_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(KeyError)
+        try:
+            stored_question = question_collector.questions['remarks_temperature_decimal']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_remarks_temperature_decimal_question_units_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units', 'temperature'], ModifyJSONChoices.DELETE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_remarks_temperature_decimal_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(KeyError)
+        try:
+            stored_question = question_collector.questions['remarks_temperature_decimal']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_remarks_temperature_decimal_question_remarks_temperature_decimal_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['remarks_info', 'temperature_decimal'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_remarks_temperature_decimal_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['remarks_temperature_decimal']
+            self.fail()
+        except KeyError:
+            pass
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.create_db_question')
+    def test_generate_remarks_temperature_decimal_question_units_partial_does_not_exist(self, mock_question_collector_db_question):
+        metar_path = os.path.join(os.getcwd(), 'metar_practice', 'tests', 'static', 'question_collector', 'sample_metar.json')
+        db_metar = self.helper_create_modified_metar_object(metar_path, self.db_airport, ['units'], ModifyJSONChoices.NONE)
+        question_collector = QuestionColllector(db_metar, self.sample_count)
+        db_question = self.helper_create_db_question(db_metar, 'This is a test question string', ['This is a test answer string'])
+        mock_question_collector_db_question.return_value = db_question
+        question_collector.generate_remarks_temperature_decimal_question()
+        mock_question_collector_db_question.assert_not_called()
+        self.assertRaises(TypeError)
+        try:
+            stored_question = question_collector.questions['remarks_temperature_decimal']
+            self.fail()
+        except KeyError:
+            pass
+
+
 
 
 
@@ -2152,12 +2285,76 @@ class TestGenerateQuestions(TestCase):
         self.questions['cloud_broken_ceiling_1'] = self.helper_create_db_question(self.db_metar, 'What kind of clouds have a ceiling of 3600 ft?', ['Scattered'])
         self.questions['cloud_overcast_ceiling_2'] = self.helper_create_db_question(self.db_metar, 'What kind of clouds have a ceiling of 4600 ft?', ['Overcast'])
         self.questions['weather_codes'] = self.helper_create_db_question(self.db_metar, 'What are the reported weather codes?', ['Light Rain'])
+        self.questions['remarks_temperature_decimal'] = self.helper_create_db_question(self.db_metar, 'What is the remarks decimal temperature?', ['10 C'])
 
 
     def helper_add_questions(self, question_collector):
         question_collector.questions = self.questions
 
 
+    def helper_set_return_value(self,
+                                mock_question_collector_generate_airport_question,
+                                mock_question_collector_generate_time_question,
+                                mock_question_collector_generate_wind_direction_question,
+                                mock_question_collector_generate_wind_speed_question,
+                                mock_question_collector_generate_wind_gust_question,
+                                mock_question_collector_generate_altimeter_question,
+                                mock_question_collector_generate_temperature_question,
+                                mock_question_collector_generate_dewpoint_question,
+                                mock_question_collector_generate_visibility_question,
+                                mock_question_collector_generate_cloud_coverage_question,
+                                mock_question_collector_generate_cloud_height_question,
+                                mock_question_collector_generate_cloud_ceiling_questions,
+                                mock_generate_weather_codes_question,
+                                mock_generate_remarks_temperature_decimal_question):
+        mock_question_collector_generate_airport_question.return_value = None
+        mock_question_collector_generate_time_question.return_value = None
+        mock_question_collector_generate_wind_direction_question.return_value = None
+        mock_question_collector_generate_wind_speed_question.return_value = None
+        mock_question_collector_generate_wind_gust_question.return_value = None
+        mock_question_collector_generate_altimeter_question.return_value = None
+        mock_question_collector_generate_temperature_question.return_value = None
+        mock_question_collector_generate_dewpoint_question.return_value = None
+        mock_question_collector_generate_visibility_question.return_value = None
+        mock_question_collector_generate_cloud_coverage_question.return_value = None
+        mock_question_collector_generate_cloud_height_question.return_value = None
+        mock_question_collector_generate_cloud_ceiling_questions.return_value = None
+        mock_generate_weather_codes_question.return_value = None
+        mock_generate_remarks_temperature_decimal_question.return_value = None
+
+
+    def assert_mocks_called(self,
+                            mock_question_collector_generate_airport_question,
+                            mock_question_collector_generate_time_question,
+                            mock_question_collector_generate_wind_direction_question,
+                            mock_question_collector_generate_wind_speed_question,
+                            mock_question_collector_generate_wind_gust_question,
+                            mock_question_collector_generate_altimeter_question,
+                            mock_question_collector_generate_temperature_question,
+                            mock_question_collector_generate_dewpoint_question,
+                            mock_question_collector_generate_visibility_question,
+                            mock_question_collector_generate_cloud_coverage_question,
+                            mock_question_collector_generate_cloud_height_question,
+                            mock_question_collector_generate_cloud_ceiling_questions,
+                            mock_generate_weather_codes_question,
+                            mock_generate_remarks_temperature_decimal_question):
+        mock_question_collector_generate_airport_question.assert_called_once()
+        mock_question_collector_generate_time_question.assert_called_once()
+        mock_question_collector_generate_wind_direction_question.assert_called_once()
+        mock_question_collector_generate_wind_speed_question.assert_called_once()
+        mock_question_collector_generate_wind_gust_question.assert_called_once()
+        mock_question_collector_generate_altimeter_question.assert_called_once()
+        mock_question_collector_generate_temperature_question.assert_called_once()
+        mock_question_collector_generate_dewpoint_question.assert_called_once()
+        mock_question_collector_generate_visibility_question.assert_called_once()
+        mock_question_collector_generate_cloud_coverage_question.assert_called_once()
+        self.assertEquals(mock_question_collector_generate_cloud_height_question.call_count, 4)
+        mock_question_collector_generate_cloud_ceiling_questions.assert_called_once()
+        mock_generate_weather_codes_question.assert_called_once()
+        mock_generate_remarks_temperature_decimal_question.assert_called_once()
+
+
+    @mock.patch('metar_practice.question_collector.QuestionColllector.generate_remarks_temperature_decimal_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_weather_codes_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_ceiling_questions')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_height_question')
@@ -2184,40 +2381,49 @@ class TestGenerateQuestions(TestCase):
                                         mock_question_collector_generate_cloud_coverage_question,
                                         mock_question_collector_generate_cloud_height_question,
                                         mock_question_collector_generate_cloud_ceiling_questions,
-                                        mock_generate_weather_codes_question):
-        mock_question_collector_generate_airport_question.return_value = None
-        mock_question_collector_generate_time_question.return_value = None
-        mock_question_collector_generate_wind_direction_question.return_value = None
-        mock_question_collector_generate_wind_speed_question.return_value = None
-        mock_question_collector_generate_wind_gust_question.return_value = None
-        mock_question_collector_generate_altimeter_question.return_value = None
-        mock_question_collector_generate_temperature_question.return_value = None
-        mock_question_collector_generate_dewpoint_question.return_value = None
-        mock_question_collector_generate_visibility_question.return_value = None
-        mock_question_collector_generate_cloud_coverage_question.return_value = None
-        mock_question_collector_generate_cloud_height_question.return_value = None
-        mock_question_collector_generate_cloud_ceiling_questions.return_value = None
-        mock_generate_weather_codes_question.return_value = None
+                                        mock_generate_weather_codes_question,
+                                        mock_generate_remarks_temperature_decimal_question):
+        self.helper_set_return_value(mock_question_collector_generate_airport_question,
+                                     mock_question_collector_generate_time_question,
+                                     mock_question_collector_generate_wind_direction_question,
+                                     mock_question_collector_generate_wind_speed_question,
+                                     mock_question_collector_generate_wind_gust_question,
+                                     mock_question_collector_generate_altimeter_question,
+                                     mock_question_collector_generate_temperature_question,
+                                     mock_question_collector_generate_dewpoint_question,
+                                     mock_question_collector_generate_visibility_question,
+                                     mock_question_collector_generate_cloud_coverage_question,
+                                     mock_question_collector_generate_cloud_height_question,
+                                     mock_question_collector_generate_cloud_ceiling_questions,
+                                     mock_generate_weather_codes_question,
+                                     mock_generate_remarks_temperature_decimal_question)
         sample_count = None
         question_collector = QuestionColllector(self.db_metar, sample_count)
         self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
-        mock_question_collector_generate_airport_question.assert_called_once()
-        mock_question_collector_generate_time_question.assert_called_once()
-        mock_question_collector_generate_wind_direction_question.assert_called_once()
-        mock_question_collector_generate_wind_speed_question.assert_called_once()
-        mock_question_collector_generate_wind_gust_question.assert_called_once()
-        mock_question_collector_generate_altimeter_question.assert_called_once()
-        mock_question_collector_generate_temperature_question.assert_called_once()
-        mock_question_collector_generate_dewpoint_question.assert_called_once()
-        mock_question_collector_generate_visibility_question.assert_called_once()
-        mock_question_collector_generate_cloud_coverage_question.assert_called_once()
-        self.assertEquals(mock_question_collector_generate_cloud_height_question.call_count, 4)
-        mock_question_collector_generate_cloud_ceiling_questions.assert_called_once()
-        mock_generate_weather_codes_question.assert_called_once()
+        self.assert_mocks_called(mock_question_collector_generate_airport_question,
+                                 mock_question_collector_generate_time_question,
+                                 mock_question_collector_generate_wind_direction_question,
+                                 mock_question_collector_generate_wind_speed_question,
+                                 mock_question_collector_generate_wind_gust_question,
+                                 mock_question_collector_generate_altimeter_question,
+                                 mock_question_collector_generate_temperature_question,
+                                 mock_question_collector_generate_dewpoint_question,
+                                 mock_question_collector_generate_visibility_question,
+                                 mock_question_collector_generate_cloud_coverage_question,
+                                 mock_question_collector_generate_cloud_height_question,
+                                 mock_question_collector_generate_cloud_ceiling_questions,
+                                 mock_generate_weather_codes_question,
+                                 mock_generate_remarks_temperature_decimal_question)
         self.assertEquals(len(chosen_questions), len(self.questions))
+        found_count = 0
+        for db_question in self.questions.values():
+            if db_question in chosen_questions:
+                found_count += 1
+        self.assertEquals(len(chosen_questions), found_count)
 
 
+    @mock.patch('metar_practice.question_collector.QuestionColllector.generate_remarks_temperature_decimal_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_weather_codes_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_ceiling_questions')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_height_question')
@@ -2244,37 +2450,40 @@ class TestGenerateQuestions(TestCase):
                                         mock_question_collector_generate_cloud_coverage_question,
                                         mock_question_collector_generate_cloud_height_question,
                                         mock_question_collector_generate_cloud_ceiling_questions,
-                                        mock_generate_weather_codes_question):
-        mock_question_collector_generate_airport_question.return_value = None
-        mock_question_collector_generate_time_question.return_value = None
-        mock_question_collector_generate_wind_direction_question.return_value = None
-        mock_question_collector_generate_wind_speed_question.return_value = None
-        mock_question_collector_generate_wind_gust_question.return_value = None
-        mock_question_collector_generate_altimeter_question.return_value = None
-        mock_question_collector_generate_temperature_question.return_value = None
-        mock_question_collector_generate_dewpoint_question.return_value = None
-        mock_question_collector_generate_visibility_question.return_value = None
-        mock_question_collector_generate_cloud_coverage_question.return_value = None
-        mock_question_collector_generate_cloud_height_question.return_value = None
-        mock_question_collector_generate_cloud_ceiling_questions.return_value = None
-        mock_generate_weather_codes_question.return_value = None
+                                        mock_generate_weather_codes_question,
+                                        mock_generate_remarks_temperature_decimal_question):
+        self.helper_set_return_value(mock_question_collector_generate_airport_question,
+                                     mock_question_collector_generate_time_question,
+                                     mock_question_collector_generate_wind_direction_question,
+                                     mock_question_collector_generate_wind_speed_question,
+                                     mock_question_collector_generate_wind_gust_question,
+                                     mock_question_collector_generate_altimeter_question,
+                                     mock_question_collector_generate_temperature_question,
+                                     mock_question_collector_generate_dewpoint_question,
+                                     mock_question_collector_generate_visibility_question,
+                                     mock_question_collector_generate_cloud_coverage_question,
+                                     mock_question_collector_generate_cloud_height_question,
+                                     mock_question_collector_generate_cloud_ceiling_questions,
+                                     mock_generate_weather_codes_question,
+                                     mock_generate_remarks_temperature_decimal_question)
         sample_count = len(self.questions)-4
         question_collector = QuestionColllector(self.db_metar, sample_count)
         self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
-        mock_question_collector_generate_airport_question.assert_called_once()
-        mock_question_collector_generate_time_question.assert_called_once()
-        mock_question_collector_generate_wind_direction_question.assert_called_once()
-        mock_question_collector_generate_wind_speed_question.assert_called_once()
-        mock_question_collector_generate_wind_gust_question.assert_called_once()
-        mock_question_collector_generate_altimeter_question.assert_called_once()
-        mock_question_collector_generate_temperature_question.assert_called_once()
-        mock_question_collector_generate_dewpoint_question.assert_called_once()
-        mock_question_collector_generate_visibility_question.assert_called_once()
-        mock_question_collector_generate_cloud_coverage_question.assert_called_once()
-        self.assertEquals(mock_question_collector_generate_cloud_height_question.call_count, 4)
-        mock_question_collector_generate_cloud_ceiling_questions.assert_called_once()
-        mock_generate_weather_codes_question.assert_called_once()
+        self.assert_mocks_called(mock_question_collector_generate_airport_question,
+                                 mock_question_collector_generate_time_question,
+                                 mock_question_collector_generate_wind_direction_question,
+                                 mock_question_collector_generate_wind_speed_question,
+                                 mock_question_collector_generate_wind_gust_question,
+                                 mock_question_collector_generate_altimeter_question,
+                                 mock_question_collector_generate_temperature_question,
+                                 mock_question_collector_generate_dewpoint_question,
+                                 mock_question_collector_generate_visibility_question,
+                                 mock_question_collector_generate_cloud_coverage_question,
+                                 mock_question_collector_generate_cloud_height_question,
+                                 mock_question_collector_generate_cloud_ceiling_questions,
+                                 mock_generate_weather_codes_question,
+                                 mock_generate_remarks_temperature_decimal_question)
         self.assertEquals(len(chosen_questions), sample_count)
         found_count = 0
         for db_question in self.questions.values():
@@ -2283,6 +2492,7 @@ class TestGenerateQuestions(TestCase):
         self.assertEquals(len(chosen_questions), found_count)
 
 
+    @mock.patch('metar_practice.question_collector.QuestionColllector.generate_remarks_temperature_decimal_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_weather_codes_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_ceiling_questions')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_height_question')
@@ -2309,40 +2519,49 @@ class TestGenerateQuestions(TestCase):
                                                       mock_question_collector_generate_cloud_coverage_question,
                                                       mock_question_collector_generate_cloud_height_question,
                                                       mock_question_collector_generate_cloud_ceiling_questions,
-                                                      mock_generate_weather_codes_question):
-        mock_question_collector_generate_airport_question.return_value = None
-        mock_question_collector_generate_time_question.return_value = None
-        mock_question_collector_generate_wind_direction_question.return_value = None
-        mock_question_collector_generate_wind_speed_question.return_value = None
-        mock_question_collector_generate_wind_gust_question.return_value = None
-        mock_question_collector_generate_altimeter_question.return_value = None
-        mock_question_collector_generate_temperature_question.return_value = None
-        mock_question_collector_generate_dewpoint_question.return_value = None
-        mock_question_collector_generate_visibility_question.return_value = None
-        mock_question_collector_generate_cloud_coverage_question.return_value = None
-        mock_question_collector_generate_cloud_height_question.return_value = None
-        mock_question_collector_generate_cloud_ceiling_questions.return_value = None
-        mock_generate_weather_codes_question.return_value = None
+                                                      mock_generate_weather_codes_question,
+                                                      mock_generate_remarks_temperature_decimal_question):
+        self.helper_set_return_value(mock_question_collector_generate_airport_question,
+                                     mock_question_collector_generate_time_question,
+                                     mock_question_collector_generate_wind_direction_question,
+                                     mock_question_collector_generate_wind_speed_question,
+                                     mock_question_collector_generate_wind_gust_question,
+                                     mock_question_collector_generate_altimeter_question,
+                                     mock_question_collector_generate_temperature_question,
+                                     mock_question_collector_generate_dewpoint_question,
+                                     mock_question_collector_generate_visibility_question,
+                                     mock_question_collector_generate_cloud_coverage_question,
+                                     mock_question_collector_generate_cloud_height_question,
+                                     mock_question_collector_generate_cloud_ceiling_questions,
+                                     mock_generate_weather_codes_question,
+                                     mock_generate_remarks_temperature_decimal_question)
         sample_count = -sys.maxsize - 1
         question_collector = QuestionColllector(self.db_metar, sample_count)
         self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
+        self.assert_mocks_called(mock_question_collector_generate_airport_question,
+                                 mock_question_collector_generate_time_question,
+                                 mock_question_collector_generate_wind_direction_question,
+                                 mock_question_collector_generate_wind_speed_question,
+                                 mock_question_collector_generate_wind_gust_question,
+                                 mock_question_collector_generate_altimeter_question,
+                                 mock_question_collector_generate_temperature_question,
+                                 mock_question_collector_generate_dewpoint_question,
+                                 mock_question_collector_generate_visibility_question,
+                                 mock_question_collector_generate_cloud_coverage_question,
+                                 mock_question_collector_generate_cloud_height_question,
+                                 mock_question_collector_generate_cloud_ceiling_questions,
+                                 mock_generate_weather_codes_question,
+                                 mock_generate_remarks_temperature_decimal_question)
         self.assertEquals(len(chosen_questions), len(self.questions))
-        mock_question_collector_generate_airport_question.assert_called_once()
-        mock_question_collector_generate_time_question.assert_called_once()
-        mock_question_collector_generate_wind_direction_question.assert_called_once()
-        mock_question_collector_generate_wind_speed_question.assert_called_once()
-        mock_question_collector_generate_wind_gust_question.assert_called_once()
-        mock_question_collector_generate_altimeter_question.assert_called_once()
-        mock_question_collector_generate_temperature_question.assert_called_once()
-        mock_question_collector_generate_dewpoint_question.assert_called_once()
-        mock_question_collector_generate_visibility_question.assert_called_once()
-        mock_question_collector_generate_cloud_coverage_question.assert_called_once()
-        self.assertEquals(mock_question_collector_generate_cloud_height_question.call_count, 4)
-        mock_question_collector_generate_cloud_ceiling_questions.assert_called_once()
-        mock_generate_weather_codes_question.assert_called_once()
+        found_count = 0
+        for db_question in self.questions.values():
+            if db_question in chosen_questions:
+                found_count += 1
+        self.assertEquals(len(chosen_questions), found_count)
 
 
+    @mock.patch('metar_practice.question_collector.QuestionColllector.generate_remarks_temperature_decimal_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_weather_codes_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_ceiling_questions')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_height_question')
@@ -2369,40 +2588,49 @@ class TestGenerateQuestions(TestCase):
                                                   mock_question_collector_generate_cloud_coverage_question,
                                                   mock_question_collector_generate_cloud_height_question,
                                                   mock_question_collector_generate_cloud_ceiling_questions,
-                                                  mock_generate_weather_codes_question):
-        mock_question_collector_generate_airport_question.return_value = None
-        mock_question_collector_generate_time_question.return_value = None
-        mock_question_collector_generate_wind_direction_question.return_value = None
-        mock_question_collector_generate_wind_speed_question.return_value = None
-        mock_question_collector_generate_wind_gust_question.return_value = None
-        mock_question_collector_generate_altimeter_question.return_value = None
-        mock_question_collector_generate_temperature_question.return_value = None
-        mock_question_collector_generate_dewpoint_question.return_value = None
-        mock_question_collector_generate_visibility_question.return_value = None
-        mock_question_collector_generate_cloud_coverage_question.return_value = None
-        mock_question_collector_generate_cloud_height_question.return_value = None
-        mock_question_collector_generate_cloud_ceiling_questions.return_value = None
-        mock_generate_weather_codes_question.return_value = None
+                                                  mock_generate_weather_codes_question,
+                                                  mock_generate_remarks_temperature_decimal_question):
+        self.helper_set_return_value(mock_question_collector_generate_airport_question,
+                                     mock_question_collector_generate_time_question,
+                                     mock_question_collector_generate_wind_direction_question,
+                                     mock_question_collector_generate_wind_speed_question,
+                                     mock_question_collector_generate_wind_gust_question,
+                                     mock_question_collector_generate_altimeter_question,
+                                     mock_question_collector_generate_temperature_question,
+                                     mock_question_collector_generate_dewpoint_question,
+                                     mock_question_collector_generate_visibility_question,
+                                     mock_question_collector_generate_cloud_coverage_question,
+                                     mock_question_collector_generate_cloud_height_question,
+                                     mock_question_collector_generate_cloud_ceiling_questions,
+                                     mock_generate_weather_codes_question,
+                                     mock_generate_remarks_temperature_decimal_question)
         sample_count = 0
         question_collector = QuestionColllector(self.db_metar, sample_count)
         self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
-        mock_question_collector_generate_airport_question.assert_called_once()
-        mock_question_collector_generate_time_question.assert_called_once()
-        mock_question_collector_generate_wind_direction_question.assert_called_once()
-        mock_question_collector_generate_wind_speed_question.assert_called_once()
-        mock_question_collector_generate_wind_gust_question.assert_called_once()
-        mock_question_collector_generate_altimeter_question.assert_called_once()
-        mock_question_collector_generate_temperature_question.assert_called_once()
-        mock_question_collector_generate_dewpoint_question.assert_called_once()
-        mock_question_collector_generate_visibility_question.assert_called_once()
-        mock_question_collector_generate_cloud_coverage_question.assert_called_once()
-        self.assertEquals(mock_question_collector_generate_cloud_height_question.call_count, 4)
-        mock_question_collector_generate_cloud_ceiling_questions.assert_called_once()
-        mock_generate_weather_codes_question.assert_called_once()
+        self.assert_mocks_called(mock_question_collector_generate_airport_question,
+                                 mock_question_collector_generate_time_question,
+                                 mock_question_collector_generate_wind_direction_question,
+                                 mock_question_collector_generate_wind_speed_question,
+                                 mock_question_collector_generate_wind_gust_question,
+                                 mock_question_collector_generate_altimeter_question,
+                                 mock_question_collector_generate_temperature_question,
+                                 mock_question_collector_generate_dewpoint_question,
+                                 mock_question_collector_generate_visibility_question,
+                                 mock_question_collector_generate_cloud_coverage_question,
+                                 mock_question_collector_generate_cloud_height_question,
+                                 mock_question_collector_generate_cloud_ceiling_questions,
+                                 mock_generate_weather_codes_question,
+                                 mock_generate_remarks_temperature_decimal_question)
         self.assertEquals(len(chosen_questions), len(self.questions))
+        found_count = 0
+        for db_question in self.questions.values():
+            if db_question in chosen_questions:
+                found_count += 1
+        self.assertEquals(len(chosen_questions), found_count)
 
 
+    @mock.patch('metar_practice.question_collector.QuestionColllector.generate_remarks_temperature_decimal_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_weather_codes_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_ceiling_questions')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_height_question')
@@ -2429,40 +2657,49 @@ class TestGenerateQuestions(TestCase):
                                                    mock_question_collector_generate_cloud_coverage_question,
                                                    mock_question_collector_generate_cloud_height_question,
                                                    mock_question_collector_generate_cloud_ceiling_questions,
-                                                   mock_generate_weather_codes_question):
-        mock_question_collector_generate_airport_question.return_value = None
-        mock_question_collector_generate_time_question.return_value = None
-        mock_question_collector_generate_wind_direction_question.return_value = None
-        mock_question_collector_generate_wind_speed_question.return_value = None
-        mock_question_collector_generate_wind_gust_question.return_value = None
-        mock_question_collector_generate_altimeter_question.return_value = None
-        mock_question_collector_generate_temperature_question.return_value = None
-        mock_question_collector_generate_dewpoint_question.return_value = None
-        mock_question_collector_generate_visibility_question.return_value = None
-        mock_question_collector_generate_cloud_coverage_question.return_value = None
-        mock_question_collector_generate_cloud_height_question.return_value = None
-        mock_question_collector_generate_cloud_ceiling_questions.return_value = None
-        mock_generate_weather_codes_question.return_value = None
+                                                   mock_generate_weather_codes_question,
+                                                   mock_generate_remarks_temperature_decimal_question):
+        self.helper_set_return_value(mock_question_collector_generate_airport_question,
+                                     mock_question_collector_generate_time_question,
+                                     mock_question_collector_generate_wind_direction_question,
+                                     mock_question_collector_generate_wind_speed_question,
+                                     mock_question_collector_generate_wind_gust_question,
+                                     mock_question_collector_generate_altimeter_question,
+                                     mock_question_collector_generate_temperature_question,
+                                     mock_question_collector_generate_dewpoint_question,
+                                     mock_question_collector_generate_visibility_question,
+                                     mock_question_collector_generate_cloud_coverage_question,
+                                     mock_question_collector_generate_cloud_height_question,
+                                     mock_question_collector_generate_cloud_ceiling_questions,
+                                     mock_generate_weather_codes_question,
+                                     mock_generate_remarks_temperature_decimal_question)
         sample_count = len(self.questions)-1
         question_collector = QuestionColllector(self.db_metar, sample_count)
         self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
-        mock_question_collector_generate_airport_question.assert_called_once()
-        mock_question_collector_generate_time_question.assert_called_once()
-        mock_question_collector_generate_wind_direction_question.assert_called_once()
-        mock_question_collector_generate_wind_speed_question.assert_called_once()
-        mock_question_collector_generate_wind_gust_question.assert_called_once()
-        mock_question_collector_generate_altimeter_question.assert_called_once()
-        mock_question_collector_generate_temperature_question.assert_called_once()
-        mock_question_collector_generate_dewpoint_question.assert_called_once()
-        mock_question_collector_generate_visibility_question.assert_called_once()
-        mock_question_collector_generate_cloud_coverage_question.assert_called_once()
-        self.assertEquals(mock_question_collector_generate_cloud_height_question.call_count, 4)
-        mock_question_collector_generate_cloud_ceiling_questions.assert_called_once()
-        mock_generate_weather_codes_question.assert_called_once()
+        self.assert_mocks_called(mock_question_collector_generate_airport_question,
+                                 mock_question_collector_generate_time_question,
+                                 mock_question_collector_generate_wind_direction_question,
+                                 mock_question_collector_generate_wind_speed_question,
+                                 mock_question_collector_generate_wind_gust_question,
+                                 mock_question_collector_generate_altimeter_question,
+                                 mock_question_collector_generate_temperature_question,
+                                 mock_question_collector_generate_dewpoint_question,
+                                 mock_question_collector_generate_visibility_question,
+                                 mock_question_collector_generate_cloud_coverage_question,
+                                 mock_question_collector_generate_cloud_height_question,
+                                 mock_question_collector_generate_cloud_ceiling_questions,
+                                 mock_generate_weather_codes_question,
+                                 mock_generate_remarks_temperature_decimal_question)
         self.assertEquals(len(chosen_questions), sample_count)
+        found_count = 0
+        for db_question in self.questions.values():
+            if db_question in chosen_questions:
+                found_count += 1
+        self.assertEquals(len(chosen_questions), found_count)
 
 
+    @mock.patch('metar_practice.question_collector.QuestionColllector.generate_remarks_temperature_decimal_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_weather_codes_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_ceiling_questions')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_height_question')
@@ -2489,40 +2726,49 @@ class TestGenerateQuestions(TestCase):
                                                    mock_question_collector_generate_cloud_coverage_question,
                                                    mock_question_collector_generate_cloud_height_question,
                                                    mock_question_collector_generate_cloud_ceiling_questions,
-                                                   mock_generate_weather_codes_question):
-        mock_question_collector_generate_airport_question.return_value = None
-        mock_question_collector_generate_time_question.return_value = None
-        mock_question_collector_generate_wind_direction_question.return_value = None
-        mock_question_collector_generate_wind_speed_question.return_value = None
-        mock_question_collector_generate_wind_gust_question.return_value = None
-        mock_question_collector_generate_altimeter_question.return_value = None
-        mock_question_collector_generate_temperature_question.return_value = None
-        mock_question_collector_generate_dewpoint_question.return_value = None
-        mock_question_collector_generate_visibility_question.return_value = None
-        mock_question_collector_generate_cloud_coverage_question.return_value = None
-        mock_question_collector_generate_cloud_height_question.return_value = None
-        mock_question_collector_generate_cloud_ceiling_questions.return_value = None
-        mock_generate_weather_codes_question.return_value = None
+                                                   mock_generate_weather_codes_question,
+                                                   mock_generate_remarks_temperature_decimal_question):
+        self.helper_set_return_value(mock_question_collector_generate_airport_question,
+                                     mock_question_collector_generate_time_question,
+                                     mock_question_collector_generate_wind_direction_question,
+                                     mock_question_collector_generate_wind_speed_question,
+                                     mock_question_collector_generate_wind_gust_question,
+                                     mock_question_collector_generate_altimeter_question,
+                                     mock_question_collector_generate_temperature_question,
+                                     mock_question_collector_generate_dewpoint_question,
+                                     mock_question_collector_generate_visibility_question,
+                                     mock_question_collector_generate_cloud_coverage_question,
+                                     mock_question_collector_generate_cloud_height_question,
+                                     mock_question_collector_generate_cloud_ceiling_questions,
+                                     mock_generate_weather_codes_question,
+                                     mock_generate_remarks_temperature_decimal_question)
         sample_count = len(self.questions)
         question_collector = QuestionColllector(self.db_metar, sample_count)
         self.helper_add_questions(question_collector)
         chosen_questions = question_collector.generate_questions()
-        mock_question_collector_generate_airport_question.assert_called_once()
-        mock_question_collector_generate_time_question.assert_called_once()
-        mock_question_collector_generate_wind_direction_question.assert_called_once()
-        mock_question_collector_generate_wind_speed_question.assert_called_once()
-        mock_question_collector_generate_wind_gust_question.assert_called_once()
-        mock_question_collector_generate_altimeter_question.assert_called_once()
-        mock_question_collector_generate_temperature_question.assert_called_once()
-        mock_question_collector_generate_dewpoint_question.assert_called_once()
-        mock_question_collector_generate_visibility_question.assert_called_once()
-        mock_question_collector_generate_cloud_coverage_question.assert_called_once()
-        self.assertEquals(mock_question_collector_generate_cloud_height_question.call_count, 4)
-        mock_question_collector_generate_cloud_ceiling_questions.assert_called_once()
-        mock_generate_weather_codes_question.assert_called_once()
+        self.assert_mocks_called(mock_question_collector_generate_airport_question,
+                                 mock_question_collector_generate_time_question,
+                                 mock_question_collector_generate_wind_direction_question,
+                                 mock_question_collector_generate_wind_speed_question,
+                                 mock_question_collector_generate_wind_gust_question,
+                                 mock_question_collector_generate_altimeter_question,
+                                 mock_question_collector_generate_temperature_question,
+                                 mock_question_collector_generate_dewpoint_question,
+                                 mock_question_collector_generate_visibility_question,
+                                 mock_question_collector_generate_cloud_coverage_question,
+                                 mock_question_collector_generate_cloud_height_question,
+                                 mock_question_collector_generate_cloud_ceiling_questions,
+                                 mock_generate_weather_codes_question,
+                                 mock_generate_remarks_temperature_decimal_question)
         self.assertEquals(len(chosen_questions), sample_count)
+        found_count = 0
+        for db_question in self.questions.values():
+            if db_question in chosen_questions:
+                found_count += 1
+        self.assertEquals(len(chosen_questions), found_count)
 
 
+    @mock.patch('metar_practice.question_collector.QuestionColllector.generate_remarks_temperature_decimal_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_weather_codes_question')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_ceiling_questions')
     @mock.patch('metar_practice.question_collector.QuestionColllector.generate_cloud_height_question')
@@ -2549,34 +2795,37 @@ class TestGenerateQuestions(TestCase):
                                              mock_question_collector_generate_cloud_coverage_question,
                                              mock_question_collector_generate_cloud_height_question,
                                              mock_question_collector_generate_cloud_ceiling_questions,
-                                             mock_generate_weather_codes_question):
-        mock_question_collector_generate_airport_question.return_value = None
-        mock_question_collector_generate_time_question.return_value = None
-        mock_question_collector_generate_wind_direction_question.return_value = None
-        mock_question_collector_generate_wind_speed_question.return_value = None
-        mock_question_collector_generate_wind_gust_question.return_value = None
-        mock_question_collector_generate_altimeter_question.return_value = None
-        mock_question_collector_generate_temperature_question.return_value = None
-        mock_question_collector_generate_dewpoint_question.return_value = None
-        mock_question_collector_generate_visibility_question.return_value = None
-        mock_question_collector_generate_cloud_coverage_question.return_value = None
-        mock_question_collector_generate_cloud_height_question.return_value = None
-        mock_question_collector_generate_cloud_ceiling_questions.return_value = None
-        mock_generate_weather_codes_question.return_value = None
+                                             mock_generate_weather_codes_question,
+                                             mock_generate_remarks_temperature_decimal_question):
+        self.helper_set_return_value(mock_question_collector_generate_airport_question,
+                                     mock_question_collector_generate_time_question,
+                                     mock_question_collector_generate_wind_direction_question,
+                                     mock_question_collector_generate_wind_speed_question,
+                                     mock_question_collector_generate_wind_gust_question,
+                                     mock_question_collector_generate_altimeter_question,
+                                     mock_question_collector_generate_temperature_question,
+                                     mock_question_collector_generate_dewpoint_question,
+                                     mock_question_collector_generate_visibility_question,
+                                     mock_question_collector_generate_cloud_coverage_question,
+                                     mock_question_collector_generate_cloud_height_question,
+                                     mock_question_collector_generate_cloud_ceiling_questions,
+                                     mock_generate_weather_codes_question,
+                                     mock_generate_remarks_temperature_decimal_question)
         sample_count = len(self.questions)
         question_collector = QuestionColllector(self.db_metar, len(self.questions))
         chosen_questions = question_collector.generate_questions()
         self.assertIsNone(chosen_questions)
-        mock_question_collector_generate_airport_question.assert_called_once()
-        mock_question_collector_generate_time_question.assert_called_once()
-        mock_question_collector_generate_wind_direction_question.assert_called_once()
-        mock_question_collector_generate_wind_speed_question.assert_called_once()
-        mock_question_collector_generate_wind_gust_question.assert_called_once()
-        mock_question_collector_generate_altimeter_question.assert_called_once()
-        mock_question_collector_generate_temperature_question.assert_called_once()
-        mock_question_collector_generate_dewpoint_question.assert_called_once()
-        mock_question_collector_generate_visibility_question.assert_called_once()
-        mock_question_collector_generate_cloud_coverage_question.assert_called_once()
-        self.assertEquals(mock_question_collector_generate_cloud_height_question.call_count, 4)
-        mock_question_collector_generate_cloud_ceiling_questions.assert_called_once()
-        mock_generate_weather_codes_question.assert_called_once()
+        self.assert_mocks_called(mock_question_collector_generate_airport_question,
+                                 mock_question_collector_generate_time_question,
+                                 mock_question_collector_generate_wind_direction_question,
+                                 mock_question_collector_generate_wind_speed_question,
+                                 mock_question_collector_generate_wind_gust_question,
+                                 mock_question_collector_generate_altimeter_question,
+                                 mock_question_collector_generate_temperature_question,
+                                 mock_question_collector_generate_dewpoint_question,
+                                 mock_question_collector_generate_visibility_question,
+                                 mock_question_collector_generate_cloud_coverage_question,
+                                 mock_question_collector_generate_cloud_height_question,
+                                 mock_question_collector_generate_cloud_ceiling_questions,
+                                 mock_generate_weather_codes_question,
+                                 mock_generate_remarks_temperature_decimal_question)
