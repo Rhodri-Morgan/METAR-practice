@@ -25,7 +25,7 @@ class PullMetarData:
         while True:
             time_now = datetime.datetime.utcnow()
             if time_now >= next_pull:
-                print('Beginning pulling {0} METAR data'.format(time_now))
+                print('Beginning pulling {0} METAR data\n'.format(time_now))
                 for i in range (0, self.hour_pull_count):
                     while True:
                         db_airport = self.metar_collector.get_random_airport()
@@ -37,13 +37,13 @@ class PullMetarData:
 
                         if db_metar is not None:
                             metar = json.loads(db_metar.metar_json)
-                            question_colllector = QuestionColllector(db_metar, None)
+                            question_colllector = QuestionColllector(db_metar)
                             db_questions = question_colllector.generate_questions()
 
-                        if db_questions is not None and len(db_questions) != 0:
+                        if len(db_questions) != 0:
                             break
-                    print('Successfully pulled {0}/{1}'.format(i+1, self.hour_pull_count))
-                print('Successfully completed {0} METAR data pull'.format(time_now))
+                    print('\nSuccessfully pulled {0}/{1}\n'.format(i+1, self.hour_pull_count))
+                print('\nSuccessfully completed {0} METAR data pull\n'.format(time_now))
                 next_pull = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
 
 

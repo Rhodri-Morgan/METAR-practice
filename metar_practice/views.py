@@ -5,6 +5,8 @@ from metar_practice.models import Airport
 from metar_practice.models import Metar
 from metar_practice.models import Question
 
+from metar_practice.enums import QuestionType
+
 from metar_practice.metar_collector import MetarCollector
 from metar_practice.question_collector import QuestionColllector
 
@@ -26,13 +28,16 @@ class RanOutOfQuestionsError(Exception):
 def practice(request):
     """  Responsible for displaying user with data and handling reports made by user """
 
-    QUESTIONS_TRACEBACK_ALLOWED = 3
+    QUESTIONS_TRACEBACK_ALLOWED = 8
 
-    logged = None
+    if QUESTIONS_TRACEBACK_ALLOWED < 0 or QUESTIONS_TRACEBACK_ALLOWED > len(QuestionType):
+        QUESTIONS_TRACEBACK_ALLOWED = len(QuestionType)
+
     previous_questions = []
+    logged = None
 
     try:
-        previous_question = request.session['previous_question']
+        previous_questions = request.session['previous_questions']
         logged = request.session['logged']
     except KeyError as e:
         print(e)
@@ -57,25 +62,29 @@ def practice(request):
     metar = None
     question = None
 
+    unwanted_question_types = [question['category'] for question in previous_questions]
+    print(unwanted_question_types)
+
     while True:
         db_question = Question.objects.order_by('?').first()
-        db_metar = db_question.metar
-        db_airport = db_metar.airport
-        metar = json.loads(db_metar.metar_json)
-        airport = model_to_dict(db_metar.airport)
-        question = model_to_dict(db_question)
-        answers = []
-        for db_answer in question['answers']:
-            answers.append(model_to_dict(db_answer))
-        question['answers'] = answers
-        break
+        if db_question.category not in unwanted_question_types:
+            db_metar = db_question.metar
+            db_airport = db_metar.airport
+            metar = json.loads(db_metar.metar_json)
+            airport = model_to_dict(db_metar.airport)
+            question = model_to_dict(db_question)
+            answers = []
+            for db_answer in question['answers']:
+                answers.append(model_to_dict(db_answer))
+            question['answers'] = answers
+            break
 
     previous_questions.append(question)
     while len(previous_questions) > QUESTIONS_TRACEBACK_ALLOWED:
         previous_questions.pop(0)
 
-    request.session['logged'] = logged
     request.session['previous_questions'] = previous_questions
+    request.session['logged'] = logged
 
     data = {
         'title' : 'METAR Practice',
