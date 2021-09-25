@@ -26,12 +26,6 @@
     {% block sub_body %}{% endblock %}
     <div id='footer'>
         <hr id='proxy_margin_footer' />
-        {% if status == 200 %}
-            <p><span class='status_dot' id="active_status_dot"></span> Currently using live METAR data.</p>
-        {% else %}
-            <p><span class='status_dot' id="inactive_status_dot"></span> Currently using historial METAR data. METAR API service code {{ status }}.</p>
-        {% endif %}
-        <hr id='proxy_margin_footer' />
         <p>Using METAR data sourced from <img src="{% static 'images/metar_practice/avwx.png' %}" id='avwx_image'> <a href="https://avwx.rest/#">AVWX by Michael duPont</a></p>
         <hr id='proxy_margin_footer' />
     </div>

@@ -25,17 +25,8 @@ function reveal_answer() {
   document.getElementById('answer_container').classList.add('fade_in_class')
 }
 
+
 function refresh_page(refresh_needed){
   document.body.style.cursor = 'wait';
-  if (refresh_needed == 'True') {
-    Swal.fire({
-      title: 'Please wait.',
-      text: 'Retrieving new METAR and questions for you to answer.',
-      allowOutsideClick: false,
-      onBeforeOpen: () => {
-          Swal.showLoading()
-      },
-    });
-  }
   window.location.reload(false);
 }
