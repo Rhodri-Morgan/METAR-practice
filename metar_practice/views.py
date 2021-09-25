@@ -26,45 +26,23 @@ class RanOutOfQuestionsError(Exception):
 def practice(request):
     """  Responsible for displaying user with data and handling reports made by user """
 
-    def questions_to_dict(db_questions):
-        """  Converts given question and answer database instances to usable dictionary composed of strings """
-        questions = []
-        for db_question in db_questions:
-            question = model_to_dict(db_question)
-            answers = []
-            for db_answer in question['answers']:
-                answers.append(model_to_dict(db_answer))
-            question['answers'] = answers
-            questions.append(question)
-        return questions
+    QUESTIONS_TRACEBACK_ALLOWED = 3
 
-
-    def get_previous_question():
-        """  Tries to retrieve details of the last shown question """
-        try:
-            return request.session['previous_question']
-        except KeyError:
-            return None
-
-
-    API_TIMEOUT_THRESHOLD = 5                   # None will reflect no limit, should not be less than or equal to zero
-    QUESTION_SAMPLE_COUNT = 5
-
-    status = None
     logged = None
-    airport = None
-    metar = None
-    questions = None
-    current_question = None
-    api = None
+    previous_questions = []
+
+    try:
+        previous_question = request.session['previous_question']
+        logged = request.session['logged']
+    except KeyError as e:
+        print(e)
 
     try:
         if request.method == 'POST':
             report_form = ReportForm(request.POST)
-            previous_question = get_previous_question()
-            if report_form.is_valid() and previous_question is not None:
+            if report_form.is_valid() and previous_questions is not None and len(previous_questions) >= 1:
                 report = report_form.save(commit=False)
-                report.question = Question.objects.get(id=previous_question['id'])
+                report.question = Question.objects.get(id=previous_questions[0]['id'])
                 report.full_clean()
                 report.save()
                 request.session['logged'] = 'Thank you. Your issue has been logged.'
@@ -75,88 +53,36 @@ def practice(request):
     except (Question.DoesNotExist, KeyError) as e:
         print(e)
 
-    try:
-        status = request.session['status']
-        airport = request.session['airport']
-        metar = request.session['metar']
-        questions = request.session['questions']
-        api = request.session['api']
+    airport = None
+    metar = None
+    question = None
 
-        if len(questions) == 0:
-            raise RanOutOfQuestionsError('Ran out of questions, need to regenerate')
-    except (RanOutOfQuestionsError, KeyError) as e:
-        try:
-            if api is not None and api['timeout'] == True and datetime.datetime.utcnow() < datetime.datetime.strptime(api['end_timeout'], '%m/%d/%Y, %H:%M:%S'):
-                raise ApiTimeoutError('API is needing to timeout.')
-            elif api is None:
-                api = {'timeout' : False,
-                       'end_timeout' : None}
+    while True:
+        db_question = Question.objects.order_by('?').first()
+        db_metar = db_question.metar
+        db_airport = db_metar.airport
+        metar = json.loads(db_metar.metar_json)
+        airport = model_to_dict(db_metar.airport)
+        question = model_to_dict(db_question)
+        answers = []
+        for db_answer in question['answers']:
+            answers.append(model_to_dict(db_answer))
+        question['answers'] = answers
+        break
 
-            metar_collector = MetarCollector()
-            timeout_counter = 0
+    previous_questions.append(question)
+    while len(previous_questions) > QUESTIONS_TRACEBACK_ALLOWED:
+        previous_questions.pop(0)
 
-            while True:
-                status = None
-                db_airport = metar_collector.get_random_airport()
-                db_metar = None
-                db_questions = None
-
-                if db_airport is not None:
-                    status, db_metar = metar_collector.get_raw_metar(db_airport)
-
-                if status is None or status != 200:
-                    timeout_counter += 1
-
-                if db_metar is not None:
-                    metar = json.loads(db_metar.metar_json)
-                    question_colllector = QuestionColllector(db_metar, QUESTION_SAMPLE_COUNT)
-                    db_questions = question_colllector.generate_questions()
-
-                if db_questions is not None:
-                    airport = model_to_dict(db_airport)
-                    questions = questions_to_dict(db_questions)
-                    break
-
-                if timeout_counter == API_TIMEOUT_THRESHOLD:
-                    end_timeout = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
-                    api = {'timeout' : True,
-                            'end_timeout' : end_timeout.strftime('%m/%d/%Y, %H:%M:%S')}
-                    raise ApiTimeoutError('API is needing to timeout.')
-        except ApiTimeoutError as e:
-            while True:
-                db_metar = Metar.objects.order_by('?').first()
-                metar = json.loads(db_metar.metar_json)
-                airport = model_to_dict(db_metar.airport)
-                if status == None:
-                    status = 400
-                db_questions_all = Question.objects.filter(metar=db_metar)
-                db_questions = None
-                if QUESTION_SAMPLE_COUNT is None or QUESTION_SAMPLE_COUNT <= 0 or len(db_questions_all) <= QUESTION_SAMPLE_COUNT:
-                    db_questions = list(db_questions_all)
-                else:
-                    db_questions = random.sample(list(db_questions_all), k=QUESTION_SAMPLE_COUNT)
-                questions = questions_to_dict(db_questions)
-                if len(questions) >= 1:
-                    break
-
-    current_question = questions.pop(0)
-    refresh_needed = len(questions) == 0
-
-    request.session['status'] = status
-    request.session['airport'] = airport
-    request.session['metar'] = metar
-    request.session['questions'] = questions
-    request.session['api'] = api
-    request.session['previous_question'] = current_question
+    request.session['logged'] = logged
+    request.session['previous_questions'] = previous_questions
 
     data = {
         'title' : 'METAR Practice',
         'logged' : logged,
-        'status' : status,
         'airport' : airport,
         'metar' : metar,
-        'question' : current_question,
-        'refresh_needed' : refresh_needed,
+        'question' : question,
         'report_form' : ReportForm()
     }
 

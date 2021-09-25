@@ -80,21 +80,6 @@ body {
     color: white;
 }
 
-.status_dot {
-    height: 10px;
-    width: 10px;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-#active_status_dot {
-    background-color: #008000;
-}
-
-#inactive_status_dot {
-    background-color: #ff0000;
-}
-
 #footer {
     margin-top: 20px;
     display : table-row;
