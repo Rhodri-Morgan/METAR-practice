@@ -1,5 +1,7 @@
 from django.db import models
 
+from metar_practice.enums import QuestionType
+
 
 class Airport(models.Model):
     """  Airport model used for storing details about airports """
@@ -27,6 +29,7 @@ class Question(models.Model):
     metar = models.ForeignKey(Metar, on_delete=models.CASCADE)
     text = models.CharField(max_length=120, blank=False)
     answers = models.ManyToManyField(Answer)
+    category = models.CharField(max_length=255, choices=QuestionType.choices())
 
 
 class Report(models.Model):
