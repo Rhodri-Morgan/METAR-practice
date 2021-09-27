@@ -7,12 +7,11 @@ from metar_practice.models import Question
 
 from metar_practice.enums import QuestionType
 
+from metar_practice.forms import ReportForm
+
 from metar_practice.metar_collector import MetarCollector
 from metar_practice.question_collector import QuestionCollector
 
-from metar_practice.forms import ReportForm
-
-import random
 import json
 
 

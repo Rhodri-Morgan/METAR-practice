@@ -1,6 +1,5 @@
 import django
 import json
-import requests
 import os
 import datetime
 import sys

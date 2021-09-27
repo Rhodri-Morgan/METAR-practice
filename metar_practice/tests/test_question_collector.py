@@ -1,23 +1,23 @@
-from django.test import TestCase
 import mock
+from django.test import TestCase
 from unittest.mock import call
-
-import os
-import json
-import sys
-
-from enum import Enum
-from enum import auto
 
 from metar_practice.question_collector import QuestionCollector
 from metar_practice.question_collector import UsuableDataError
-
-from metar_practice.enums import QuestionType
 
 from metar_practice.models import Airport
 from metar_practice.models import Metar
 from metar_practice.models import Answer
 from metar_practice.models import Question
+
+from metar_practice.enums import QuestionType
+
+from enum import Enum
+from enum import auto
+
+import os
+import json
+import sys
 
 
 class TestCreateDbAnswers(TestCase):
