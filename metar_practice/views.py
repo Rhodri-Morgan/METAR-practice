@@ -8,30 +8,21 @@ from metar_practice.models import Question
 from metar_practice.enums import QuestionType
 
 from metar_practice.metar_collector import MetarCollector
-from metar_practice.question_collector import QuestionColllector
+from metar_practice.question_collector import QuestionCollector
 
 from metar_practice.forms import ReportForm
 
 import random
 import json
-import datetime
 
 
-class ApiTimeoutError(Exception):
-    pass
-
-
-class RanOutOfQuestionsError(Exception):
-    pass
+QUESTIONS_TRACEBACK_ALLOWED = 8
+if QUESTIONS_TRACEBACK_ALLOWED < 0 or QUESTIONS_TRACEBACK_ALLOWED > len(QuestionType):
+        QUESTIONS_TRACEBACK_ALLOWED = len(QuestionType)
 
 
 def practice(request):
     """  Responsible for displaying user with data and handling reports made by user """
-
-    QUESTIONS_TRACEBACK_ALLOWED = 8
-
-    if QUESTIONS_TRACEBACK_ALLOWED < 0 or QUESTIONS_TRACEBACK_ALLOWED > len(QuestionType):
-        QUESTIONS_TRACEBACK_ALLOWED = len(QuestionType)
 
     previous_questions = []
     logged = None
@@ -45,17 +36,14 @@ def practice(request):
     try:
         if request.method == 'POST':
             report_form = ReportForm(request.POST)
-            if report_form.is_valid() and previous_questions is not None and len(previous_questions) >= 1:
+            if report_form.is_valid() and len(previous_questions) >= 1:
                 report = report_form.save(commit=False)
                 report.question = Question.objects.get(id=previous_questions[0]['id'])
                 report.full_clean()
                 report.save()
                 request.session['logged'] = 'Thank you. Your issue has been logged.'
                 return redirect('practice')
-        elif request.session['logged'] is not None:
-            logged = request.session['logged']
-            request.session['logged'] = None
-    except (Question.DoesNotExist, KeyError) as e:
+    except Question.DoesNotExist as e:
         print(e)
 
     airport = None
@@ -63,7 +51,6 @@ def practice(request):
     question = None
 
     unwanted_question_types = [question['category'] for question in previous_questions]
-    print(unwanted_question_types)
 
     while True:
         db_question = Question.objects.order_by('?').first()
@@ -84,7 +71,10 @@ def practice(request):
         previous_questions.pop(0)
 
     request.session['previous_questions'] = previous_questions
-    request.session['logged'] = logged
+    if logged is not None:
+        request.session['logged'] = None
+    else:
+        request.session['logged'] = logged
 
     data = {
         'title' : 'METAR Practice',

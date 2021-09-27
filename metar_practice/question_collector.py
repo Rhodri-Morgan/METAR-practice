@@ -17,7 +17,7 @@ class UsuableDataError(Exception):
     pass
 
 
-class QuestionColllector:
+class QuestionCollector:
 
     def __init__(self, db_metar):
         self.db_metar = db_metar

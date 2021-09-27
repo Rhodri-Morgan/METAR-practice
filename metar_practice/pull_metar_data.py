@@ -10,7 +10,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'rhodrithomasmorgan.settings'
 django.setup()
 
 from metar_practice.metar_collector import MetarCollector
-from metar_practice.question_collector import QuestionColllector
+from metar_practice.question_collector import QuestionCollector
 
 
 class PullMetarData:
@@ -37,7 +37,7 @@ class PullMetarData:
 
                         if db_metar is not None:
                             metar = json.loads(db_metar.metar_json)
-                            question_colllector = QuestionColllector(db_metar)
+                            question_colllector = QuestionCollector(db_metar)
                             db_questions = question_colllector.generate_questions()
 
                         if len(db_questions) != 0:
