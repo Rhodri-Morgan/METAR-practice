@@ -1,14 +1,14 @@
 from django.test import TestCase
 import responses
 
-import os
-import json
-
 from metar_practice.metar_collector import MetarCollector
 from metar_practice.question_collector import QuestionCollector
 
 from metar_practice.models import Airport
 from metar_practice.models import Metar
+
+import os
+import json
 
 
 class TestGetRawMetar(TestCase):

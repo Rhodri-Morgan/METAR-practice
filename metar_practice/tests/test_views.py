@@ -1,5 +1,5 @@
-from django.test import TestCase
 import mock
+from django.test import TestCase
 from unittest.mock import patch
 from unittest.mock import call
 
@@ -8,9 +8,6 @@ from django.test.client import Client
 from django.conf import settings
 
 from django.forms.models import model_to_dict
-
-import os
-import json
 
 from metar_practice.views import practice
 
@@ -23,6 +20,9 @@ from metar_practice.models import Report
 from metar_practice.enums import QuestionType
 
 from metar_practice.forms import ReportForm
+
+import os
+import json
 
 
 class TestPracticeView(TestCase):

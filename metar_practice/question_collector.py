@@ -1,8 +1,7 @@
 import django
 import json
-import os
 import sys
-import random
+import os
 
 sys.path.append('..')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'rhodrithomasmorgan.settings'
@@ -10,6 +9,7 @@ django.setup()
 
 from metar_practice.models import Answer
 from metar_practice.models import Question
+
 from metar_practice.enums import QuestionType
 
 

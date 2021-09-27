@@ -8,9 +8,10 @@ sys.path.append('..')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'rhodrithomasmorgan.settings'
 django.setup()
 
+from django.forms.models import model_to_dict
+
 from metar_practice.models import Airport
 from metar_practice.models import Metar
-from django.forms.models import model_to_dict
 
 
 class MetarCollector:

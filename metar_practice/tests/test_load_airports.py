@@ -1,11 +1,11 @@
-from django.test import TestCase
 import mock
-
-import os
+from django.test import TestCase
 
 from metar_practice.load_airports import LoadAirports
 
 from metar_practice.models import Airport
+
+import os
 
 
 class TestIsValid(TestCase):

@@ -1,8 +1,8 @@
 from django.test import TestCase
 
-import sys
-
 from metar_practice.templatetags.list_access import index
+
+import sys
 
 
 class TestListAccess(TestCase):
