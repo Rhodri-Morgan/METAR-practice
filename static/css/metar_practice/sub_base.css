@@ -6,6 +6,7 @@ h1, h2, h3, p, th, button, a, input, li {
 body {
     background-image: url('/static/images/metar_practice/airport.jpg');
     background-position: center;
+    -webkit-background-size: cover;
     font-family: Arial;
     color: white;
 }
@@ -95,8 +96,13 @@ body {
     visibility: hidden;
 }
 
+#proxy_margin_footer_top {
+    height: 20px;
+    visibility: hidden;
+}
 
-#proxy_margin_footer {
+
+#proxy_margin_footer_bottom {
     height: 5px;
     visibility: hidden;
 }
