@@ -15,9 +15,7 @@ from metar_practice.question_collector import QuestionCollector
 import json
 
 
-QUESTIONS_TRACEBACK_ALLOWED = 8
-if QUESTIONS_TRACEBACK_ALLOWED < 0 or QUESTIONS_TRACEBACK_ALLOWED > len(QuestionType):
-        QUESTIONS_TRACEBACK_ALLOWED = len(QuestionType)
+QUESTIONS_TRACEBACK_ALLOWED = 10
 
 
 def practice(request):
