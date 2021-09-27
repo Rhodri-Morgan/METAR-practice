@@ -5,7 +5,7 @@ import os
 import json
 
 from metar_practice.metar_collector import MetarCollector
-from metar_practice.question_collector import QuestionColllector
+from metar_practice.question_collector import QuestionCollector
 
 from metar_practice.models import Airport
 from metar_practice.models import Metar
