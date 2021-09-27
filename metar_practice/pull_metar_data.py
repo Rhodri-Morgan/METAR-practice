@@ -39,7 +39,7 @@ class PullMetarData:
                             question_colllector = QuestionCollector(db_metar)
                             db_questions = question_colllector.generate_questions()
 
-                        if len(db_questions) != 0:
+                        if db_questions is not None and len(db_questions) != 0:
                             break
                     print('\nSuccessfully pulled {0}/{1}\n'.format(i+1, self.hour_pull_count))
                 print('\nSuccessfully completed {0} METAR data pull\n'.format(time_now))
