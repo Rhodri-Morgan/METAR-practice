@@ -20,13 +20,18 @@ function initMap() {
 
 
 function reveal_answer() {
-  document.getElementById('answer_revealer').style.display = "none";
-  document.getElementById('answer_container').style.display = "block";
-  document.getElementById('answer_container').classList.add('fade_in_class')
+  document.getElementById('answer_revealer').style.display = 'none';
+  document.getElementById('answer_container').style.display = 'block';
+  document.getElementById('answer_container').classList.add('fade_in_effect');
 }
 
 
-function refresh_page(refresh_needed){
+function refresh_page() {
   document.body.style.cursor = 'wait';
-  window.location.reload(false);
+  var description_value = document.getElementById('description_text_area').value;
+  if (description_value != "") {
+    document.getElementById("submit_report_form").click();
+  } else{
+    window.location.reload(false);
+  }
 }

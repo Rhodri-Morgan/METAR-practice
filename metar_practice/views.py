@@ -20,7 +20,6 @@ QUESTIONS_TRACEBACK_ALLOWED = 10
 
 def practice(request):
     """  Responsible for displaying user with data and handling reports made by user """
-
     previous_questions = []
     logged = None
 
@@ -32,6 +31,7 @@ def practice(request):
 
     try:
         if request.method == 'POST':
+            print(request.POST)
             report_form = ReportForm(request.POST)
             if report_form.is_valid() and len(previous_questions) >= 1:
                 report = report_form.save(commit=False)
@@ -73,9 +73,12 @@ def practice(request):
     else:
         request.session['logged'] = logged
 
+    database_data = {'questions_count': len(Question.objects.all()), 'airports_count': len(Airport.objects.all())}
+
     data = {
         'title' : 'METAR Practice',
         'logged' : logged,
+        'database_data' : database_data,
         'airport' : airport,
         'metar' : metar,
         'question' : question,

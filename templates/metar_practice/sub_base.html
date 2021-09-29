@@ -6,7 +6,6 @@
 {% block head %}
     <link rel="shortcut icon" href="{%  static 'images/metar_practice/favicon.ico' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/metar_practice/sub_base.css' %}">
-    <script type="text/javascript" src="{% static 'js/metar_practice/sub_base.js' %}"></script>
     {% block sub_head %}{% endblock %}
 {% endblock head %}
 
@@ -19,13 +18,15 @@
     <div id="banner">
         <h1 id="title">Weather METAR Practice</h1>
         <div id="navigation">
-            <a href="https://en.wikipedia.org/wiki/METAR" class='navigation_element'>What is METAR?</a>
-            <a href="https://github.com/Rhodri-Morgan/METAR-Practice" id="end_navigation" class='navigation_element'>Github Repository</a>
+            <a href="https://en.wikipedia.org/wiki/METAR" class='navigation_element'><img src="{% static 'images/document_white.png' %}" id='navigation_bar_icons'>What is METAR?</a>
+            <a href="https://github.com/Rhodri-Morgan/METAR-Practice" class='navigation_element'><img src="{% static 'images/github_logo_white_small.png' %}" id='navigation_bar_icons'>Github Repository</a>
         </div>
     </div>
     {% block sub_body %}{% endblock %}
     <div id='footer'>
         <hr id='proxy_margin_footer_top' />
+        <p>Pulling from a base of {{ database_data|lookup:'questions_count' }} questions and {{ database_data|lookup:'airports_count' }} airports!</p>
+        <hr id='proxy_margin_footer_bottom' />
         <p>Using METAR data sourced from <img src="{% static 'images/metar_practice/avwx.png' %}" id='avwx_image'> <a href="https://avwx.rest/#">AVWX by Michael duPont</a></p>
         <hr id='proxy_margin_footer_bottom' />
     </div>
