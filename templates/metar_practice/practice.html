@@ -10,6 +10,7 @@
     <script type="text/javascript" src="{% static 'js/metar_practice/practice.js' %}"></script>
     <!-- MUST RESTRICT API USAGE -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5RVyFfpgAOueO-LEsqF8uv6RhHLz8rcs&callback=initMap&libraries=&v=weekly&channel=2" async></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 {% endblock sub_head %}
 
 {% block sub_body %}
@@ -62,4 +63,7 @@
             </div>
         </div>
     </div>
+    <script>
+        var csrf_token = '{{ csrf_token }}';
+    </script>
 {% endblock sub_body %}
