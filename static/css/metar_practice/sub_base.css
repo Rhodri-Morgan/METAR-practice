@@ -96,16 +96,10 @@ body {
     text-align: center;
 }
 
-#proxy_margin_top_footer {
-    height: 15px;
-    visibility: hidden;
-}
-
 #proxy_margin_footer_top {
     height: 20px;
     visibility: hidden;
 }
-
 
 #proxy_margin_footer_bottom {
     height: 5px;
