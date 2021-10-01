@@ -3,6 +3,57 @@
     padding: 0;
   }
 
+body {
+  font-family: Arial;
+}
+
 #content {
     margin: 0 auto;
+}
+
+#footer {
+  display : table-row;
+  text-align: center;
+  vertical-align : bottom;
+  height : 1px;
+  font-size: 10px;
+  width: 1200px;
+}
+
+.proxy_margin_footer_top {
+  height: 20px;
+  visibility: hidden;
+}
+
+#path_divider {
+  margin: auto;
+  width: 200px;
+}
+
+.proxy_margin_footer {
+  height: 5px;
+  visibility: hidden;
+}
+
+.proxy_margin_footer_bottom {
+  height: 8px;
+  visibility: hidden;
+}
+
+.url {
+  text-decoration: none;
+  color: white;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.url:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.url:active {
+  position:relative;
+  top: 1px;
 }

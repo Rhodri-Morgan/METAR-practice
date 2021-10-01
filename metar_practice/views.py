@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.forms.models import model_to_dict
 
+from common.utils import get_url
+
 from metar_practice.models import Airport
 from metar_practice.models import Metar
 from metar_practice.models import Question
@@ -77,6 +79,7 @@ def practice(request):
 
     data = {
         'title' : 'METAR Practice',
+        'path' : get_url(request.path.split('/')[1:-1]),
         'logged' : logged,
         'database_data' : database_data,
         'airport' : airport,
