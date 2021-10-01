@@ -3,7 +3,8 @@
     padding: 0;
   }
 
-body {
+body h1, h2, h3, p, th, button, a, input, li {
+  color: white;
   font-family: Arial;
 }
 
@@ -42,7 +43,6 @@ body {
 
 .url {
   text-decoration: none;
-  color: white;
   font-style: italic;
   font-weight: bold;
 }
