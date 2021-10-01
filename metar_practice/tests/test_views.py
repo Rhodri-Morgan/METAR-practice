@@ -134,6 +134,8 @@ class TestMetarPracticeView(TestCase):
         self.assertTemplateUsed(response, 'metar_practice/sub_base.html')
         self.assertTemplateUsed(response, 'metar_practice/practice.html')
         self.assertEquals(response.context['title'], 'METAR Practice')
+        self.assertEquals(response.context['path'], [{'url': '/', 'traversal': 'RhodriThomasMorgan.com'},
+                                                     {'url': '/METAR_practice', 'traversal': 'METAR_practice'}])
         self.assertEquals(response.context['logged'], None)
         self.assertEquals(response.context['database_data'], {'questions_count': len(self.db_questions), 'airports_count': 1})
         self.assertEquals(response.context['airport'], model_to_dict(random_db_question.metar.airport))
@@ -163,6 +165,8 @@ class TestMetarPracticeView(TestCase):
         self.assertTemplateUsed(response, 'metar_practice/sub_base.html')
         self.assertTemplateUsed(response, 'metar_practice/practice.html')
         self.assertEquals(response.context['title'], 'METAR Practice')
+        self.assertEquals(response.context['path'], [{'url': '/', 'traversal': 'RhodriThomasMorgan.com'},
+                                                     {'url': '/METAR_practice', 'traversal': 'METAR_practice'}])
         self.assertEquals(response.context['logged'], None)
         self.assertEquals(response.context['database_data'], {'questions_count': len(self.db_questions), 'airports_count': 1})
         self.assertEquals(response.context['airport'], model_to_dict(random_db_question.metar.airport))
@@ -195,6 +199,8 @@ class TestMetarPracticeView(TestCase):
         self.assertTemplateUsed(response, 'metar_practice/sub_base.html')
         self.assertTemplateUsed(response, 'metar_practice/practice.html')
         self.assertEquals(response.context['title'], 'METAR Practice')
+        self.assertEquals(response.context['path'], [{'url': '/', 'traversal': 'RhodriThomasMorgan.com'},
+                                                     {'url': '/METAR_practice', 'traversal': 'METAR_practice'}])
         self.assertEquals(response.context['logged'], None)
         self.assertEquals(response.context['database_data'], {'questions_count': len(self.db_questions), 'airports_count': 1})
         self.assertEquals(response.context['airport'], model_to_dict(random_db_question.metar.airport))
@@ -232,6 +238,8 @@ class TestMetarPracticeView(TestCase):
         self.assertTemplateUsed(response, 'metar_practice/sub_base.html')
         self.assertTemplateUsed(response, 'metar_practice/practice.html')
         self.assertEquals(response.context['title'], 'METAR Practice')
+        self.assertEquals(response.context['path'], [{'url': '/', 'traversal': 'RhodriThomasMorgan.com'},
+                                                     {'url': '/METAR_practice', 'traversal': 'METAR_practice'}])
         self.assertEquals(response.context['logged'], 'Thank you. Your issue has been logged.')
         self.assertEquals(response.context['database_data'], {'questions_count': len(self.db_questions), 'airports_count': 1})
         self.assertEquals(response.context['airport'], model_to_dict(random_db_question.metar.airport))
@@ -264,6 +272,8 @@ class TestMetarPracticeView(TestCase):
         self.assertTemplateUsed(response, 'metar_practice/sub_base.html')
         self.assertTemplateUsed(response, 'metar_practice/practice.html')
         self.assertEquals(response.context['title'], 'METAR Practice')
+        self.assertEquals(response.context['path'], [{'url': '/', 'traversal': 'RhodriThomasMorgan.com'},
+                                                     {'url': '/METAR_practice', 'traversal': 'METAR_practice'}])
         self.assertEquals(response.context['logged'], None)
         self.assertEquals(response.context['database_data'], {'questions_count': len(self.db_questions), 'airports_count': 1})
         self.assertEquals(response.context['airport'], model_to_dict(random_db_question.metar.airport))
@@ -302,6 +312,8 @@ class TestMetarPracticeView(TestCase):
         self.assertTemplateUsed(response, 'metar_practice/sub_base.html')
         self.assertTemplateUsed(response, 'metar_practice/practice.html')
         self.assertEquals(response.context['title'], 'METAR Practice')
+        self.assertEquals(response.context['path'], [{'url': '/', 'traversal': 'RhodriThomasMorgan.com'},
+                                                     {'url': '/METAR_practice', 'traversal': 'METAR_practice'}])
         self.assertEquals(response.context['logged'], None)
         self.assertEquals(response.context['database_data'], {'questions_count': len(self.db_questions)-1, 'airports_count': 1})
         self.assertEquals(response.context['airport'], model_to_dict(random_db_question.metar.airport))
@@ -327,6 +339,8 @@ class TestMetarPracticeView(TestCase):
         self.assertTemplateUsed(response, 'metar_practice/sub_base.html')
         self.assertTemplateUsed(response, 'metar_practice/practice.html')
         self.assertEquals(response.context['title'], 'METAR Practice')
+        self.assertEquals(response.context['path'], [{'url': '/', 'traversal': 'RhodriThomasMorgan.com'},
+                                                     {'url': '/METAR_practice', 'traversal': 'METAR_practice'}])
         self.assertEquals(response.context['logged'], None)
         self.assertEquals(response.context['database_data'], {'questions_count': len(self.db_questions), 'airports_count': 1})
         self.assertEquals(response.context['airport'], model_to_dict(random_db_question.metar.airport))
