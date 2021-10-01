@@ -86,26 +86,6 @@ body {
     padding-right: 10px;
 }
 
-#footer {
-    margin-top: 20px;
-    display : table-row;
-    vertical-align : bottom;
-    height : 1px;
-    font-size: 10px;
-    width: 1200px;
-    text-align: center;
-}
-
-#proxy_margin_footer_top {
-    height: 20px;
-    visibility: hidden;
-}
-
-#proxy_margin_footer_bottom {
-    height: 5px;
-    visibility: hidden;
-}
-
 #avwx_image {
     height: 0.9em;
 }
