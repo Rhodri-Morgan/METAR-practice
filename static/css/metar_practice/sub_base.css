@@ -1,22 +1,12 @@
-h1, h2, h3, p, th, button, a, input, li {
-    font-family: Arial;
-    color: white;
-}
-
 body {
-    background-image: url('/static/images/metar_practice/airport.jpg');
-    background-position: center;
-    -webkit-background-size: cover;
-    font-family: Arial;
-    color: white;
+    background-color: #0d1117;
 }
 
 #content {
-    width: 1200px;
+    width: 1300px;
     min-height: 100vh;
     height: 100%;
-    background-color: #1a1c1d;
-    box-shadow: 0px 0px 100px #000000;
+    background-color: #0d1117;
     display : table;
 }
 
@@ -33,11 +23,7 @@ body {
 }
 
 #banner {
-    background-color: #1a1c1d;
-    /*
-    Commenting out I dont like it. May add back
-    background-image: linear-gradient(to bottom, #20212400, #202124), url('/static/images/metar_practice/rain.gif');
-    */
+    background-color: #0d1117;
     display: inline-block;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -51,6 +37,7 @@ body {
     padding-bottom: 10px;
     margin: 0 0;
     font-size: 55px;
+    text-shadow: 2.5px 2.5px #000000;
 }
 
 #navigation {
@@ -58,25 +45,23 @@ body {
     overflow: hidden;
     text-align: center;
     margin: 0 auto;
-    background-color: #313133;
+    background-color: #232b38;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    box-shadow: 0 0 2px #0f0f0f;
 }
 
 #navigation a {
     float: left;
-    color: #ffffff;
     text-align: center;
     padding: 15px 20px;
     text-decoration: none;
     font-size: 16px;
+    text-shadow: 0.8px 0.8px #000000;
 }
 
 #navigation a:hover {
-    background-color: #5a5a5a;
+    background-color: #3a485e;
     cursor: pointer;
-    color: #ffffff;
 }
 
 #navigation_bar_icons {
