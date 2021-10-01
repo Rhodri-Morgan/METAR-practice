@@ -20,7 +20,7 @@ import json
 QUESTIONS_TRACEBACK_ALLOWED = 10
 
 
-def practice(request):
+def METAR_practice(request):
     """  Responsible for displaying user with data and handling reports made by user """
     previous_questions = []
     logged = None

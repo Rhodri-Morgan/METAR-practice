@@ -7,6 +7,6 @@ from metar_practice.views import practice
 
 class TestUrls(TestCase):
 
-    def test_practice(self):
-        url = reverse('practice')
+    def test_metar_practice(self):
+        url = reverse('METAR_practice')
         self.assertEquals(resolve(url).func, practice)
