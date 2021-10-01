@@ -4,5 +4,5 @@ from . import views
 
 
 urlpatterns = [
-    path('METAR_practice/', views.METAR_practice, name='METAR_practice'),
+    path('METAR_practice/', views.metar_practice, name='metar_practice'),
 ]

@@ -20,7 +20,7 @@ import json
 QUESTIONS_TRACEBACK_ALLOWED = 10
 
 
-def METAR_practice(request):
+def metar_practice(request):
     """  Responsible for displaying user with data and handling reports made by user """
     previous_questions = []
     logged = None
@@ -41,7 +41,7 @@ def METAR_practice(request):
                 report.full_clean()
                 report.save()
                 request.session['logged'] = 'Thank you. Your issue has been logged.'
-                return redirect('practice')
+                return redirect('metar_practice')
     except Question.DoesNotExist as e:
         print(e)
 

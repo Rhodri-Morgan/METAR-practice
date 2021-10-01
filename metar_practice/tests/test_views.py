@@ -9,7 +9,7 @@ from django.conf import settings
 
 from django.forms.models import model_to_dict
 
-from metar_practice.views import practice
+from metar_practice.views import metar_practice
 
 from metar_practice.models import Airport
 from metar_practice.models import Metar
@@ -125,7 +125,7 @@ class TestMetarPracticeView(TestCase):
         random_db_question = self.db_questions[0]
         random_question = self.helper_db_question_to_dict(random_db_question)
         mock_question_order_by.side_effect = [Question.objects.filter(pk=random_db_question.pk)]
-        response = self.client.get(reverse('METAR_practice'))
+        response = self.client.get(reverse('metar_practice'))
         self.assertRaises(KeyError)
         session = self.client.session
         self.assertEqual(session['previous_questions'], [random_question])
@@ -154,7 +154,7 @@ class TestMetarPracticeView(TestCase):
         session['previous_questions'] = previous_questions
         session['logged'] = None
         session.save()
-        response = self.client.get(reverse('METAR_practice'))
+        response = self.client.get(reverse('metar_practice'))
         session = self.client.session
         previous_questions.append(random_question)
         self.assertEqual(session['previous_questions'], previous_questions)
@@ -186,7 +186,7 @@ class TestMetarPracticeView(TestCase):
         session['previous_questions'] = previous_questions
         session['logged'] = None
         session.save()
-        response = self.client.get(reverse('METAR_practice'))
+        response = self.client.get(reverse('metar_practice'))
         session = self.client.session
         previous_questions.append(random_question)
         self.assertEqual(session['previous_questions'], previous_questions[1::])
@@ -217,7 +217,7 @@ class TestMetarPracticeView(TestCase):
         session.save()
         description = 'The ICAO is incorrectly saying EGLL.'
         form = {'description': description}
-        response = self.client.post(reverse('practice'), form, follow=True)
+        response = self.client.post(reverse('metar_practice'), form, follow=True)
         try:
             db_report = Report.objects.get(description=description,
                                            question=form_db_question)
@@ -254,7 +254,7 @@ class TestMetarPracticeView(TestCase):
         session.save()
         description = 'The ICAO is incorrectly saying EGLL.'
         form = {}
-        response = self.client.post(reverse('practice'), form, follow=True)
+        response = self.client.post(reverse('metar_practice'), form, follow=True)
         self.assertEquals(len(Report.objects.all()), 0)
         session = self.client.session
         previous_questions.append(random_question)
@@ -287,7 +287,7 @@ class TestMetarPracticeView(TestCase):
         description = 'The ICAO is incorrectly saying EGLL.'
         form = {'description': description}
         form_db_question.delete()
-        response = self.client.post(reverse('practice'), form, follow=True)
+        response = self.client.post(reverse('metar_practice'), form, follow=True)
         self.assertRaises(Question.DoesNotExist)
         try:
             db_report = Report.objects.get(description=description)
@@ -318,7 +318,7 @@ class TestMetarPracticeView(TestCase):
         mock_question_order_by.side_effect = [Question.objects.filter(pk=random_db_question.pk)]
         description = 'The ICAO is incorrectly saying EGLL.'
         form = {'description': description}
-        response = self.client.post(reverse('practice'), form, follow=True)
+        response = self.client.post(reverse('metar_practice'), form, follow=True)
         self.assertEquals(len(Report.objects.all()), 0)
         session = self.client.session
         self.assertEqual(session['previous_questions'], [random_question])

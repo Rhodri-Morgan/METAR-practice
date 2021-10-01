@@ -16,7 +16,7 @@ class PullMetarData:
 
     def __init__(self):
         self.metar_collector = MetarCollector()
-        self.hour_pull_count = 1200
+        self.hour_pull_count = 25
 
 
     def main(self):
