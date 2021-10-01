@@ -41,7 +41,7 @@ body {
 }
 
 #navigation {
-    width: 382px;       /* use script in sub_base.js to fix if I change in the future */
+    width: 618px;       /* use script in sub_base.js to fix if I change in the future */
     overflow: hidden;
     text-align: center;
     margin: 0 auto;

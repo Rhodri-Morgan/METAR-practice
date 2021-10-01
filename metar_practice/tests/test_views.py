@@ -25,7 +25,7 @@ import os
 import json
 
 
-class TestPracticeView(TestCase):
+class TestMetarPracticeView(TestCase):
 
     def setUp(self):
         db_airport = Airport(name='John F Kennedy International Airport',
@@ -125,7 +125,7 @@ class TestPracticeView(TestCase):
         random_db_question = self.db_questions[0]
         random_question = self.helper_db_question_to_dict(random_db_question)
         mock_question_order_by.side_effect = [Question.objects.filter(pk=random_db_question.pk)]
-        response = self.client.get(reverse('practice'))
+        response = self.client.get(reverse('METAR_practice'))
         self.assertRaises(KeyError)
         session = self.client.session
         self.assertEqual(session['previous_questions'], [random_question])
@@ -154,7 +154,7 @@ class TestPracticeView(TestCase):
         session['previous_questions'] = previous_questions
         session['logged'] = None
         session.save()
-        response = self.client.get(reverse('practice'))
+        response = self.client.get(reverse('METAR_practice'))
         session = self.client.session
         previous_questions.append(random_question)
         self.assertEqual(session['previous_questions'], previous_questions)
@@ -186,7 +186,7 @@ class TestPracticeView(TestCase):
         session['previous_questions'] = previous_questions
         session['logged'] = None
         session.save()
-        response = self.client.get(reverse('practice'))
+        response = self.client.get(reverse('METAR_practice'))
         session = self.client.session
         previous_questions.append(random_question)
         self.assertEqual(session['previous_questions'], previous_questions[1::])
@@ -223,7 +223,7 @@ class TestPracticeView(TestCase):
                                            question=form_db_question)
         except Report.DoesNotExist:
             self.fail()
-        self.assertRedirects(response, '/METAR/practice/')
+        self.assertRedirects(response, '/METAR_practice/')
         session = self.client.session
         previous_questions.append(random_question)
         self.assertEqual(session['previous_questions'], previous_questions)
