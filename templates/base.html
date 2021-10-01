@@ -1,4 +1,7 @@
 {% load static %}
+{% load dict_access %}
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,6 +14,18 @@
     <body>
         <section id='content'>
             {% block body %}{% endblock %}
+            <div id='footer'>
+                <hr class='proxy_margin_footer_top' />
+                {% block footer %}{% endblock %}
+                <hr id='path_divider'/>
+                <hr class='proxy_margin_footer' />
+                <p id='url'>
+                    {% for item in path %}
+                        <a class='url' href="{{ item|lookup:'url' }}">{{ item|lookup:'traversal' }}</a> /
+                    {% endfor %}
+                </p>
+                <hr class='proxy_margin_footer_bottom'/>
+            </div>
         </section>
     </body>
 </html>

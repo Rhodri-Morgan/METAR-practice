@@ -23,11 +23,9 @@
         </div>
     </div>
     {% block sub_body %}{% endblock %}
-    <div id='footer'>
-        <hr id='proxy_margin_footer_top' />
-        <p>Pulling from a base of {{ database_data|lookup:'questions_count' }} questions and {{ database_data|lookup:'airports_count' }} airports!</p>
-        <hr id='proxy_margin_footer_bottom' />
-        <p>Using METAR data sourced from <img src="{% static 'images/metar_practice/avwx.png' %}" id='avwx_image'> <a href="https://avwx.rest/#">AVWX by Michael duPont</a></p>
-        <hr id='proxy_margin_footer_bottom' />
-    </div>
 {% endblock body %}
+
+{% block footer %}
+    <p>Pulling from a base of {{ database_data|lookup:'questions_count' }} questions and {{ database_data|lookup:'airports_count' }} airports using METAR data sourced from <img src="{% static 'images/metar_practice/avwx.png' %}" id='avwx_image'> <a href="https://avwx.rest/#">AVWX by Michael duPont</a></p>
+    <hr class='proxy_margin_footer' />
+{% endblock footer %}
