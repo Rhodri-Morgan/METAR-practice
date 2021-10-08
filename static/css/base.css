@@ -26,6 +26,7 @@ body h1, h2, h3, p, th, button, a, input, li {
     display: table-footer-group;
     text-align: center;
     font-size: max(8.5px, min(1.2vh, 17.6px));
+    text-shadow: max(0.42px, min(0.06vh, 0.89px)) max(0.42px, min(0.06vh, 0.89px)) #000000;
 }
 
 .proxy_margin_footer_top {

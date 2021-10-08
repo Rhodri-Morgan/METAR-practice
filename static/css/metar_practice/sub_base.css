@@ -1,27 +1,29 @@
-body, #content {
-    min-width: 1424px;
+body {
+    min-width: 852px;
     min-height: 710px;
 }
 
 #content {
-    width: 120vh;
-    height: 100vh;
+    min-width: 852px;
+    min-height: 710px;
     max-width: 2560px;
     max-height: 1485px;
+    width: 120vh;
+    height: 100vh;
 }
 
 #logged_container {
     position: absolute;
-    left:0;
-    right:0;
-    background-color: blue;
+    left: 0;
+    right: 0;
+    background-color: #0000ff;
     width: 100vw;
     text-align: center;
 }
 
 #logged {
-    font-size: max(7.1px, min(1vh, 14.9px));
-    text-shadow: max(0.36px, min(0.05vh, 0.74px)) max(0.36px, min(0.05vh, 0.74px)) #000000;
+    font-size: max(8.5px, min(1.2vh, 17.6px));
+    text-shadow: max(0.42px, min(0.06vh, 0.89px)) max(0.42px, min(0.06vh, 0.89px)) #000000;
     padding-top: max(3.6px, min(0.5vh, 7.4px));
     padding-bottom: max(3.6px, min(0.5vh, 7.4px));
 }
@@ -29,8 +31,8 @@ body, #content {
 #banner {
     background-color: #0d1117;
     display: inline-block;
-    padding-top: max(21.3px, min(3vh, 44.6px));
-    padding-bottom: max(14.2px, min(2vh, 29.7px));
+    padding-top: max(22.7px, min(3.2vh, 47.6px));
+    padding-bottom: max(17px, min(2.4vh, 35.7px));
     text-align: center;
     width: 100%;
     height: max(74.5px, min(10.5vh, 156px));
@@ -45,7 +47,7 @@ body, #content {
 }
 
 #navigation {
-    width: max(417px, min(58.7vh, 872px));       /* use script in sub_base.js to fix if I change in the future */
+    width: max(417px, min(58.7vh, 873px));
     overflow: hidden;
     text-align: center;
     margin: 0 auto;
