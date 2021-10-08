@@ -1,4 +1,5 @@
 window.onload = updateNavigationWidth;
+window.onresize = updateNavigationWidth;
 
 
 /**
@@ -11,5 +12,6 @@ function updateNavigationWidth() {
     for (var i = 0; i < elements.length; i++) {
         total_elements_width += elements[i].offsetWidth;
     }
+    total_elements_width += 1;
     navigation_bar.style.width = total_elements_width.toString()+"px";
 }

@@ -1,59 +1,66 @@
 * {
-    margin: 0;
-    padding: 0;
-  }
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    background-color: #0d1117;
+}
 
 body h1, h2, h3, p, th, button, a, input, li {
-  color: white;
-  font-family: Arial;
+    color: #ffffff;
+    font-family: Arial;
 }
 
 #content {
-    margin: 0 auto;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #0d1117;
 }
 
 #footer {
-  display : table-row;
-  text-align: center;
-  vertical-align : bottom;
-  height : 1px;
-  font-size: 10px;
-  width: 1200px;
+    display: table-footer-group;
+    text-align: center;
+    font-size: max(8.5px, min(1.2vh, 17.6px));
 }
 
 .proxy_margin_footer_top {
-  height: 20px;
-  visibility: hidden;
+    height: max(14.2px, min(2vh, 29.7px));
+    visibility: hidden;
 }
 
 #path_divider {
-  margin: auto;
-  width: 250px;
+    margin: auto;
+    width: max(249px, min(35vh, 520px));
 }
 
 .proxy_margin_footer {
-  height: 5px;
-  visibility: hidden;
+    height: max(4.3px, min(0.6vh, 8.9px));
+    visibility: hidden;
 }
 
 .proxy_margin_footer_bottom {
-  height: 8px;
-  visibility: hidden;
+    height: max(6px, min(0.85vh, 12.6px));
+    visibility: hidden;
 }
 
 .url {
-  text-decoration: none;
-  font-style: italic;
-  font-weight: bold;
+    text-decoration: none;
+    font-style: italic;
+    font-weight: bold;
 }
 
 .url:hover {
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: max(1.7px, min(0.25vh, 3.7px));
 }
 
 .url:active {
-  position:relative;
-  top: 1px;
+    position:relative;
+    top: max(0.71px, min(0.1vh, 1.5px));
 }
