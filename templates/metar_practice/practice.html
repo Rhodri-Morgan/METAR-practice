@@ -54,9 +54,9 @@
                 {% csrf_token %}
                 <form id='report_form' method="post">
                     {% csrf_token %}
-                    <p id='report_form_label'>{{ report_form.description.label }}</p>
+                    <p class='report_item'>{{ report_form.description.label }}</p>
                     <p>{{ report_form.description }}</p>
-                    <p id='report_help_text'>{{ report_form.description.help_text }}</p>
+                    <p class='report_item'>{{ report_form.description.help_text }}</p>
                     <input id='submit_report_form' type="submit" value="Submit">
                 </form>
                 <button id='new_question' onclick="refresh_page()">Generate another question!</button>

@@ -6,14 +6,15 @@
 {% block head %}
     <link rel="shortcut icon" href="{%  static 'images/metar_practice/favicon.ico' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/metar_practice/sub_base.css' %}">
+    <script type="text/javascript" src="{% static 'js/metar_practice/sub_base.js' %}"></script>
     {% block sub_head %}{% endblock %}
 {% endblock head %}
 
 {% block body %}
     {% if logged != None %}
-        <div id='logged_container'>
-            <p id='logged'>{{ logged }}</p>
-        </div>
+    <div id='logged_container'>
+        <p id='logged'>{{ logged }}</p>
+    </div>
     {% endif %}
     <div id="banner">
         <h1 id="title">Weather METAR Practice</h1>
@@ -26,6 +27,6 @@
 {% endblock body %}
 
 {% block footer %}
-    <p>Pulling from a base of {{ database_data|lookup:'questions_count' }} questions and {{ database_data|lookup:'airports_count' }} airports using METAR data sourced from <img src="{% static 'images/metar_practice/avwx.png' %}" id='avwx_image'> <a href="https://avwx.rest/#">AVWX by Michael duPont</a></p>
-    <hr class='proxy_margin_footer' />
+    <p>Pulling from a base of {{ database_data|lookup:'questions_count' }} questions and {{ database_data|lookup:'airports_count' }} airports using METAR data sourced from <img src="{% static 'images/metar_practice/avwx.png' %}" id='avwx_image'> <a class='url' href="https://avwx.rest/#">AVWX by Michael duPont</a></p>
+    <hr class='proxy_margin_footer'/>
 {% endblock footer %}
