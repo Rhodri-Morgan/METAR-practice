@@ -1,4 +1,4 @@
-body {
+body, #content {
     min-width: 1424px;
     min-height: 710px;
 }
