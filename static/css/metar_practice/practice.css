@@ -5,7 +5,7 @@
 
 #metar_container {
     width: 100%;
-    margin-bottom: max(17px, min(2.4vh, 35.7px));
+    margin-bottom: max(21.3px, min(3vh, 44.6px));
 }
 
 #metar {
@@ -27,6 +27,7 @@
 
 #details {
     height: max(170px, min(24vh, 357px));
+    width: max(193px, min(27.25vh, 405px));
     margin-left: max(580px, min(81.75vh, 1215px));
     overflow-y: auto;
 }
@@ -46,8 +47,8 @@
 }
 
 #divider {
-    margin-top: max(17px, min(2.4vh, 35.7px));
-    margin-bottom: max(17px, min(2.4vh, 35.7px));
+    margin-top: max(21.3px, min(3vh, 44.6px));
+    margin-bottom: max(21.3px, min(3vh, 44.6px));
     width: 100%;
     text-align: center;
 }
