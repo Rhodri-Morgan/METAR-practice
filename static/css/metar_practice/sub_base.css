@@ -77,6 +77,22 @@ body {
     padding-right: max(7.1px, min(1vh, 14.9px));
 }
 
+#avwx_link {
+    text-decoration: none;
+    font-style: italic;
+}
+
+#avwx_link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: max(1.7px, min(0.25vh, 3.7px));
+}
+
+#avwx_link:active {
+	position:relative;
+	top: max(0.7px, min(0.1vh, 1.5px));
+}
+
 #avwx_image {
     height: 0.9em;
 }
