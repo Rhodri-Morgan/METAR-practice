@@ -14,8 +14,6 @@ body {
 
 #logged_container {
     position: absolute;
-    left: 0;
-    right: 0;
     background-color: #0000ff;
     width: 100vw;
     text-align: center;
