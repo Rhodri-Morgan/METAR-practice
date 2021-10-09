@@ -17,13 +17,17 @@ body h1, h2, h3, p, th, button, a, input, li {
 
 #content {
     display: table;
+    position: relative;
     margin-left: auto;
     margin-right: auto;
     background-color: #0d1117;
 }
 
 #footer {
-    display: table-footer-group;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
     text-align: center;
     font-size: max(8.5px, min(1.2vh, 17.6px));
     text-shadow: max(0.42px, min(0.06vh, 0.89px)) max(0.42px, min(0.06vh, 0.89px)) #000000;
