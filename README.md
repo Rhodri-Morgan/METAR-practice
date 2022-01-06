@@ -2,7 +2,7 @@
 
 # METAR Practice Page
 
-*See [METAR_PRACTICE_BACKGROUND.MD](METAR_PRACTICE_BACKGROUND.md) for example, motivation, data sources and methodology.*
+*See [BACKGROUND.MD](BACKGROUND.md) for example, motivation, data sources and methodology.*
 
 ## Python and Dependencies
 
