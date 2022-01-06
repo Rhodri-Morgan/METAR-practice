@@ -68,10 +68,8 @@ body {
     cursor: pointer;
 }
 
-#navigation_bar_icons {
+.navigation_bar_icons {
     float: left;
-    height: max(10.7px, min(1.5vh, 22.2px));
-    width: max(10.7px, min(1.5vh, 22.2px));
     padding-right: max(7.1px, min(1vh, 14.9px));
 }
 
