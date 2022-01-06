@@ -9,7 +9,7 @@
     <script id="airport_location" type="application/json">{"latitude": {{ airport|lookup:'latitude' }}, "longitude": {{ airport|lookup:'longitude' }}}</script>
     <script type="text/javascript" src="{% static 'js/metar_practice/practice.js' %}"></script>
     <!-- MUST RESTRICT API USAGE -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5RVyFfpgAOueO-LEsqF8uv6RhHLz8rcs&callback=initMap&libraries=&v=weekly&channel=2" async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5RVyFfpgAOueO-LEsqF8uv6RhHLz8rcs&callback=initMap&libraries=&v=weekly&channel=2"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 {% endblock sub_head %}
 
