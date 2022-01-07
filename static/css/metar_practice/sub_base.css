@@ -4,12 +4,12 @@ body {
 }
 
 #content {
+    width: 120vh;
+    height: 100vh;
     min-width: 852px;
     min-height: 710px;
     max-width: 2560px;
     max-height: 1485px;
-    width: 120vh;
-    height: 100vh;
 }
 
 #logged_container {
