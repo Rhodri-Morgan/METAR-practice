@@ -20,4 +20,4 @@ Map of the location of airports is provided by [Google Maps Platform.](https://c
 
 # Status:
 
-TODO
+You can use the service by [visiting this link](https://www.rhodrithomasmorgan.com/METAR_practice/).
