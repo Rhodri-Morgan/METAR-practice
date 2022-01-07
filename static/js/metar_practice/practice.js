@@ -1,7 +1,9 @@
 const value = JSON.parse(document.getElementById('airport_location').textContent);
 
+window.onload = map_initialize;
+
 // Google function for adding map
-function initMap() {
+function map_initialize() {
   var airport = { lat: value['latitude'], lng: value['longitude'] };
 
   var map_config = {
@@ -17,7 +19,6 @@ function initMap() {
     map: map,
   });
 }
-
 
 function reveal_answer() {
   document.getElementById('answer_revealer').style.display = 'none';
