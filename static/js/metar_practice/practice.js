@@ -20,6 +20,7 @@ function map_initialize() {
   });
 }
 
+
 function reveal_answer() {
   document.getElementById('answer_revealer').style.display = 'none';
   document.getElementById('answer_container').style.display = 'block';
@@ -28,7 +29,6 @@ function reveal_answer() {
 
 
 function refresh_page() {
-  document.body.style.cursor = 'wait';
   var description_value = document.getElementById('description_text_area').value;
   if (description_value != "") {
     document.getElementById("submit_report_form").click();

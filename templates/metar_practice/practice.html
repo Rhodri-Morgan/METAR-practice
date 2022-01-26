@@ -59,7 +59,7 @@
                     <p class='report_item'>{{ report_form.description.help_text }}</p>
                     <input id='submit_report_form' type="submit" value="Submit">
                 </form>
-                <button id='new_question' onclick="refresh_page()">Generate another question!</button>
+                <button id='new_question' onclick="setLoading();refresh_page()">Generate another question!</button>
             </div>
         </div>
     </div>
