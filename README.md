@@ -30,3 +30,13 @@ This project is using `Python 3.6.0`.
  ### Testing Site
  
  You can run the testing suite using `python manage.py test`. Resulting errors will be show.
+
+## Known Issues
+
+### Google Maps Loading Locally
+
+Running the site locally or on any other domain than `RhodriThomasMorgan.com` will throw the error shown below. 
+
+![Local Maps Error](documentation_sources/local_maps_error.png)
+
+This is due to the API being restricted to my domain. Ignore the error.
