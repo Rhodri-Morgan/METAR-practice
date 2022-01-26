@@ -35,7 +35,7 @@ This project is using `Python 3.6.0`.
 
 ### Google Maps Loading Locally
 
-Running the site locally or on any other domain than [RhodriThomasMorgan.com](RhodriThomasMorgan.com) will throw the error shown below. 
+Running the site locally or on any other domain than [RhodriThomasMorgan.com](www.RhodriThomasMorgan.com) will throw the error shown below. 
 
 ![Local Maps Error](documentation_sources/local_maps_error.png)
 
