@@ -22,7 +22,7 @@ This project is using `Python 3.6.0`.
  
  To access the admin panel visit `127.0.0.1:8000/admin` and use the login credentials `username=test` and `password=password`. Alternatively you can create a super user using `python manage.py createsuperuser`.
 
-`metar_practice/pull_metar_data.py` is a seperate script which should be ran in parallel for METAR data pulling. 
+`metar_practice/pull_metar_data.py` is a seperate script which should be ran in parallel for METAR data pulling. You can configure pull limits and question caps in this file.
 
 `metar_practice/load_airports.py` is a script for inserting all airports into the database. It is a requirement.
 
