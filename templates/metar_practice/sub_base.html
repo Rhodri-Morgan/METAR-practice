@@ -18,15 +18,15 @@
     <div id="banner">
         <h1 id="title">Weather METAR Practice</h1>
         <div id="navigation">
-            <a href="{% static 'pdfs/metar_practice/metar_guide.pdf' %}" class='navigation_element'><i class="far fa-file-pdf navigation_bar_icons"></i>How do I decode METAR reports?</a>
-            <a href="https://www.aviationweather.gov/metar" class='navigation_element'><i class="fas fa-globe-europe navigation_bar_icons"></i>Search for METAR from any ICAO</a>
+            <a href="{% static 'pdfs/metar_practice/metar_guide.pdf' %}" onclick="setLoading()" class='navigation_element'><i class="far fa-file-pdf navigation_bar_icons"></i>How do I decode METAR reports?</a>
+            <a href="https://www.aviationweather.gov/metar" onclick="setLoading()" class='navigation_element'><i class="fas fa-globe-europe navigation_bar_icons"></i>Search for METAR from any ICAO</a>
         </div>
     </div>
     {% block sub_body %}{% endblock %}
 {% endblock body %}
 
 {% block footer %}
-    <p>Pulling from a base of {{ database_data|lookup:'questions_count' }} questions and {{ database_data|lookup:'airports_count' }} airports using METAR data sourced from <img src="{% static 'images/metar_practice/avwx.png' %}" id='avwx_image'> <a id='avwx_link' href="https://avwx.rest/#">AVWX by Michael duPont</a></p>
+    <p>Pulling from a base of {{ database_data|lookup:'questions_count' }} questions and {{ database_data|lookup:'airports_count' }} airports using METAR data sourced from <img src="{% static 'images/metar_practice/avwx.png' %}" id='avwx_image'> <a id='avwx_link' href="https://avwx.rest/#" onclick="setLoading()">AVWX by Michael duPont</a></p>
     <hr class='proxy_margin_footer'/>
 {% endblock footer %}
 

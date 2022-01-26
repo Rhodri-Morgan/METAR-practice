@@ -55,7 +55,6 @@ def metar_practice(request):
         db_question = Question.objects.order_by('?').first()
         if db_question.category not in unwanted_question_types:
             db_metar = db_question.metar
-            db_airport = db_metar.airport
             metar = json.loads(db_metar.metar_json)
             airport = model_to_dict(db_metar.airport)
             question = model_to_dict(db_question)
@@ -75,7 +74,7 @@ def metar_practice(request):
     else:
         request.session['logged'] = logged
 
-    database_data = {'questions_count': len(Question.objects.all()), 'airports_count': len(Airport.objects.all())}
+    database_data = {'questions_count': Question.objects.count(), 'airports_count': Airport.objects.count()}
 
     data = {
         'title' : 'METAR Practice',

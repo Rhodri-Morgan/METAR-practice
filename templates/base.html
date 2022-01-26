@@ -11,6 +11,8 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/normalise.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/loader.js' %}"></script>
         {% block head %}{% endblock %}
     </head>
 
@@ -24,7 +26,7 @@
                 <hr class='proxy_margin_footer' />
                 <p id='url'>
                     {% for item in path %}
-                        <a class='url' href="{{ item|lookup:'url' }}">{{ item|lookup:'traversal' }}</a> /
+                        <a class='url' href="{{ item|lookup:'url' }}" onclick="setLoading()">{{ item|lookup:'traversal' }}</a> /
                     {% endfor %}
                 </p>
                 <hr class='proxy_margin_footer_bottom'/>

@@ -12,6 +12,7 @@
     navigation_bar.style.width = total_elements_width.toString()+"px";
 }, 1);
 
+
 window.setInterval(function updateLoggedWidth() {
     try {
         var content_containter_width = document.getElementById('content').offsetWidth;
