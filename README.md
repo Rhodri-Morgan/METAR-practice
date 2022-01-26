@@ -20,7 +20,7 @@ This project is using `Python 3.6.0`.
  
  You can start running the site using `python manage.py runserver` which can then be viewed by visiting `127.0.0.1:8000`. With `DEBUG = True` in `rhodrithomasmorgan/settings.py` this will present the current urls available.
  
- To access the admin panel create a super user using `python manage.py createsuperuser` and then visit `127.0.0.1:8000/admin` using the given credentials to sign in.
+ To access the admin panel visit `127.0.0.1:8000/admin` and use the login credentials `username=test` and `password=password`. Alternatively you can create a super user using `python manage.py createsuperuser`.
 
 `metar_practice/pull_metar_data.py` is a seperate script which should be ran in parallel for METAR data pulling. 
 
