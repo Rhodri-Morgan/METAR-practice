@@ -4,7 +4,7 @@
 }
 
 video {
-    background: transparent url('/static/images/main/loading.gif') 50%  50% / cover no-repeat ;
+    background: transparent url('/static/images/loading.gif') 50%  50% / cover no-repeat ;
     background-size: max(9.9px, min(1.4vh, 20.8px)) max(9.9px, min(1.4vh, 20.8px));
 }
 
