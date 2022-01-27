@@ -2704,7 +2704,7 @@ class TestGenerateQuestions(TestCase):
         return db_questions
 
 
-    def helper_add_db_questions(self, ):
+    def helper_add_db_questions(self):
         self.questions['airport'] = self.helper_create_db_question(self.db_metar, 'What is the airport ICAO?', ['KJFK'], QuestionType.AIRPORT)
         self.questions['time'] =self.helper_create_db_question(self.db_metar, 'What is time was this METAR report made?', ['1551 ZULU'], QuestionType.TIME)
         self.questions['wind_direction'] = self.helper_create_db_question(self.db_metar, 'What is the wind direction?', ['350 degrees'], QuestionType.WIND_DIRECTION)
@@ -2724,8 +2724,8 @@ class TestGenerateQuestions(TestCase):
         self.questions['weather_codes'] = self.helper_create_db_question(self.db_metar, 'What are the reported weather codes?', ['Light Rain'], QuestionType.WEATHER_CODES)
         self.questions['remarks_codes'] = self.helper_create_db_question(self.db_metar, 'What are the reported remarks codes?',
                                                                                         ['Automated with precipitation sensor',
-                                                                                         'Trace amount of rain in the last hour',
-                                                                                         'Rain began at :10'],
+                                                                                        'Trace amount of rain in the last hour',
+                                                                                        'Rain began at :10'],
                                                                                         QuestionType.REMARKS_CODES)
         self.questions['remarks_temperature_decimal'] = self.helper_create_db_question(self.db_metar, 'What is the remarks decimal temperature?', ['10 C'], QuestionType.REMARKS_TEMPERATURE_DECIMAL)
         self.questions['remarks_dewpoint_decimal'] = self.helper_create_db_question(self.db_metar, 'What is the remarks decimal dewpoint?', ['6.7 C'], QuestionType.REMARKS_DEWPOINT_DECIMAL)

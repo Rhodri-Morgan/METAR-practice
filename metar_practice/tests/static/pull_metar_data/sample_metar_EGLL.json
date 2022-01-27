@@ -1,0 +1,94 @@
+{
+    "meta": {
+        "timestamp": "2022-01-27T13:11:06.367840Z",
+        "stations_updated": "2021-12-18",
+        "cache-timestamp": "2022-01-27T13:10:10.756000Z"
+    },
+    "altimeter": {
+        "repr": "Q1028",
+        "value": 1028,
+        "spoken": "one zero two eight"
+    },
+    "clouds": [
+        {
+            "repr": "BKN010",
+            "type": "BKN",
+            "altitude": 10,
+            "modifier": null,
+            "direction": null
+        },
+        {
+            "repr": "OVC045",
+            "type": "OVC",
+            "altitude": 45,
+            "modifier": null,
+            "direction": null
+        }
+    ],
+    "flight_rules": "MVFR",
+    "other": [],
+    "visibility": {
+        "repr": "9999",
+        "value": 9999,
+        "spoken": "nine nine nine nine"
+    },
+    "wind_direction": {
+        "repr": "280",
+        "value": 280,
+        "spoken": "two eight zero"
+    },
+    "wind_gust": null,
+    "wind_speed": {
+        "repr": "09",
+        "value": 9,
+        "spoken": "nine"
+    },
+    "wx_codes": [],
+    "raw": "EGLL 271250Z AUTO 28009KT 9999 BKN010 OVC045 11/09 Q1028 BECMG FEW010",
+    "sanitized": "EGLL 271250Z 28009KT 9999 BKN010 OVC045 11/09 Q1028 BECMG FEW010",
+    "station": "EGLL",
+    "time": {
+        "repr": "271250Z",
+        "dt": "2022-01-27T12:50:00Z"
+    },
+    "remarks": "BECMG FEW010",
+    "dewpoint": {
+        "repr": "09",
+        "value": 9,
+        "spoken": "nine"
+    },
+    "relative_humidity": 0.8746678827465182,
+    "remarks_info": {
+        "maximum_temperature_6": null,
+        "minimum_temperature_6": null,
+        "pressure_tendency": null,
+        "precip_36_hours": null,
+        "precip_24_hours": null,
+        "sunshine_minutes": null,
+        "codes": [],
+        "dewpoint_decimal": null,
+        "maximum_temperature_24": null,
+        "minimum_temperature_24": null,
+        "precip_hourly": null,
+        "sea_level_pressure": null,
+        "snow_depth": null,
+        "temperature_decimal": null
+    },
+    "runway_visibility": [],
+    "temperature": {
+        "repr": "11",
+        "value": 11,
+        "spoken": "one one"
+    },
+    "wind_variable_direction": [],
+    "density_altitude": -814,
+    "pressure_altitude": -354,
+    "units": {
+        "accumulation": "in",
+        "altimeter": "hPa",
+        "altitude": "ft",
+        "temperature": "C",
+        "visibility": "m",
+        "wind_speed": "kt"
+    }
+}

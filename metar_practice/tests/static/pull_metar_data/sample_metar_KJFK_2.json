@@ -1,0 +1,104 @@
+{
+   "meta": {
+      "timestamp": "2022-01-27T11:11:35.862674Z",
+      "stations_updated": "2021-12-18",
+      "cache-timestamp": "2022-01-27T11:11:02.116000Z"
+   },
+   "altimeter": {
+      "repr": "A3050",
+      "value": 30.5,
+      "spoken": "three zero point five zero"
+   },
+   "clouds": [
+      {
+         "repr": "FEW250",
+         "type": "FEW",
+         "altitude": 250,
+         "modifier": null,
+         "direction": null
+      }
+   ],
+   "flight_rules": "VFR",
+   "other": [],
+   "visibility": {
+      "repr": "10",
+      "value": 10,
+      "spoken": "one zero"
+   },
+   "wind_direction": {
+      "repr": "030",
+      "value": 30,
+      "spoken": "zero three zero"
+   },
+   "wind_gust": null,
+   "wind_speed": {
+      "repr": "03",
+      "value": 3,
+      "spoken": "three"
+   },
+   "wx_codes": [],
+   "raw": "KJFK 271051Z 03003KT 10SM FEW250 M09/M16 A3050 RMK AO2 SLP326 T10891156",
+   "sanitized": "KJFK 271051Z 03003KT 10SM FEW250 M09/M16 A3050 RMK AO2 SLP326T10891156",
+   "station": "KJFK",
+   "time": {
+      "repr": "271051Z",
+      "dt": "2022-01-27T10:51:00Z"
+   },
+   "remarks": "RMK AO2 SLP326 T10891156",
+   "dewpoint": {
+      "repr": "M16",
+      "value": -16,
+      "spoken": "minus one six"
+   },
+   "relative_humidity": 0.5832232532298187,
+   "remarks_info": {
+      "maximum_temperature_6": null,
+      "minimum_temperature_6": null,
+      "pressure_tendency": null,
+      "precip_36_hours": null,
+      "precip_24_hours": null,
+      "sunshine_minutes": null,
+      "codes": [
+         {
+            "repr": "AO2",
+            "value": "Automated with precipitation sensor"
+         }
+      ],
+      "dewpoint_decimal": {
+         "repr": "1156",
+         "value": -15.6,
+         "spoken": "minus one five point six"
+      },
+      "maximum_temperature_24": null,
+      "minimum_temperature_24": null,
+      "precip_hourly": null,
+      "sea_level_pressure": {
+         "repr": "SLP326",
+         "value": 1032.6,
+         "spoken": "one zero three two point six"
+      },
+      "snow_depth": null,
+      "temperature_decimal": {
+         "repr": "1089",
+         "value": -8.9,
+         "spoken": "minus eight point nine"
+      }
+   },
+   "runway_visibility": [],
+   "temperature": {
+      "repr": "M09",
+      "value": -9,
+      "spoken": "minus nine"
+   },
+   "wind_variable_direction": [],
+   "density_altitude": -3432,
+   "pressure_altitude": -567,
+   "units": {
+      "accumulation": "in",
+      "altimeter": "inHg",
+      "altitude": "ft",
+      "temperature": "C",
+      "visibility": "sm",
+      "wind_speed": "kt"
+   }
+}

@@ -88,7 +88,7 @@ class TestMetarPracticeView(TestCase):
         return question
 
 
-    def helper_add_db_questions(self, ):
+    def helper_add_db_questions(self):
         self.db_questions.append(self.helper_create_db_question(self.db_metar, 'What is the airport ICAO?', ['KJFK'], QuestionType.AIRPORT))
         self.db_questions.append(self.helper_create_db_question(self.db_metar, 'What is time was this METAR report made?', ['1551 ZULU'], QuestionType.TIME))
         self.db_questions.append(self.helper_create_db_question(self.db_metar, 'What is the wind direction?', ['350 degrees'], QuestionType.WIND_DIRECTION))
