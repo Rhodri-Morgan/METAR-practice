@@ -249,6 +249,49 @@ class TestMetarPracticeView(TestCase):
 
 
     @mock.patch('metar_practice.models.Question.objects.order_by')
+    def test_practice_post_form_multiple_previous_question(self, mock_question_order_by):
+        self.helper_add_db_questions()
+        random_db_question = self.db_questions[1]
+        random_question = self.helper_db_question_to_dict(random_db_question)
+        form_db_question = self.db_questions[0]
+        mock_question_order_by.side_effect = [Question.objects.filter(pk=random_db_question.pk)]
+        session = self.client.session
+        previous_questions = [self.helper_db_question_to_dict(self.db_questions[2]),
+                              self.helper_db_question_to_dict(self.db_questions[3]),
+                              self.helper_db_question_to_dict(self.db_questions[4]),
+                              self.helper_db_question_to_dict(form_db_question)]
+        session['previous_questions'] = previous_questions
+        session['logged'] = None
+        session.save()
+        description = 'The ICAO is incorrectly saying EGLL.'
+        form = {'description': description}
+        response = self.client.post(reverse('metar_practice'), form, follow=True)
+        try:
+            db_report = Report.objects.get(description=description,
+                                           question=form_db_question)
+        except Report.DoesNotExist:
+            self.fail()
+        self.assertRedirects(response, '/METAR_practice/')
+        session = self.client.session
+        previous_questions.append(random_question)
+        self.assertEqual(session['previous_questions'], previous_questions)
+        self.assertEqual(session['logged'], None)
+        self.assertTemplateUsed(response, 'base.html')
+        self.assertTemplateUsed(response, 'metar_practice/sub_base.html')
+        self.assertTemplateUsed(response, 'metar_practice/practice.html')
+        self.assertEquals(response.context['title'], 'METAR Practice')
+        self.assertEquals(response.context['path'], [{'url': '/', 'traversal': 'RhodriThomasMorgan.com'},
+                                                     {'url': '/METAR_practice', 'traversal': 'METAR_practice'}])
+        self.assertEquals(response.context['logged'], 'Thank you. Your issue has been logged.')
+        self.assertEquals(response.context['database_data'], {'questions_count': len(self.db_questions), 'airports_count': 1})
+        self.assertEquals(response.context['airport'], model_to_dict(random_db_question.metar.airport))
+        self.assertEquals(response.context['metar'], json.loads(random_db_question.metar.metar_json))
+        self.assertEquals(response.context['question'], random_question)
+        self.assertEquals(type(response.context['report_form']), ReportForm)
+
+
+
+    @mock.patch('metar_practice.models.Question.objects.order_by')
     def test_practice_post_form_error_not_valid(self, mock_question_order_by):
         self.helper_add_db_questions()
         random_db_question = self.db_questions[1]

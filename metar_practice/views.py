@@ -4,15 +4,9 @@ from django.forms.models import model_to_dict
 from common.utils import get_url
 
 from metar_practice.models import Airport
-from metar_practice.models import Metar
 from metar_practice.models import Question
 
-from metar_practice.enums import QuestionType
-
 from metar_practice.forms import ReportForm
-
-from metar_practice.metar_collector import MetarCollector
-from metar_practice.question_collector import QuestionCollector
 
 import json
 
@@ -33,11 +27,10 @@ def metar_practice(request):
 
     try:
         if request.method == 'POST':
-            print(request.POST)
             report_form = ReportForm(request.POST)
             if report_form.is_valid() and len(previous_questions) >= 1:
                 report = report_form.save(commit=False)
-                report.question = Question.objects.get(id=previous_questions[0]['id'])
+                report.question = Question.objects.get(id=previous_questions[-1]['id'])
                 report.full_clean()
                 report.save()
                 request.session['logged'] = 'Thank you. Your issue has been logged.'

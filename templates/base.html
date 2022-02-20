@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/normalise.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script type="text/javascript" src="{% static 'js/loader.js' %}"></script>
         {% block head %}{% endblock %}
     </head>
@@ -18,6 +19,7 @@
     <body>
         <section id='content'>
             {% block body %}{% endblock %}
+            {% if path != None %}
             <div id='footer'>
                 <hr class='proxy_margin_footer_top' />
                 {% block footer %}{% endblock %}
@@ -30,6 +32,7 @@
                 </p>
                 <hr class='proxy_margin_footer_bottom'/>
             </div>
+            {% endif %}
         </section>
     </body>
 </html>

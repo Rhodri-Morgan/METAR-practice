@@ -8,7 +8,7 @@
 
 ### Python Version
 
-This project is using `Python 3.6.0`.
+This project is using `Python 3.7.0`.
 
 ### Dependencies
  
