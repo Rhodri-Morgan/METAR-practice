@@ -1,15 +1,15 @@
 body {
-    min-width: 852px;
     min-height: 710px;
+    min-width: 852px;
 }
 
 #content {
-    width: 120vh;
-    height: 100vh;
-    min-width: 852px;
-    min-height: 710px;
-    max-width: 2560px;
+    height: 100%;
+    width: fit-content;
     max-height: 1485px;
+    min-height: 710px;
+    max-width: 1569px;
+    min-width: 852px;
 }
 
 #logged_container {
