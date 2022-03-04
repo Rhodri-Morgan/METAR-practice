@@ -36,7 +36,8 @@ def main():
             print('\nSuccessfully pulled METAR data {0}/{1}\n'.format(i+1, hour_pull_count))
 
         if db_airport is None or status != 200 or db_metar is None:
-            print('\Failed to pull METAR data {0}/{1}\n'.format(i+1, hour_pull_count))
+            print('\nFailed to pull METAR data {0}/{1}'.format(i+1, hour_pull_count))
+            print('status={} db_airport={} db_metar={}\n'.format(status, db_airport, db_metar))
 
     print('\nRemoving overflow of METAR data')
     db_answers = []
