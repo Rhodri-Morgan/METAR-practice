@@ -26,6 +26,9 @@ body h1, h2, h3, p, th, button, a, input, li {
     margin-left: auto;
     margin-right: auto;
     background-color: #0d1117;
+    animation: fadein 0.5s;
+    -moz-animation: fadein 0.5s;
+    -webkit-animation: fadein 0.5s;
 }
 
 #footer {
@@ -73,4 +76,31 @@ body h1, h2, h3, p, th, button, a, input, li {
 .url:active {
     position:relative;
     top: max(0.71px, min(0.1vh, 1.5px));
+}
+
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+
+@-moz-keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+
+@-webkit-keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
 }

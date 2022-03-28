@@ -9,7 +9,11 @@ function map_initialize() {
   var map_config = {
       zoom : 12,
       center : airport,
-      mapTypeId : 'hybrid'
+      mapTypeId : 'hybrid',
+      fullscreenControl: false,
+      streetViewControl: false,
+      zoomControl: false,
+      mapTypeControl: false
   }
 
   var map = new google.maps.Map(document.getElementById('map'), map_config);
