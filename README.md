@@ -1,8 +1,23 @@
-![Banner Image](documentation_sources/banner.png)
-
 # METAR Practice Page
 
-*See [BACKGROUND.MD](BACKGROUND.md) for example, motivation, data sources and methodology.*
+![deployed.png](https://img.shields.io/badge/-Deployed-green)
+
+## About
+
+https://user-images.githubusercontent.com/52254823/136636728-5bcc1d2c-b61f-42e1-8dd8-1bd0562a044a.mp4
+
+### Accessing Application 
+
+You can use the application by [visiting this link](https://www.rhodrithomasmorgan.com/METAR_practice/).
+
+### Data Sources
+
+For a list of airports I am using [Michael's 'ICAO Airport Codes' dataset.](https://www.kaggle.com/mike90/airport-codes)
+
+For METAR data I am using [AVWX Aviation Weather REST API by Michael duPont.](https://avwx.rest/#)
+
+Map of the location of airports is provided by [Google Maps Platform.](https://cloud.google.com/maps-platform)
+
 
 ## Python and Dependencies
 
