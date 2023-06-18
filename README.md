@@ -1,6 +1,6 @@
 # METAR Practice Page
 
-![deprecated.png](https://img.shields.io/badge/-Deprecated-red)
+![not_deployed.png](https://img.shields.io/badge/-Not%20Deployed-red)
 
 ## About
 
